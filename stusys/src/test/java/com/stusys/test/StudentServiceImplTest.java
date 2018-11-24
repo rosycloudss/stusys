@@ -1,20 +1,19 @@
 package com.stusys.test;
 
-
 import java.sql.Date;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import com.stusys.dept.bean.Major;
 import com.stusys.page.Page;
 import com.stusys.stu.bean.Student;
 import com.stusys.stu.service.StudentService;
 import com.stusys.stu.service.impl.StudentServiceImpl;
-import com.stusys.util.DateFormat;
 import com.stusys.util.MD5Util;
 
 public class StudentServiceImplTest {
-	
+
 	StudentService stuService = null;
 	Page page = new Page();
 	Student student = new Student();
@@ -22,22 +21,24 @@ public class StudentServiceImplTest {
 	@Before
 	public void init() {
 		stuService = new StudentServiceImpl();
-		
-		student.setStuNo("20162430212");
+
+		student.setStuNo("20162430213");
 		student.setName("李伟");
-		student.setPassword(MD5Util.MD5("123456" + "12345"));
+		student.setPassword(MD5Util.MD5("123456"));
 		student.setGender("男");
-		Date birthday = new Date(1997-1900, 11 - 1, 4 );
+		Date birthday = new Date(1997 - 1900, 11 - 1, 4);
 		student.setBirthday(birthday.toString());
 		student.setIdCard("5130291997100400");
-		student.setMajorId(1);
+		Major major = new Major();
+		major.setMajorNo(1);
+		student.setMajor(major);
 		student.setAddress("四川省达州市大竹县");
 		student.setPhone1("17803878845");
 		student.setPhone2(null);
 		student.setQq("1759840027");
 		student.setEmail("1759840027@qq.com");
 		student.setEducation("本科");
-		Date enterTime = new Date(2016-1900, 9 - 1, 1 );
+		Date enterTime = new Date(2016 - 1900, 9 - 1, 1);
 //		System.out.println(enterTime);
 		student.setEnterTime(enterTime.toString());
 		student.setState(1);
@@ -49,26 +50,30 @@ public class StudentServiceImplTest {
 		page.setPageSize(20);
 	}
 
-//	@Test
+	@Test
 	public void addTest() {
-		System.out.println(stuService.add(student));;
-	}	
+		System.out.println(stuService.add(student));
+	}
+
+//	@Test
 	public void updateTest() {
 		student.setName("liwei");
 		System.out.println(stuService.update(student));
+//		System.out.println(stuService.delete("20162430212"));
 	}
-	
+
 //	@Test
 	public void loginTest() {
-		System.out.println(stuService.login("20162430212",MD5Util.MD5("12345612345")));
+		System.out.println(stuService.login("20162430212", "123456"));
 	}
-	@Test
+
+//	@Test
 	public void queryTest() {
 		Student stu = new Student();
 		stu.setName("李伟");
 //		System.out.println(student.getBirthday().toString());
-		System.out.println(stuService.query(student, page));
+//		System.out.println(stuService.query(student, page));
 		System.out.println(stuService.count(null));
-		System.out.println(stuService.query(stu, page));
+		System.out.println(stuService.query((Student) null, page));
 	}
 }

@@ -1,7 +1,6 @@
 package com.stusys.stu.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,14 +8,18 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.stusys.dept.bean.Department;
+import com.stusys.dept.bean.Major;
+import com.stusys.dept.bean.Teacher;
 import com.stusys.page.Page;
+import com.stusys.stu.bean.ClassInfo;
 import com.stusys.stu.bean.Student;
 import com.stusys.util.DBUtil;
 
 public class StudentDao {
 
-	private String baseColumnList = "STU_NO,STU_PASSWORD,STU_NAME,STU_GENDER,STU_BIRTHDAY,STU_IDCARD,MAJOR_ID,STU_ADDRESS,"
-			+ "STU_PHONE1,STU_PHONE2,STU_QQ,STU_EMAIL,STU_EDUCATION,STU_ENTER_TIME,STU_STATE,STU_PHOTO_PATH,STU_SALT,CREATE_TIME";
+	private String baseColumnList = "STU_NO,STU_PASSWORD,STU_NAME,STU_GENDER,STU_BIRTHDAY,STU_IDCARD,MAJOR_NO,STU_ADDRESS,"
+			+ "STU_PHONE1,STU_PHONE2,STU_QQ,STU_EMAIL,STU_EDUCATION,STU_ENTER_TIME,STU_STATE,STU_PHOTO_PATH,STU_SALT,CREATE_TIME,CLASS_NO";
 
 	private Connection conn;
 	private Statement stat;
@@ -31,7 +34,7 @@ public class StudentDao {
 	 */
 	public int add(Student stu) {
 		int affectColums = 0;
-		String sql = "INSERT INTO TB_STUDENT(" + baseColumnList + ") VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		String sql = "INSERT INTO TB_STUDENT(" + baseColumnList + ") VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		try {
 			conn = DBUtil.getConnection();
 			prestat = conn.prepareStatement(sql);
@@ -41,7 +44,8 @@ public class StudentDao {
 			prestat.setString(4, stu.getGender());
 			prestat.setString(5, stu.getBirthday());
 			prestat.setString(6, stu.getIdCard());
-			prestat.setInt(7, stu.getMajorId());
+			Major major = stu.getMajor();
+			prestat.setInt(7, major == null ? 0 : major.getMajorNo());
 			prestat.setString(8, stu.getAddress());
 			prestat.setString(9, stu.getPhone1());
 			prestat.setString(10, stu.getPhone2());
@@ -53,12 +57,12 @@ public class StudentDao {
 			prestat.setString(16, stu.getPhotoPath());
 			prestat.setString(17, stu.getSalt());
 			prestat.setLong(18, stu.getCreateTime());
+			ClassInfo classInfo = stu.getClassInfo();
+			prestat.setString(19, classInfo == null ? "" : classInfo.getClassNo());
 			affectColums = prestat.executeUpdate();
 
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			System.out.println("添加学生" + stu.getStuNo() + "  " + stu.getName() + "失败" + e);
-		} catch (NullPointerException e) {
-			System.out.println("学生信息不能为空！" + e);
 		} finally {
 			DBUtil.close(null, prestat, conn);
 		}
@@ -96,7 +100,7 @@ public class StudentDao {
 	public int update(Student stu) {
 		int affectColums = 0;
 //		StringBuffer sql = new StringBuffer("UPDATE TB_STUDENT SET ");
-		String sql = "UPDATE TB_STUDENT SET STU_PASSWORD=?,STU_NAME=?,STU_GENDER=?,STU_BIRTHDAY=?,STU_IDCARD=?,MAJOR_ID=?,STU_ADDRESS=?,"
+		String sql = "UPDATE TB_STUDENT SET STU_PASSWORD=?,STU_NAME=?,STU_GENDER=?,STU_BIRTHDAY=?,STU_IDCARD=?,MAJOR_NO=?,STU_ADDRESS=?,"
 				+ "STU_PHONE1=?,STU_PHONE2=?,STU_QQ=?,STU_EMAIL=?,STU_EDUCATION=?,STU_ENTER_TIME=?,STU_STATE=?,STU_PHOTO_PATH=? WHERE STU_NO=?";
 		try {
 			conn = DBUtil.getConnection();
@@ -106,7 +110,8 @@ public class StudentDao {
 			prestat.setString(3, stu.getGender());
 			prestat.setString(4, stu.getBirthday());
 			prestat.setString(5, stu.getIdCard());
-			prestat.setInt(6, stu.getMajorId());
+			Major major = stu.getMajor();
+			prestat.setInt(6, major == null ? 0 : major.getMajorNo());
 			prestat.setString(7, stu.getAddress());
 			prestat.setString(8, stu.getPhone1());
 			prestat.setString(9, stu.getPhone2());
@@ -119,10 +124,6 @@ public class StudentDao {
 			prestat.setString(16, stu.getStuNo());
 			affectColums = prestat.executeUpdate();
 			System.out.println(sql.toString());
-		} catch (SQLException e) {
-			System.out.println("修改学生+" + stu.getStuNo() + "失败！" + e);
-		} catch (NullPointerException e) {
-			System.out.println("学生信息不能为空！" + e);
 		} catch (Exception e) {
 			System.out.println("修改学生信息失败！" + e);
 		} finally {
@@ -157,8 +158,8 @@ public class StudentDao {
 				if (stu.getIdCard() != null) {
 					sql.append(" AND STU_IDCARD='" + stu.getIdCard() + "'");
 				}
-				if (stu.getMajorId() != null) {
-					sql.append(" AND MAJOR_ID=" + stu.getMajorId());
+				if (stu.getMajor() != null) {
+					sql.append(" AND MAJOR_NO=" + stu.getMajor().getMajorNo());
 				}
 				if (stu.getAddress() != null) {
 					sql.append(" AND STU_ADDRESS LIKE '%" + stu.getAddress() + "%'");
@@ -198,10 +199,8 @@ public class StudentDao {
 			while (rs.next()) {
 				count = rs.getInt("STU_COUNT");
 			}
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			System.out.println("查询学生数量失败！" + e);
-		} catch (NullPointerException e) {
-			System.out.println("学生信息不能为空！" + e);
 		} finally {
 			DBUtil.close(rs, stat, conn);
 		}
@@ -218,59 +217,63 @@ public class StudentDao {
 		List<Student> stuList = new ArrayList<Student>();
 		//
 		StringBuffer sql = new StringBuffer(
-				"SELECT * FROM (SELECT " + baseColumnList + ",ROWNUM RN FROM TB_STUDENT) N  WHERE 1=1 ");
+				"SELECT S.STU_NO,S.STU_PASSWORD,S.STU_NAME,S.STU_GENDER,S.STU_BIRTHDAY,S.STU_IDCARD,S.MAJOR_NO,S.STU_ADDRESS,S.STU_PHONE1,S.STU_PHONE2,"
+						+ "S.STU_QQ,S.STU_EMAIL,S.STU_EDUCATION,S.STU_ENTER_TIME,S.STU_STATE,S.STU_PHOTO_PATH,S.STU_SALT,S.CREATE_TIME,S.CLASS_NO,"
+						+ "M.MAJOR_NO,M.MAJOR_NAME,M.DEPT_NO,M.CREATE_TIME AS MAJOR_CREATE_TIME,M.LEN_OF_SCHOOL,M.TYPE,M.TEACHER_NO "
+						+ " FROM TB_STUDENT S LEFT JOIN TB_MAJOR M ON M.MAJOR_NO=S.MAJOR_NO WHERE 1=1");
 		try {
-			if (stu.getStuNo() != null) {
-				sql.append(" AND STU_NO='" + stu.getStuNo() + "'");
+			if (stu != null) {
+				if (stu.getStuNo() != null) {
+					sql.append(" AND STU_NO='" + stu.getStuNo() + "'");
+				}
+				if (stu.getPassword() != null) {
+					sql.append(" AND STU_PASSWORD='" + stu.getPassword() + "'");
+				}
+				if (stu.getName() != null) {
+					sql.append(" AND STU_NAME='" + stu.getName() + "'");
+				}
+				if (stu.getGender() != null) {
+					sql.append(" AND STU_GENDER='" + stu.getGender() + "'");
+				}
+				if (stu.getIdCard() != null) {
+					sql.append(" AND STU_IDCARD='" + stu.getIdCard() + "'");
+				}
+				if (stu.getMajor().getMajorNo() != 0) {
+					sql.append(" AND S.MAJOR_NO=" + stu.getMajor().getMajorNo());
+				}
+				if (stu.getAddress() != null) {
+					sql.append(" AND STU_ADDRESS='" + stu.getAddress() + "'");
+				}
+				if (stu.getPhone1() != null) {
+					sql.append(" AND STU_PHONE1='" + stu.getPhone1() + "'");
+				}
+				if (stu.getPhone2() != null) {
+					sql.append(" AND STU_PHONE2='" + stu.getPhone2() + "'");
+				}
+				if (stu.getQq() != null) {
+					sql.append(" AND STU_QQ='" + stu.getQq() + "'");
+				}
+				if (stu.getEmail() != null) {
+					sql.append(" AND STU_EMAIL='" + stu.getEmail() + "'");
+				}
+				if (stu.getEducation() != null) {
+					sql.append(" AND STU_EDUCATION='" + stu.getEducation() + "'");
+				}
+				if (stu.getEnterTime() != null) {
+					sql.append(" AND STU_ENTER_TIME='" + stu.getEnterTime() + "'");
+				}
+				if (stu.getBirthday() != null) {
+					sql.append(" AND STU_BIRTHDAY='" + stu.getBirthday() + "'");
+				}
+				if (stu.getState() != null) {
+					sql.append(" AND STU_STATE='" + stu.getState() + "'");
+				}
+				if (stu.getPhotoPath() != null) {
+					sql.append(" AND STU_PHOTO_PATH='" + stu.getPhotoPath() + "'");
+				}
 			}
-			if (stu.getPassword() != null) {
-				sql.append(" AND STU_PASSWORD='" + stu.getPassword() + "'");
-			}
-			if (stu.getName() != null) {
-				sql.append(" AND STU_NAME='" + stu.getName() + "'");
-			}
-			if (stu.getGender() != null) {
-				sql.append(" AND STU_GENDER='" + stu.getGender() + "'");
-			}
-			if (stu.getIdCard() != null) {
-				sql.append(" AND STU_IDCARD='" + stu.getIdCard() + "'");
-			}
-			if (stu.getMajorId() != null) {
-				sql.append(" AND MAJOR_ID=" + stu.getMajorId());
-			}
-			if (stu.getAddress() != null) {
-				sql.append(" AND STU_ADDRESS='" + stu.getAddress() + "'");
-			}
-			if (stu.getPhone1() != null) {
-				sql.append(" AND STU_PHONE1='" + stu.getPhone1() + "'");
-			}
-			if (stu.getPhone2() != null) {
-				sql.append(" AND STU_PHONE2='" + stu.getPhone2() + "'");
-			}
-			if (stu.getQq() != null) {
-				sql.append(" AND STU_QQ='" + stu.getQq() + "'");
-			}
-			if (stu.getEmail() != null) {
-				sql.append(" AND STU_EMAIL='" + stu.getEmail() + "'");
-			}
-			if (stu.getEducation() != null) {
-				sql.append(" AND STU_EDUCATION='" + stu.getEducation() + "'");
-			}
-			if (stu.getEnterTime() != null) {
-				sql.append(" AND STU_ENTER_TIME='" + stu.getEnterTime() + "'");
-			}
-			if (stu.getBirthday() != null) {
-				sql.append(" AND STU_BIRTHDAY='" + stu.getBirthday() + "'");
-			}
-			if (stu.getState() != null) {
-				sql.append(" AND STU_STATE='" + stu.getState() + "'");
-			}
-			if (stu.getPhotoPath() != null) {
-				sql.append(" AND STU_PHOTO_PATH='" + stu.getPhotoPath() + "'");
-			}
-
 			if (page != null) {
-				sql.append(" AND N.RN>=" + page.getPageStart() + " AND N.RN<"
+				sql.append(" AND ROWNUM>=" + page.getPageStart() + " AND ROWNUM<"
 						+ (page.getPageSize() + page.getPageStart()));
 			}
 
@@ -279,10 +282,8 @@ public class StudentDao {
 			System.out.println(sql.toString());
 			rs = stat.executeQuery(sql.toString());
 			stuList.addAll(rowIntoStudent(rs));
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			System.out.println("查询学生" + stu + "失败！" + e);
-		} catch (NullPointerException e) {
-			System.out.println("学生信息不能为空！" + e);
 		} finally {
 			DBUtil.close(rs, stat, conn);
 		}
@@ -296,23 +297,26 @@ public class StudentDao {
 	 * @param password
 	 */
 	public List<Student> select(String stuNo, String password) {
-		List<Student> stuList = new ArrayList<Student>();
-		String sql = "SELECT " + baseColumnList + " FROM TB_STUDENT WHERE STU_NO=? AND STU_PASSWORD=?";
-
-		try {
-			conn = DBUtil.getConnection();
-			prestat = conn.prepareStatement(sql);
-			prestat.setString(1, stuNo);
-			prestat.setString(2, password);
-			rs = prestat.executeQuery();
-			stuList.addAll(rowIntoStudent(rs));
-		} catch (SQLException e) {
-			System.out.println("通过学号" + stuNo + " 和 密码 " + password + "查询学生信息失败");
-		} finally {
-			DBUtil.close(rs, prestat, conn);
-		}
-		return stuList;
-
+		Student student = new Student();
+		student.setStuNo(stuNo);
+		student.setPassword(password);
+		return select(student, null);
+		
+//		List<Student> stuList = new ArrayList<Student>();
+//		String sql = "SELECT " + baseColumnList + " FROM TB_STUDENT WHERE STU_NO=? AND STU_PASSWORD=?";
+//		try {
+//			conn = DBUtil.getConnection();
+//			prestat = conn.prepareStatement(sql);
+//			prestat.setString(1, stuNo);
+//			prestat.setString(2, password);
+//			rs = prestat.executeQuery();
+//			stuList.addAll(rowIntoStudent(rs));
+//		} catch (SQLException e) {
+//			System.out.println("通过学号" + stuNo + " 和 密码 " + password + "查询学生信息失败" + e);
+//		} finally {
+//			DBUtil.close(rs, prestat, conn);
+//		}
+//		return stuList;
 	}
 
 	/**
@@ -332,7 +336,21 @@ public class StudentDao {
 			student.setGender(rs.getString("STU_GENDER"));
 			student.setBirthday(rs.getString("STU_BIRTHDAY"));
 			student.setIdCard(rs.getString("STU_IDCARD"));
-			student.setMajorId(rs.getInt("MAJOR_ID"));
+			// 设置学生专业信息
+			Major major = student.getMajor();
+			major.setMajorNo(rs.getInt("MAJOR_NO"));
+
+			Department dept = major.getDept();
+			dept.setDeptNo(rs.getInt("DEPT_NO"));
+			major.setMajorName(rs.getString("MAJOR_NAME"));
+			major.setCreateTime(rs.getLong("MAJOR_CREATE_TIME"));
+			major.setLenOfSchool(rs.getInt("LEN_OF_SCHOOL"));
+			major.setType(rs.getString("TYPE"));
+
+			Teacher teacher = new Teacher();
+			teacher.setTeacherNo(rs.getString("TEACHER_NO"));
+			major.setTeacher(teacher);
+
 			student.setAddress(rs.getString("STU_ADDRESS"));
 			student.setPhone1(rs.getString("STU_PHONE1"));
 			student.setPhone2(rs.getString("STU_PHONE2"));

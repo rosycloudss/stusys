@@ -1,10 +1,10 @@
 package com.stusys.page;
 
 /**
- * 分页信息
  * 
  * @author LIWEI
- * @time 2018年11月15日下午10:08:34 @description：
+ * @time 2018年11月15日下午10:08:34 
+ * @description：分页信息
  *
  */
 public class Page {

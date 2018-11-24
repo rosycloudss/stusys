@@ -19,6 +19,12 @@ public interface StudentService {
 	
 	List<Student> query(Student stu, Page page);
 	
+	Student query(String stuNo);
+	
+	List<Student> query(int majorNo, Page page);
+	
+	List<Student> query(String stuName, Page page);
+	
 	int count(Student stu);
 
 }

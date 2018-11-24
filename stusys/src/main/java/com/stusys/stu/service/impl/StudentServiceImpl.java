@@ -7,6 +7,7 @@ import com.stusys.page.Page;
 import com.stusys.stu.bean.Student;
 import com.stusys.stu.dao.StudentDao;
 import com.stusys.stu.service.StudentService;
+import com.stusys.util.MD5Util;
 
 public class StudentServiceImpl implements StudentService {
 
@@ -60,7 +61,7 @@ public class StudentServiceImpl implements StudentService {
 	 */
 	public Student login(String stuNo, String password) {
 		List<Student> stuList = new ArrayList<Student>();
-		stuList.addAll(stuDao.select(stuNo, password));
+		stuList.addAll(stuDao.select(stuNo, MD5Util.MD5(password)));
 		if (!stuList.isEmpty()) {
 			return stuList.get(0);
 		}
@@ -72,9 +73,7 @@ public class StudentServiceImpl implements StudentService {
 	 */
 	public List<Student> query(Student stu, Page page) {
 		List<Student> stuList = new ArrayList<Student>();
-		if (stu != null) {
-			stuList.addAll(stuDao.select(stu, page));
-		}
+		stuList.addAll(query(stu, page));
 		return stuList;
 	}
 
@@ -83,6 +82,31 @@ public class StudentServiceImpl implements StudentService {
 	 */
 	public int count(Student stu) {
 		return stuDao.count(stu);
+	}
+
+	@Override
+	public Student query(String stuNo) {
+		Student student = new Student();
+		student.setStuNo(stuNo);
+		List<Student> stus = query(student, null);
+		if(!stus.isEmpty()) {
+			return stus.get(0);
+		}
+		return null;
+	}
+
+	@Override
+	public List<Student> query(int majorNo, Page page) {
+		Student student = new Student();
+		student.getMajor().setMajorNo(majorNo);
+		return stuDao.select(student, page);
+	}
+
+	@Override
+	public List<Student> query(String stuName, Page page) {
+		Student student = new Student();
+		student.setName(stuName);
+		return query(student,page);
 	}
 
 }
