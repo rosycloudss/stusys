@@ -50,7 +50,7 @@ public class CourseDao {
 		} catch (SQLException e) {
 			System.out.println("添加课程信息失败！" + e);
 		} finally {
-			DBUtil.close(null, prestat, conn);
+			DBUtil.close(rs, prestat, conn);
 		}
 		return affectColums;
 	}
@@ -71,7 +71,7 @@ public class CourseDao {
 		} catch (SQLException e) {
 			System.out.println("删除课程信息失败！" + e);
 		} finally {
-			DBUtil.close(null, prestat, conn);
+			DBUtil.close(rs, prestat, conn);
 		}
 		return affectColums;
 	}
@@ -100,9 +100,19 @@ public class CourseDao {
 		} catch (SQLException e) {
 			System.out.println("修改课程信息失败！" + e);
 		} finally {
-			DBUtil.close(null, prestat, conn);
+			DBUtil.close(rs, prestat, conn);
 		}
 		return affectColums;
+	}
+
+	/**
+	 * 查询课程个数
+	 * 
+	 * @param course
+	 * @return
+	 */
+	public int count(Course course) {
+		return select(course, null).size();
 	}
 
 	/**
@@ -182,15 +192,32 @@ public class CourseDao {
 				}
 
 			}
-			
+
 			rs = prestat.executeQuery();
 			courseList = rowMapper(rs);
 		} catch (SQLException e) {
 			System.out.println("查询失败！" + e);
 		} finally {
-			DBUtil.close(null, prestat, conn);
+			DBUtil.close(rs, prestat, conn);
 		}
 		return courseList;
+	}
+
+	/**
+	 * 查询单个课程信息
+	 * 
+	 * @param courseNo
+	 * @return
+	 */
+	public Course selectOne(long courseNo) {
+		Course course = new Course();
+		course.setCourseNo(courseNo);
+		List<Course> courseList = select(course, null);
+		if (!courseList.isEmpty()) {
+			return courseList.get(0);
+		} else {
+			return null;
+		}
 	}
 
 	/**
