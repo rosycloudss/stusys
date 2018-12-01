@@ -86,7 +86,7 @@
 							href="javascript:void(0)">学籍信息</a></li>
 						<li><a data-href="" data-title="我的课表"
 							href="javascript:void(0)">我的课表</a></li>
-						<li><a data-href="article-list.html" data-title="选课"
+						<li><a data-href="course-list.jsp" data-title="选课"
 							href="javascript:void(0)">选课</a></li>
 						<li><a data-href="score-table.jsp" data-title="我的成绩"
 							href="javascript:void(0)">我的成绩</a></li>

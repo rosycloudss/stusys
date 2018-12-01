@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +20,6 @@ import com.stusys.util.DBUtil;
 public class CourseDao {
 
 	private Connection conn;
-	private Statement stat;
 	private PreparedStatement prestat;
 	private ResultSet rs;
 
@@ -33,19 +31,19 @@ public class CourseDao {
 	 */
 	public int add(Course course) {
 		int affectColums = 0;
-		String sql = "INSERT INTO TB_COURSE(CURSE_NO,COURSE_NAME,COURSE_DESCRIPTION,MAJOR_NO,CREDIT,CLASS_HOUR,COURSE_TYPE,LOCK) VALUES(?,?,?,?,?,?,?,?) ";
+		String sql = "INSERT INTO TB_COURSE(CURSE_NO,COURSE_NAME,COURSE_DESCRIPTION,MAJOR_NO,CREDIT,CLASS_HOUR,COURSE_TYPE,LOCK) VALUES(SEQ_COURSE,?,?,?,?,?,?,?) ";
 		try {
 			conn = DBUtil.getConnection();
 			prestat = conn.prepareStatement(sql);
 
-			prestat.setLong(1, course.getCourseNo());
-			prestat.setString(2, course.getCourseName());
-			prestat.setString(3, course.getCourseDescription());
-			prestat.setInt(4, course.getMajor().getMajorNo());
-			prestat.setFloat(5, course.getCredt());
-			prestat.setInt(6, course.getClassHour());
-			prestat.setString(7, course.getCourseType());
-			prestat.setInt(8, course.getLock());
+//			prestat.setLong(1, course.getCourseNo());
+			prestat.setString(1, course.getCourseName());
+			prestat.setString(2, course.getCourseDescription());
+			prestat.setInt(3, course.getMajor().getMajorNo());
+			prestat.setFloat(4, course.getCredt());
+			prestat.setInt(5, course.getClassHour());
+			prestat.setString(6, course.getCourseType());
+			prestat.setInt(7, course.getLock());
 			affectColums = prestat.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println("添加课程信息失败！" + e);

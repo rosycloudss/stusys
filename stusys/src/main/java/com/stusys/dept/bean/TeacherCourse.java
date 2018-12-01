@@ -13,8 +13,8 @@ public class TeacherCourse {
 	private String semester;//学期
 	private long tcNo;//教师选课编号
 	private String teachAddressTime;//上课时间和地点
-	private int studentNum = -1;//学生数量；
-	private int selectNum = -1;//已选学生数
+	private int studentNum = -1;//学生数量
+	private int selectNum = -1;// 已选学生数量
 	/**
 	 * @return the course
 	 */

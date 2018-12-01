@@ -135,7 +135,6 @@ public class MajorDao {
 			sql.append(" AND ROWNUM>=" + page.getPageStart() + " AND ROWNUM<"
 					+ (page.getPageSize() + page.getPageStart()));
 		}
-
 		try {
 			conn = DBUtil.getConnection();
 			prestat = conn.prepareStatement(sql.toString());
@@ -163,20 +162,19 @@ public class MajorDao {
 					prestat.setString(count++, major.getTeacher().getTeacherNo());
 				}
 			}
-			
 			rs = prestat.executeQuery();
-
+			majorList = rowMapper(rs);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("查询专业信息失败！" + e);
+		} finally {
+			DBUtil.close(rs, prestat, conn);
 		}
-
 		return majorList;
 	}
-	
-	public List<Major> rowMapper(ResultSet rs) throws SQLException{
+
+	public List<Major> rowMapper(ResultSet rs) throws SQLException {
 		List<Major> majorList = new ArrayList<Major>();
-		while(rs.next()) {
+		while (rs.next()) {
 			Major major = new Major();
 			major.setMajorNo(rs.getInt("MAJOR_NO"));
 			major.setMajorName(rs.getString("MAJOR_NAME"));

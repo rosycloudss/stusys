@@ -1,4 +1,8 @@
 package com.stusys.stu.bean;
+
+import com.stusys.dept.bean.Course;
+import com.stusys.dept.bean.TeacherCourse;
+
 /**
  * 
  * @author liwei
@@ -8,6 +12,7 @@ package com.stusys.stu.bean;
 public class StudentCourse {
 	private long scNo;//学生选课编号
 	private String stuNo;//学号
+	private Student student = new Student();//学生信息
 	private long tcNo;//教师授课编号
 	private long scoreNo;//学生成绩编号
 	private Score score = new Score();//学生选课成绩
