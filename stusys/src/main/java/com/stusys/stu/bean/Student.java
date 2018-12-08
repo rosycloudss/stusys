@@ -30,8 +30,10 @@ public class Student {
 	private String photoPath;// 学生照片地址
 	private String salt;// 盐
 	private Long createTime;// 创建时间
-	private ClassInfo classInfo;// 班级信息
+	private String classNo;// 班级编号
 
+	
+	private String grade;
 	/**
 	 * @return the stuNo
 	 */
@@ -44,6 +46,9 @@ public class Student {
 	 */
 	public void setStuNo(String stuNo) {
 		this.stuNo = stuNo;
+		if(stuNo != null) {
+			grade = stuNo.substring(0, 4);
+		}
 	}
 
 	/**
@@ -300,32 +305,25 @@ public class Student {
 		this.createTime = createTime;
 	}
 
-	/**
-	 * @return the classInfo
-	 */
-	public ClassInfo getClassInfo() {
-		return classInfo;
+	public String getClassNo() {
+		return classNo;
 	}
 
-	/**
-	 * @param classInfo the classInfo to set
-	 */
-	public void setClassInfo(ClassInfo classInfo) {
-		this.classInfo = classInfo;
+	public void setClassNo(String classNo) {
+		this.classNo = classNo;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
+	public String getGrade() {
+		return grade;
+	}
+
 	@Override
 	public String toString() {
 		return "Student [stuNo=" + stuNo + ", password=" + password + ", name=" + name + ", gender=" + gender
 				+ ", birthday=" + birthday + ", idCard=" + idCard + ", major=" + major + ", address=" + address
 				+ ", phone1=" + phone1 + ", phone2=" + phone2 + ", qq=" + qq + ", email=" + email + ", education="
 				+ education + ", enterTime=" + enterTime + ", state=" + state + ", photoPath=" + photoPath + ", salt="
-				+ salt + ", createTime=" + createTime + ", classInfo=" + classInfo + "]";
+				+ salt + ", createTime=" + createTime + ", classNo=" + classNo + "]";
 	}
 
 	/*
@@ -339,7 +337,6 @@ public class Student {
 		int result = 1;
 		result = prime * result + ((address == null) ? 0 : address.hashCode());
 		result = prime * result + ((birthday == null) ? 0 : birthday.hashCode());
-		result = prime * result + ((classInfo == null) ? 0 : classInfo.hashCode());
 		result = prime * result + ((createTime == null) ? 0 : createTime.hashCode());
 		result = prime * result + ((education == null) ? 0 : education.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());

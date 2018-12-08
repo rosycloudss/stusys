@@ -6,31 +6,19 @@
 <html>
 <head>
 <meta charset="utf-8">
-<meta name="renderer" content="webkit|ie-comp|ie-stand">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="viewport"
-	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
+
 <link rel="Bookmark" href="/favicon.ico">
 <link rel="Shortcut Icon" href="/favicon.ico" />
-<!--[if lt IE 9]>
-<script type="text/javascript" src="lib/html5shiv.js"></script>
-<script type="text/javascript" src="lib/respond.min.js"></script>
-<![endif]-->
 <link rel="stylesheet" type="text/css"
-	href="../static/h-ui/css/H-ui.min.css" />
+	href="<%=request.getContextPath()%>/static/h-ui/css/H-ui.min.css" />
 <link rel="stylesheet" type="text/css"
-	href="../static/h-ui.admin/css/H-ui.admin.css" />
+	href=" <%=request.getContextPath()%>/static/h-ui.admin/css/H-ui.admin.css" />
 <link rel="stylesheet" type="text/css"
-	href="../lib/Hui-iconfont/1.0.8/iconfont.css" />
+	href=" <%=request.getContextPath()%>/lib/Hui-iconfont/1.0.8/iconfont.css" />
 <link rel="stylesheet" type="text/css"
-	href="../static/h-ui.admin/skin/default/skin.css" id="skin" />
+	href=" <%=request.getContextPath()%>/static/h-ui.admin/skin/default/skin.css" id="skin" />
 <link rel="stylesheet" type="text/css"
-	href="../static/h-ui.admin/css/style.css" />
-<!--[if IE 6]>
-<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
-<script>DD_belatedPNG.fix('*');</script>
-<![endif]-->
+	href=" <%=request.getContextPath()%>/static/h-ui.admin/css/style.css" />
 <title>学生管理系统</title>
 </head>
 <body>
@@ -82,12 +70,13 @@
 				</dt>
 				<dd>
 					<ul>
-						<li><a data-href="student-info.jsp" data-title="学籍信息"
+						<li><a data-href="student/student-info.jsp" data-title="学籍信息"
 							href="javascript:void(0)">学籍信息</a></li>
 						<li><a data-href="" data-title="我的课表"
 							href="javascript:void(0)">我的课表</a></li>
-						<li><a data-href="course-list.jsp" data-title="选课"
-							href="javascript:void(0)">选课</a></li>
+						<li><a
+							data-href="<%=request.getContextPath()%>/student/course/list"
+							data-title="选课" href="javascript:void(0)">选课</a></li>
 						<li><a data-href="score-table.jsp" data-title="我的成绩"
 							href="javascript:void(0)">我的成绩</a></li>
 					</ul>
@@ -102,10 +91,11 @@
 				</dt>
 				<dd>
 					<ul>
-						<li><a data-href="article-list.html" data-title="学生列表"
+						<li><a data-href="<%=request.getContextPath()%>/student?flag=query" data-title="学生列表"
 							href="javascript:void(0)">学生列表</a></li>
-						<li><a data-href="article-list.html" data-title="添加学生"
-							href="javascript:void(0)">添加学生</a></li>
+						<li><a
+							data-href="<%=request.getContextPath()%>/student/add-student.jsp"
+							data-title="添加学生" href="javascript:void(0)">添加学生</a></li>
 					</ul>
 				</dd>
 			</dl>
@@ -116,9 +106,9 @@
 				</dt>
 				<dd>
 					<ul>
-						<li><a data-href="picture-list.html" data-title="教师列表"
+						<li><a data-href="<%=request.getContextPath()%>/teacher?flag=query" data-title="教师列表"
 							href="javascript:void(0)">教师列表</a></li>
-						<li><a data-href="picture-list.html" data-title="添加教师"
+						<li><a data-href="<%=request.getContextPath()%>/teacher/add-teacher.jsp" data-title="添加教师"
 							href="javascript:void(0)">添加教师</a></li>
 					</ul>
 				</dd>
@@ -130,7 +120,7 @@
 				</dt>
 				<dd>
 					<ul>
-						<li><a data-href="product-brand.html" data-title="添加课程"
+						<li><a data-href="<%=request.getContextPath()%>/course/add-course.jsp" data-title="添加课程"
 							href="javascript:void(0)">添加课程</a></li>
 						<li><a data-href="product-category.html" data-title="课程列表"
 							href="javascript:void(0)">课程列表</a></li>
@@ -221,13 +211,15 @@
 	</section>
 
 	<!--_footer 作为公共模版分离出去-->
-	<script type="text/javascript" src="../lib/jquery/1.9.1/jquery.min.js"></script>
-	<script type="text/javascript" src="../lib/layer/2.4/layer.js"></script>
-	<script type="text/javascript" src="../static/h-ui/js/H-ui.min.js"></script>
-	<script type="text/javascript" src="../static/h-ui.admin/js/H-ui.admin.js"></script>
+	<script type="text/javascript" src=" <%=request.getContextPath()%>/lib/jquery/1.9.1/jquery.min.js"></script>
+	<script type="text/javascript" src=" <%=request.getContextPath()%>/lib/layer/2.4/layer.js"></script>
+	<script type="text/javascript" src=" <%=request.getContextPath()%>/static/h-ui/js/H-ui.min.js"></script>
+	<script type="text/javascript"
+		src=" <%=request.getContextPath()%>/static/h-ui.admin/js/H-ui.admin.js"></script>
 	<!--/_footer 作为公共模版分离出去-->
 
 	<!--请在下方写此页面业务相关的脚本-->
 	<script type="text/javascript"
-		src="lib/jquery.contextmenu/jquery.contextmenu.r2.js"></script>
-	
+		src="<%=request.getContextPath()%>/lib/jquery.contextmenu/jquery.contextmenu.r2.js"></script>
+</body>
+</html>

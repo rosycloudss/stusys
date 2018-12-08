@@ -38,6 +38,7 @@ public class StudentDao {
 		try {
 			conn = DBUtil.getConnection();
 			prestat = conn.prepareStatement(sql);
+			
 			prestat.setString(1, stu.getStuNo());
 			prestat.setString(2, stu.getPassword());
 			prestat.setString(3, stu.getName());
@@ -46,6 +47,7 @@ public class StudentDao {
 			prestat.setString(6, stu.getIdCard());
 			Major major = stu.getMajor();
 			prestat.setInt(7, major == null ? 0 : major.getMajorNo());
+			
 			prestat.setString(8, stu.getAddress());
 			prestat.setString(9, stu.getPhone1());
 			prestat.setString(10, stu.getPhone2());
@@ -57,14 +59,13 @@ public class StudentDao {
 			prestat.setString(16, stu.getPhotoPath());
 			prestat.setString(17, stu.getSalt());
 			prestat.setLong(18, stu.getCreateTime());
-			ClassInfo classInfo = stu.getClassInfo();
-			prestat.setString(19, classInfo == null ? "" : classInfo.getClassNo());
+			prestat.setString(19, stu.getClassNo());
+			System.out.println(stu);
 			affectColums = prestat.executeUpdate();
-
 		} catch (Exception e) {
 			System.out.println("添加学生" + stu.getStuNo() + "  " + stu.getName() + "失败" + e);
 		} finally {
-			DBUtil.close(null, prestat, conn);
+			DBUtil.close(rs, prestat, conn);
 		}
 		return affectColums;
 	}
@@ -100,28 +101,132 @@ public class StudentDao {
 	public int update(Student stu) {
 		int affectColums = 0;
 //		StringBuffer sql = new StringBuffer("UPDATE TB_STUDENT SET ");
-		String sql = "UPDATE TB_STUDENT SET STU_PASSWORD=?,STU_NAME=?,STU_GENDER=?,STU_BIRTHDAY=?,STU_IDCARD=?,MAJOR_NO=?,STU_ADDRESS=?,"
+		String sql1 = "UPDATE TB_STUDENT SET STU_PASSWORD=?,STU_NAME=?,STU_GENDER=?,STU_BIRTHDAY=?,STU_IDCARD=?,MAJOR_NO=?,STU_ADDRESS=?,"
 				+ "STU_PHONE1=?,STU_PHONE2=?,STU_QQ=?,STU_EMAIL=?,STU_EDUCATION=?,STU_ENTER_TIME=?,STU_STATE=?,STU_PHOTO_PATH=? WHERE STU_NO=?";
+		StringBuffer sql = new StringBuffer("UPDATE TB_STUDENT SET ");
+		
+		
 		try {
-			conn = DBUtil.getConnection();
-			prestat = conn.prepareStatement(sql);
-			prestat.setString(1, stu.getPassword());
-			prestat.setString(2, stu.getName());
-			prestat.setString(3, stu.getGender());
-			prestat.setString(4, stu.getBirthday());
-			prestat.setString(5, stu.getIdCard());
-			Major major = stu.getMajor();
-			prestat.setInt(6, major == null ? 0 : major.getMajorNo());
-			prestat.setString(7, stu.getAddress());
-			prestat.setString(8, stu.getPhone1());
-			prestat.setString(9, stu.getPhone2());
-			prestat.setString(10, stu.getQq());
-			prestat.setString(11, stu.getEmail());
-			prestat.setString(12, stu.getEducation());
-			prestat.setString(13, stu.getEnterTime());
-			prestat.setInt(14, stu.getState());
-			prestat.setString(15, stu.getPhotoPath());
-			prestat.setString(16, stu.getStuNo());
+			
+			
+			if(stu != null && stu.getStuNo() != null) {
+				conn = DBUtil.getConnection();
+				if(stu.getPassword() != null) {
+					sql.append(" STU_PASSWORD=?,");
+				}
+				if(stu.getName() != null) {
+					sql.append(" STU_NAME=?,");
+				}
+				if(stu.getGender() != null) {
+					sql.append(" STU_GENDER=?,");
+				}
+				if(stu.getBirthday() != null) {
+					sql.append(" STU_BIRTHDAY=?,");
+				}
+				if(stu.getIdCard() != null) {
+					sql.append(" STU_IDCARD=?,");
+				}
+				if(stu.getMajor() != null && stu.getMajor().getMajorNo() != 0) {
+					sql.append(" MAJOR_NO=?,");
+				}
+				if(stu.getAddress() != null) {
+					sql.append(" STU_ADDRESS=?,");
+				}
+				if(stu.getPhone1() != null) {
+					sql.append(" STU_PHONE1=?,");
+				}
+				if(stu.getPhone2() != null) {
+					sql.append(" STU_PHONE2=?,");
+				}
+				if(stu.getQq() != null) {
+					sql.append(" STU_QQ=?,");
+				}
+				if(stu.getEmail() != null) {
+					sql.append(" STU_EMAIL=?,");
+				}
+				if(stu.getEducation() != null) {
+					sql.append(" STU_EDUCATION=?,");
+				}
+				
+				if(stu.getEnterTime() != null) {
+					sql.append(" STU_ENTER_TIME=?,");
+				}
+				if(stu.getState() != null) {
+					sql.append(" STU_STATE=?,");
+				}
+				if(stu.getPhotoPath() != null) {
+					sql.append(" STU_PHOTO_PATH=?,");
+				}
+				sql.append(" WHERE STU_NO=? ");
+				sql.replace(sql.lastIndexOf(","), sql.lastIndexOf(",")+1, "");
+				prestat = conn.prepareStatement(sql.toString());
+				int count = 1;
+				if(stu.getPassword() != null) {
+					prestat.setString(count++, stu.getPassword());
+				}
+				if(stu.getName() != null) {
+					prestat.setString(count++, stu.getName());
+				}
+				if(stu.getGender() != null) {
+					prestat.setString(count++,stu.getGender());
+				}
+				if(stu.getBirthday() != null) {
+					prestat.setString(count++, stu.getBirthday());
+				}
+				if(stu.getIdCard() != null) {
+					prestat.setString(count++, stu.getIdCard());
+				}
+				if(stu.getMajor() != null && stu.getMajor().getMajorNo() != 0) {
+					prestat.setInt(count++, stu.getMajor().getMajorNo());
+				}
+				if(stu.getAddress() != null) {
+					prestat.setString(count++, stu.getAddress());
+				}
+				if(stu.getPhone1() != null) {
+					prestat.setString(count++, stu.getPhone1());
+				}
+				if(stu.getPhone2() != null) {
+					prestat.setString(count++, stu.getPhone2());
+				}
+				if(stu.getQq() != null) {
+					prestat.setString(count++, stu.getQq());
+				}
+				if(stu.getEmail() != null) {
+					prestat.setString(count++, stu.getEmail());
+				}
+				if(stu.getEducation() != null) {
+					prestat.setString(count++, stu.getEducation());
+				}
+				
+				if(stu.getEnterTime() != null) {
+					prestat.setString(count++, stu.getEnterTime());
+				}
+				if(stu.getState() != null) {
+					prestat.setInt(count++, stu.getState());
+				}
+				if(stu.getPhotoPath() != null) {
+					prestat.setString(count++, stu.getPhotoPath());
+				}
+				prestat.setString(count++, stu.getStuNo());
+				
+			}
+//			prestat.setString(1, stu.getPassword());
+//			prestat.setString(2, stu.getName());
+//			prestat.setString(3, stu.getGender());
+//			prestat.setString(4, stu.getBirthday());
+//			prestat.setString(5, stu.getIdCard());
+//			Major major = stu.getMajor();
+//			prestat.setInt(6, major == null ? 0 : major.getMajorNo());
+//			prestat.setString(7, stu.getAddress());
+//			prestat.setString(8, stu.getPhone1());
+//			prestat.setString(9, stu.getPhone2());
+//			prestat.setString(10, stu.getQq());
+//			prestat.setString(11, stu.getEmail());
+//			prestat.setString(12, stu.getEducation());
+//			prestat.setString(13, stu.getEnterTime());
+//			prestat.setInt(14, stu.getState());
+//			prestat.setString(15, stu.getPhotoPath());
+//			prestat.setString(16, stu.getStuNo());
 			affectColums = prestat.executeUpdate();
 			System.out.println(sql.toString());
 		} catch (Exception e) {
@@ -158,7 +263,7 @@ public class StudentDao {
 				if (stu.getIdCard() != null) {
 					sql.append(" AND STU_IDCARD='" + stu.getIdCard() + "'");
 				}
-				if (stu.getMajor() != null) {
+				if (stu.getMajor() != null && stu.getMajor().getMajorNo() != 0) {
 					sql.append(" AND MAJOR_NO=" + stu.getMajor().getMajorNo());
 				}
 				if (stu.getAddress() != null) {
@@ -238,7 +343,7 @@ public class StudentDao {
 				if (stu.getIdCard() != null) {
 					sql.append(" AND STU_IDCARD='" + stu.getIdCard() + "'");
 				}
-				if (stu.getMajor().getMajorNo() != 0) {
+				if (stu.getMajor() != null && stu.getMajor().getMajorNo() != 0) {
 					sql.append(" AND S.MAJOR_NO=" + stu.getMajor().getMajorNo());
 				}
 				if (stu.getAddress() != null) {

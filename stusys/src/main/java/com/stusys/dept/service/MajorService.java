@@ -15,4 +15,8 @@ public interface MajorService {
 
 	List<Major> queryMajorByParameters(Major major, Page page);
 
+	List<Major> queryMajorByDeptNo(Integer deptNo, Page page);
+	
+	
+
 }

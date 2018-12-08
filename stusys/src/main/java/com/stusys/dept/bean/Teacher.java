@@ -82,6 +82,15 @@ public class Teacher {
 	public void setRole(int role) {
 		this.role = role;
 	}
+	
+	public String getRoleStr() {
+		if(role == 1) {
+			return "普通教师";
+		}else if(role == 2) {
+			return "管理员";
+		}
+		return "";
+	}
 
 	/*
 	 * (non-Javadoc)

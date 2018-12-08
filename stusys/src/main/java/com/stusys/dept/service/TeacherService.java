@@ -17,4 +17,6 @@ public interface TeacherService {
 
 	List<Teacher> queryTeacher(Teacher teacher, Page page);
 
+	Teacher queryTeacherByNo(String teacherNo);
+	
 }

@@ -22,7 +22,7 @@ public class StudentServiceImplTest {
 	public void init() {
 		stuService = new StudentServiceImpl();
 
-		student.setStuNo("20162430213");
+		student.setStuNo("20162430214");
 		student.setName("李伟");
 		student.setPassword(MD5Util.MD5("123456"));
 		student.setGender("男");
@@ -50,12 +50,12 @@ public class StudentServiceImplTest {
 		page.setPageSize(20);
 	}
 
-	@Test
+//	@Test
 	public void addTest() {
 		System.out.println(stuService.add(student));
 	}
 
-//	@Test
+	@Test
 	public void updateTest() {
 		student.setName("liwei");
 		System.out.println(stuService.update(student));
@@ -73,7 +73,9 @@ public class StudentServiceImplTest {
 		stu.setName("李伟");
 //		System.out.println(student.getBirthday().toString());
 //		System.out.println(stuService.query(student, page));
-		System.out.println(stuService.count(null));
-		System.out.println(stuService.query((Student) null, page));
+//		System.out.println(stuService.count(null));
+//		System.out.println(stuService.query((Student) null, page));
+		
+		System.out.println(student.getGrade());
 	}
 }

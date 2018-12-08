@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -123,8 +124,10 @@ public class CourseDao {
 	public List<Course> select(Course course, Page page) {
 		List<Course> courseList = new ArrayList<Course>();
 		StringBuffer sql = new StringBuffer(
-				"SELECT C.COURSE_NO,C.COURSE_NAME,C.COURSE_DESCRIPTION,C.CREDIT,C.CLASS_HOUR,C.COURSE_TYPE,C.LOCK, M.MAJOR_NO,M.MAJOR_NAME FROM TB_COURSE C "
+				"SELECT C.COURSE_NO,C.COURSE_NAME,C.COURSE_DESCRIPTION,C.CREDIT,C.CLASS_HOUR,C.COURSE_TYPE, M.MAJOR_NO,M.MAJOR_NAME FROM TB_COURSE C "
 						+ " LEFT JOIN TB_MAJOR M ON C.MAJOR_NO=M.MAJOR_NO WHERE 1=1 ");
+		
+//		StringBuffer sql = new StringBuffer("SELECT COURSE_NO,COURSE_NAME,COURSE_DESCRIPTION,MAJOR_NO,CREDIT,CLASS_HOUR,COURSE_TYPE FROM TB_COURSE WHERE 1=1");
 		try {
 			if (course != null) {
 				if (course.getCourseNo() != 0) {
@@ -134,9 +137,9 @@ public class CourseDao {
 					sql.append(" AND C.COUSE_NAME=?");
 				}
 				if (course.getCourseDescription() != null) {
-					sql.append(" AND C.COURSE_DESCRIPTION");
+					sql.append(" AND C.COURSE_DESCRIPTION=?");
 				}
-				if (course.getMajor().getMajorNo() != 0) {
+				if (course.getMajor() != null && course.getMajor().getMajorNo() != 0) {
 					sql.append(" AND C.MAJOR_NO=?");
 
 				}
@@ -150,14 +153,12 @@ public class CourseDao {
 				if (course.getCourseType() != null) {
 					sql.append(" AND C.COURSE_TYPE=?");
 				}
-				if (course.getLock() != -1) {
-					sql.append(" AND C.LOCK=?");
-				}
 			}
 			if (page != null) {
 				sql.append(" AND ROWNUM>=" + page.getPageStart() + " AND ROWNUM<"
 						+ (page.getPageSize() + page.getPageStart()));
 			}
+			
 			conn = DBUtil.getConnection();
 			prestat = conn.prepareStatement(sql.toString());
 			if (course != null) {
@@ -185,16 +186,14 @@ public class CourseDao {
 				if (course.getCourseType() != null) {
 					prestat.setString(preCount++, course.getCourseType());
 				}
-				if (course.getLock() != -1) {
-					prestat.setInt(preCount++, course.getLock());
-				}
 
 			}
-
 			rs = prestat.executeQuery();
+			
 			courseList = rowMapper(rs);
 		} catch (SQLException e) {
-			System.out.println("查询失败！" + e);
+			System.out.println("查询课程信息失败！");
+			e.printStackTrace();
 		} finally {
 			DBUtil.close(rs, prestat, conn);
 		}
@@ -236,7 +235,6 @@ public class CourseDao {
 			course.setCredt(rs.getFloat("CREDIT"));
 			course.setClassHour(rs.getInt("CLASS_HOUR"));
 			course.setCourseType(rs.getString("COURSE_TYPE"));
-			course.setLock(rs.getInt("LOCK"));
 			courseList.add(course);
 		}
 		return courseList;

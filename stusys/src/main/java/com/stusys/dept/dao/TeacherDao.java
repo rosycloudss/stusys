@@ -25,7 +25,7 @@ public class TeacherDao {
 	 */
 	public int add(Teacher teacher) {
 		int affectColums = 0;
-		String sql = "INSERT INTO TB_TEACHER(TEACHER_NO,TEACHER_NAME,CREAT_TIME,ROLE,DEPT_NO) VALUES(?,?,?,?,?)";
+		String sql = "INSERT INTO TB_TEACHER(TEACHER_NO,TEACHER_NAME,CREATE_TIME,ROLE,DEPT_NO) VALUES(?,?,?,?,?)";
 		try {
 			conn = DBUtil.getConnection();
 			prestat = conn.prepareStatement(sql);

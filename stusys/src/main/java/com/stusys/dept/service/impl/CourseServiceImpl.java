@@ -9,6 +9,7 @@ import com.stusys.dept.dao.CourseDao;
 import com.stusys.dept.dao.TeacherCourseDao;
 import com.stusys.dept.service.CourseService;
 import com.stusys.dept.service.TeacherCourseService;
+import com.stusys.dept.service.TeacherService;
 import com.stusys.page.Page;
 
 /**
@@ -22,6 +23,8 @@ public class CourseServiceImpl implements CourseService, TeacherCourseService {
 	private CourseDao courseDao = new CourseDao();
 
 	private TeacherCourseDao teacherCourseDao = new TeacherCourseDao();
+	
+	private TeacherService teacherService = new TeacherServiceImpl();
 
 	/**
 	 * 添加课程信息
@@ -121,7 +124,9 @@ public class CourseServiceImpl implements CourseService, TeacherCourseService {
 	 */
 	@Override
 	public List<TeacherCourse> queryTCByParameters(TeacherCourse teaCourse, Page page) {
-		return teacherCourseDao.select(teaCourse, page);
+		List<TeacherCourse> teacherCourseList = teacherCourseDao.select(teaCourse, page);
+		queryCourseByTC(teacherCourseList);
+		return teacherCourseList;
 	}
 
 	/**
@@ -160,6 +165,22 @@ public class CourseServiceImpl implements CourseService, TeacherCourseService {
 			teacherCourseList = teacherCourseDao.select(teacherCourse, page);
 		}
 		return teacherCourseList;
+	}
+
+	@Override
+	public int countTC(TeacherCourse teacherCourse) {
+		return teacherCourseDao.count(teacherCourse);
+	}
+	
+	private List<TeacherCourse> queryCourseByTC(List<TeacherCourse> teacherCourseList){
+		if(teacherCourseList != null && !teacherCourseList.isEmpty()) {
+			for(TeacherCourse teacherCourse : teacherCourseList) {
+				teacherCourse.setCourse(queryByCourseNo(teacherCourse.getCourse().getCourseNo()));
+				teacherCourse.setTeacher(teacherService.queryTeacherByNo(teacherCourse.getTeacher().getTeacherNo()));
+			}
+		}
+		return teacherCourseList;
+		
 	}
 
 }

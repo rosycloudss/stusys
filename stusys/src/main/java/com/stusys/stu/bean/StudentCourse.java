@@ -11,7 +11,6 @@ import com.stusys.dept.bean.TeacherCourse;
  */
 public class StudentCourse {
 	private long scNo;//学生选课编号
-	private String stuNo;//学号
 	private Student student = new Student();//学生信息
 	private long tcNo;//教师授课编号
 	private long scoreNo;//学生成绩编号
@@ -27,18 +26,6 @@ public class StudentCourse {
 	 */
 	public void setScNo(long scNo) {
 		this.scNo = scNo;
-	}
-	/**
-	 * @return the stuNo
-	 */
-	public String getStuNo() {
-		return stuNo;
-	}
-	/**
-	 * @param stuNo the stuNo to set
-	 */
-	public void setStuNo(String stuNo) {
-		this.stuNo = stuNo;
 	}
 	/**
 	 * @return the tcNo
@@ -64,12 +51,9 @@ public class StudentCourse {
 	public void setScoreNo(long scoreNo) {
 		this.scoreNo = scoreNo;
 	}
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
-		return "StudentCourse [scNo=" + scNo + ", stuNo=" + stuNo + ", tcNo=" + tcNo + ", scoreNo=" + scoreNo + "]";
+		return "StudentCourse [scNo=" + scNo + ", student=" + student + ", tcNo=" + tcNo + ", scoreNo=" + scoreNo
+				+ ", score=" + score + "]";
 	}
-	
 }

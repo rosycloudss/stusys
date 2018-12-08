@@ -21,7 +21,7 @@ import com.stusys.stu.bean.Student;
  * @author liwei
  *
  */
-@WebFilter(urlPatterns = { "/student/index.jsp", "/student/scrore-table.jsp", "/student/student-info.jsp" })
+@WebFilter(urlPatterns = { "/index.jsp", "/student/scrore-table.jsp", "/student/student-info.jsp" })
 public class StudentLoginFilter implements Filter {
 
 	@Override

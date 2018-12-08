@@ -20,7 +20,7 @@ public class DBUtil {
 	// 数据库实例密码
 	static String password = "1759840027";
 	// 数据库实例连接地址
-	static String url = "jdbc:oracle:thin:@123.207.171.28:1521:stusys";
+	static String url = "jdbc:oracle:thin:@localhost:1521:orcl";
 	// 数据库驱动
 	static String driver = "oracle.jdbc.driver.OracleDriver";
 

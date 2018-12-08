@@ -39,7 +39,24 @@ public class DepartmentAndMajorServiceImpl implements DepartmentService, MajorSe
 
 	@Override
 	public List<Major> queryMajorByParameters(Major major, Page page) {
-		return majorDao.select(major, page);
+		List<Major> majorList = majorDao.select(major, page);
+		if (majorList != null && !majorList.isEmpty()) {
+			for (Major m : majorList) {
+				m.setDept(queryDepartByNo(m.getDept().getDeptNo()));
+			}
+		}
+		return majorList;
+	}
+
+	@Override
+	public List<Major> queryMajorByDeptNo(Integer deptNo, Page page) {
+		List<Major> majorList = new ArrayList<Major>();
+		if (deptNo != null) {
+			Major major = new Major();
+			major.getDept().setDeptNo(deptNo);
+			majorList = queryMajorByParameters(major, page);
+		}
+		return majorList;
 	}
 
 	@Override
@@ -66,19 +83,30 @@ public class DepartmentAndMajorServiceImpl implements DepartmentService, MajorSe
 		return 0;
 	}
 
+	@Override
+	public Department queryDepartByNo(Integer deptNo) {
+		if (deptNo != null) {
+			Department dept = new Department();
+			dept.setDeptNo(deptNo);
+			List<Department> deptList = queryDepartByParamenters(dept, null);
+			if (deptList != null && !deptList.isEmpty()) {
+				return deptList.get(0);
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * 通过院系属性查找院系信息
 	 */
 	@Override
 	public List<Department> queryDepartByParamenters(Department dept, Page page) {
 		List<Department> departmentList = new ArrayList<Department>();
-		if (dept != null) {
-			departmentList = departmentDao.select(dept, page);
-			for (Department department : departmentList) {
-				Major major = new Major();
-				major.setDept(department);
-				department.getMajors().addAll(queryMajorByParameters(major, null));
-			}
+		departmentList = departmentDao.select(dept, page);
+		for (Department department : departmentList) {
+			Major major = new Major();
+			major.setDept(department);
+			department.getMajors().addAll(majorDao.select(major, null));
 		}
 		return departmentList;
 	}

@@ -48,15 +48,18 @@
 			href="javascript:location.replace(location.href);" title="刷新"><i
 			class="Hui-iconfont">&#xe68f;</i></a>
 	</nav>
+	<!-- 
+	
 	<div class="cl pd-5 bg-1 bk-gray mt-20">
 		<span class="l"><button onclick="show_table1()"
 				class="btn btn-danger radius">
 				<i class="Hui-iconfont">&#xe6e2;</i> 学籍信息
 			</button>
 			<button class="btn btn-primary radius" onclick="show_table2()">
-				<i class="Hui-iconfont">&#xe600;</i> 申请修改
+				<i class="Hui-iconfont">&#xe600;</i> 修改个人信息
 			</button></span>
 	</div>
+	 -->
 
 	<div class="page-container" id="tabPage1">
 		<table style="width: 95%" align="center"
@@ -126,6 +129,7 @@
 		</table>
 	</div>
 
+	<!-- 
 	<div id="tabPage2" class="ajax_container">
 		<form action="" method="post" class="form form-horizontal"
 			id="form-member-add">
@@ -171,6 +175,7 @@
 			</div>
 		</form>
 	</div>
+	 -->
 
 	<!--_footer 作为公共模版分离出去-->
 	<script type="text/javascript" src="../lib/jquery/1.9.1/jquery.min.js"></script>

@@ -107,7 +107,7 @@ public class MajorDao {
 	public List<Major> select(Major major, Page page) {
 		List<Major> majorList = new ArrayList<Major>();
 		StringBuffer sql = new StringBuffer(
-				"SELECT MAJOR_NO,MAJOR_NAME,DEPT_NO,CREATE_TIME,LEN_OF_SCHOOL,TYPE,TEACHER_NO FROM TB_TEACHER WHERE 1=1");
+				"SELECT MAJOR_NO,MAJOR_NAME,DEPT_NO,CREATE_TIME,LEN_OF_SCHOOL,TYPE,TEACHER_NO FROM TB_MAJOR WHERE 1=1");
 		if (major != null) {
 			if (major.getMajorNo() != 0) {
 				sql.append(" AND MAJOR_NO=?");

@@ -73,7 +73,7 @@ public class StudentServiceImpl implements StudentService {
 	 */
 	public List<Student> query(Student stu, Page page) {
 		List<Student> stuList = new ArrayList<Student>();
-		stuList.addAll(query(stu, page));
+		stuList.addAll(stuDao.select(stu, page));
 		return stuList;
 	}
 

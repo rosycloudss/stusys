@@ -18,7 +18,6 @@ public class ClassInfo {
 	private String className;//班级名称
 	private Student monitor = new Student();//班长信息
 	private Teacher teacher = new Teacher();//班主任信息
-	private Set<Student> studentSet = new HashSet<Student>(); //班级学生信息
 	/**
 	 * @return the classNo
 	 */

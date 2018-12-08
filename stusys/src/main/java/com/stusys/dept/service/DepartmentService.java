@@ -14,4 +14,6 @@ public interface DepartmentService {
 	int updateDepartment(Department dept);
 	
 	List<Department> queryDepartByParamenters(Department dept,Page page);
+	
+	public Department queryDepartByNo(Integer deptNo);
 }

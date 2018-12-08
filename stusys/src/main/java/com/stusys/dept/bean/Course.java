@@ -13,12 +13,11 @@ public class Course {
 	private long courseNo;//课程编号
 	private String courseName;//课程名称
 	private String courseDescription;//课程描述
-	private Major major;//专业信息
+	private Major major = new Major();//专业信息
 	private float credt;//学分
 	private int classHour;//学时
 	private String courseType;//课程种类
 	private int lock = -1;//锁 1.已上锁 0.未上锁
-	private Set<Teacher> teacherSet = new HashSet<Teacher>();
 	/**
 	 * @return the courseNo
 	 */
@@ -115,26 +114,12 @@ public class Course {
 	public void setLock(int lock) {
 		this.lock = lock;
 	}
-	/**
-	 * @return the teacherSet
-	 */
-	public Set<Teacher> getTeacherSet() {
-		return teacherSet;
-	}
-	/**
-	 * @param teacherSet the teacherSet to set
-	 */
-	public void setTeacherSet(Set<Teacher> teacherSet) {
-		this.teacherSet = teacherSet;
-	}
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
+	
 	@Override
 	public String toString() {
 		return "Course [courseNo=" + courseNo + ", courseName=" + courseName + ", courseDescription="
 				+ courseDescription + ", major=" + major + ", credt=" + credt + ", classHour=" + classHour
-				+ ", courseType=" + courseType + ", lock=" + lock + ", teacherSet=" + teacherSet + "]";
+				+ ", courseType=" + courseType + ", lock=" + lock + "]";
 	}
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
@@ -151,7 +136,6 @@ public class Course {
 		result = prime * result + Float.floatToIntBits(credt);
 		result = prime * result + lock;
 		result = prime * result + ((major == null) ? 0 : major.hashCode());
-		result = prime * result + ((teacherSet == null) ? 0 : teacherSet.hashCode());
 		return result;
 	}
 	/* (non-Javadoc)
@@ -184,11 +168,6 @@ public class Course {
 			if (other.major != null)
 				return false;
 		} else if (!major.equals(other.major))
-			return false;
-		if (teacherSet == null) {
-			if (other.teacherSet != null)
-				return false;
-		} else if (!teacherSet.equals(other.teacherSet))
 			return false;
 		return true;
 	} 

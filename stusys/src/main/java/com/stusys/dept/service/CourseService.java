@@ -17,7 +17,6 @@ public interface CourseService {
 
 	List<Course> queryByCourseName(String courseName,Page page);
 
-
 	List<Course> queryByParamenters(Course course, Page page);
 
 }
