@@ -70,114 +70,15 @@
 				</dt>
 				<dd>
 					<ul>
-						<li><a data-href="student/student-info.jsp" data-title="学籍信息"
+						<li><a data-href="<%=request.getContextPath()%>/student/student-info.jsp" data-title="学籍信息"
 							href="javascript:void(0)">学籍信息</a></li>
 						<li><a data-href="" data-title="我的课表"
 							href="javascript:void(0)">我的课表</a></li>
 						<li><a
-							data-href="<%=request.getContextPath()%>/student/course/list"
+							data-href="<%=request.getContextPath()%>/teacher_course?flag=query&role=student"
 							data-title="选课" href="javascript:void(0)">选课</a></li>
 						<li><a data-href="score-table.jsp" data-title="我的成绩"
 							href="javascript:void(0)">我的成绩</a></li>
-					</ul>
-				</dd>
-			</dl>
-		</div>
-		<div class="menu_dropdown bk_2">
-			<dl id="menu-member">
-				<dt>
-					<i class="Hui-iconfont">&#xe616;</i> 学生管理<i
-						class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
-				</dt>
-				<dd>
-					<ul>
-						<li><a data-href="<%=request.getContextPath()%>/student?flag=query" data-title="学生列表"
-							href="javascript:void(0)">学生列表</a></li>
-						<li><a
-							data-href="<%=request.getContextPath()%>/student/add-student.jsp"
-							data-title="添加学生" href="javascript:void(0)">添加学生</a></li>
-					</ul>
-				</dd>
-			</dl>
-			<dl id="menu-picture">
-				<dt>
-					<i class="Hui-iconfont">&#xe613;</i> 教师管理<i
-						class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
-				</dt>
-				<dd>
-					<ul>
-						<li><a data-href="<%=request.getContextPath()%>/teacher?flag=query" data-title="教师列表"
-							href="javascript:void(0)">教师列表</a></li>
-						<li><a data-href="<%=request.getContextPath()%>/teacher/add-teacher.jsp" data-title="添加教师"
-							href="javascript:void(0)">添加教师</a></li>
-					</ul>
-				</dd>
-			</dl>
-			<dl id="menu-product">
-				<dt>
-					<i class="Hui-iconfont">&#xe620;</i> 课程管理<i
-						class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
-				</dt>
-				<dd>
-					<ul>
-						<li><a data-href="<%=request.getContextPath()%>/course/add-course.jsp" data-title="添加课程"
-							href="javascript:void(0)">添加课程</a></li>
-						<li><a data-href="<%=request.getContextPath()%>/course?flag=query" data-title="课程列表"
-							href="javascript:void(0)">课程列表</a></li>
-					</ul>
-				</dd>
-			</dl>
-			<dl id="menu-comments">
-				<dt>
-					<i class="Hui-iconfont">&#xe622;</i> 院系管理<i
-						class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
-				</dt>
-				<dd>
-					<ul>
-						<li><a data-href="http://h-ui.duoshuo.com/admin/"
-							data-title="院系列表" href="javascript:;">院系列表</a></li>
-						<li><a data-href="feedback-list.html" data-title="添加院系"
-							href="javascript:void(0)">添加院系</a></li>
-					</ul>
-				</dd>
-			</dl>
-			<dl id="menu-member">
-				<dt>
-					<i class="Hui-iconfont">&#xe60d;</i> 会员管理<i
-						class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
-				</dt>
-				<dd>
-					<ul>
-						<li><a data-href="member-list.html" data-title="会员列表"
-							href="javascript:;">会员列表</a></li>
-						<li><a data-href="member-del.html" data-title="删除的会员"
-							href="javascript:;">删除的会员</a></li>
-						<li><a data-href="member-level.html" data-title="等级管理"
-							href="javascript:;">等级管理</a></li>
-						<li><a data-href="member-scoreoperation.html"
-							data-title="积分管理" href="javascript:;">积分管理</a></li>
-						<li><a data-href="member-record-browse.html"
-							data-title="浏览记录" href="javascript:void(0)">浏览记录</a></li>
-						<li><a data-href="member-record-download.html"
-							data-title="下载记录" href="javascript:void(0)">下载记录</a></li>
-						<li><a data-href="member-record-share.html" data-title="分享记录"
-							href="javascript:void(0)">分享记录</a></li>
-					</ul>
-				</dd>
-			</dl>
-			<dl id="menu-admin">
-				<dt>
-					<i class="Hui-iconfont">&#xe62d;</i> 管理员管理<i
-						class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
-				</dt>
-				<dd>
-					<ul>
-						<li><a data-href="admin-role.html" data-title="角色管理"
-							href="javascript:void(0)">角色管理</a></li>
-						<li><a data-href="admin-permission.html" data-title="权限管理"
-							href="javascript:void(0)">权限管理</a></li>
-						<li><a data-href="admin-list.html" data-title="管理员列表"
-							href="javascript:void(0)">管理员列表</a></li>
 					</ul>
 				</dd>
 			</dl>
@@ -191,7 +92,7 @@
 		<div id="Hui-tabNav" class="Hui-tabNav hidden-xs">
 			<div class="Hui-tabNav-wp">
 				<ul id="min_title_list" class="acrossTab cl">
-					<li class="active"><span title="我的桌面" data-href="welcome.html">我的桌面</span>
+					<li class="active"><span title="我的桌面" data-href="welcome.html">首页</span>
 						<em></em></li>
 				</ul>
 			</div>
@@ -205,7 +106,7 @@
 		<div id="iframe_box" class="Hui-article">
 			<div class="show_iframe">
 				<div style="display: none" class="loading"></div>
-				<iframe scrolling="yes" frameborder="0" src="welcome.html"></iframe>
+				<iframe scrolling="yes" frameborder="0" src="<%=request.getContextPath()%>/home.html"></iframe>
 			</div>
 		</div>
 	</section>

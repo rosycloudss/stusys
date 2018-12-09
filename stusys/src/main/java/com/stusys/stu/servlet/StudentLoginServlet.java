@@ -57,10 +57,10 @@ public class StudentLoginServlet extends HttpServlet {
 				servletContext.setAttribute("onlineStudentList", loginStudentList);
 			}
 			loginStudentList.add(stu);
-			response.sendRedirect(request.getContextPath() + "/index.jsp");
+			response.sendRedirect(request.getContextPath() + "/student/index.jsp");
 		}else {
 			session.setAttribute("tip", "密码或账号错误！");
-			response.sendRedirect(request.getContextPath() + "/login.jsp");
+			response.sendRedirect(request.getContextPath() + "/student/login.jsp");
 		}
 	}
 

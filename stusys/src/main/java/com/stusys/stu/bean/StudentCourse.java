@@ -1,6 +1,5 @@
 package com.stusys.stu.bean;
 
-import com.stusys.dept.bean.Course;
 import com.stusys.dept.bean.TeacherCourse;
 
 /**
@@ -10,50 +9,75 @@ import com.stusys.dept.bean.TeacherCourse;
  * @description 学生选课信息
  */
 public class StudentCourse {
-	private long scNo;//学生选课编号
-	private Student student = new Student();//学生信息
-	private long tcNo;//教师授课编号
-	private long scoreNo;//学生成绩编号
-	private Score score = new Score();//学生选课成绩
+	private long scNo;// 学生选课编号
+	private String stuNo;// 学生学号
+	private TeacherCourse tc = new TeacherCourse();// 教师授课信息
+	private Score score = new Score();// 学生选课成绩
+
 	/**
 	 * @return the scNo
 	 */
 	public long getScNo() {
 		return scNo;
 	}
+
 	/**
 	 * @param scNo the scNo to set
 	 */
 	public void setScNo(long scNo) {
 		this.scNo = scNo;
 	}
+
 	/**
-	 * @return the tcNo
+	 * @return the stuNo
 	 */
-	public long getTcNo() {
-		return tcNo;
+	public String getStuNo() {
+		return stuNo;
 	}
+
 	/**
-	 * @param tcNo the tcNo to set
+	 * @param stuNo the stuNo to set
 	 */
-	public void setTcNo(long tcNo) {
-		this.tcNo = tcNo;
+	public void setStuNo(String stuNo) {
+		this.stuNo = stuNo;
 	}
+
 	/**
-	 * @return the scoreNo
+	 * @return the tc
 	 */
-	public long getScoreNo() {
-		return scoreNo;
+	public TeacherCourse getTc() {
+		return tc;
 	}
+
 	/**
-	 * @param scoreNo the scoreNo to set
+	 * @param tc the tc to set
 	 */
-	public void setScoreNo(long scoreNo) {
-		this.scoreNo = scoreNo;
+	public void setTc(TeacherCourse tc) {
+		this.tc = tc;
 	}
+
+	/**
+	 * @return the score
+	 */
+	public Score getScore() {
+		return score;
+	}
+
+	/**
+	 * @param score the score to set
+	 */
+	public void setScore(Score score) {
+		this.score = score;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
-		return "StudentCourse [scNo=" + scNo + ", student=" + student + ", tcNo=" + tcNo + ", scoreNo=" + scoreNo
-				+ ", score=" + score + "]";
+		return "StudentCourse [scNo=" + scNo + ", stuNo=" + stuNo + ", tc=" + tc + ", score=" + score + "]";
 	}
+
 }

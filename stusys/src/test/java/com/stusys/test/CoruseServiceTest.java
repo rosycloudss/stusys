@@ -18,9 +18,17 @@ public class CoruseServiceTest {
 
 //		System.out.println(courseService.queryByCourseNo(241));
 //		System.out.println(courseService.queryByParamenters(null, null));
-		System.out.println(courseService.queryTCByParameters(null, null));
+//		System.out.println(courseService.queryTCByParameters(null, null));
 		
 //		System.out.println();
+		
+		
+		course.setClassHour(32);
+		course.setCourseDescription("........");
+		course.setCourseName("操作系统");
+		course.setCourseType("工科");
+		course.getMajor().setMajorNo(24);
+		System.out.println(courseService.add(course));
 	}
 
 }

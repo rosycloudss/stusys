@@ -20,6 +20,8 @@ public interface TeacherCourseService {
 	
 	public List<TeacherCourse> queryTCByCourseInfo(String courseName,Long courseNo, Page page);
 	
+	public TeacherCourse queryTCByTCNo(long tcNo);
+	
 	public int countTC(TeacherCourse teacherCourse);
 	
 }

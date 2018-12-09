@@ -32,7 +32,7 @@ public class CourseDao {
 	 */
 	public int add(Course course) {
 		int affectColums = 0;
-		String sql = "INSERT INTO TB_COURSE(CURSE_NO,COURSE_NAME,COURSE_DESCRIPTION,MAJOR_NO,CREDIT,CLASS_HOUR,COURSE_TYPE,LOCK) VALUES(SEQ_COURSE,?,?,?,?,?,?,?) ";
+		String sql = "INSERT INTO TB_COURSE(COURSE_NO,COURSE_NAME,COURSE_DESCRIPTION,MAJOR_NO,CREDIT,CLASS_HOUR,COURSE_TYPE) VALUES(SEQ_COURSE.nextval,?,?,?,?,?,?) ";
 		try {
 			conn = DBUtil.getConnection();
 			prestat = conn.prepareStatement(sql);
@@ -44,7 +44,6 @@ public class CourseDao {
 			prestat.setFloat(4, course.getCredt());
 			prestat.setInt(5, course.getClassHour());
 			prestat.setString(6, course.getCourseType());
-			prestat.setInt(7, course.getLock());
 			affectColums = prestat.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println("添加课程信息失败！" + e);
@@ -67,6 +66,7 @@ public class CourseDao {
 			conn = DBUtil.getConnection();
 			prestat = conn.prepareStatement(sql);
 			prestat.setLong(1, courseNo);
+			affectColums = prestat.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println("删除课程信息失败！" + e);
 		} finally {
@@ -83,7 +83,7 @@ public class CourseDao {
 	 */
 	public int update(Course course) {
 		int affectColums = 0;
-		String sql = "UPDATE TB_COURSE SET COURSE_NAME=?,COURSE_DESCRIPTION=?,MAJOR_NO=?,CREDIT=?,CLASS_HOUR=?,COURSE_TYPE=?,LOCK=? WHERE COURSE_NO=? ";
+		String sql = "UPDATE TB_COURSE SET COURSE_NAME=?,COURSE_DESCRIPTION=?,MAJOR_NO=?,CREDIT=?,CLASS_HOUR=?,COURSE_TYPE=? WHERE COURSE_NO=? ";
 		try {
 			conn = DBUtil.getConnection();
 			prestat = conn.prepareStatement(sql);
@@ -93,8 +93,7 @@ public class CourseDao {
 			prestat.setFloat(4, course.getCredt());
 			prestat.setInt(5, course.getClassHour());
 			prestat.setString(6, course.getCourseType());
-			prestat.setInt(7, course.getLock());
-			prestat.setLong(8, course.getCourseNo());
+			prestat.setLong(7, course.getCourseNo());
 			affectColums = prestat.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println("修改课程信息失败！" + e);

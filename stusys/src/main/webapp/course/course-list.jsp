@@ -18,12 +18,12 @@
 	id="skin" />
 <link rel="stylesheet" type="text/css"
 	href="<%=request.getContextPath()%>/static/h-ui.admin/css/style.css" />
-<title>教师列表</title>
+<title>课程列表</title>
 </head>
 <body>
 	<nav class="breadcrumb">
 		<i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
-		教师列表 <a class="btn btn-success radius r"
+		课程列表 <a class="btn btn-success radius r"
 			style="line-height: 1.6em; margin-top: 3px"
 			href="javascript:location.replace(location.href);" title="刷新"><i
 			class="Hui-iconfont">&#xe68f;</i></a>
@@ -34,24 +34,28 @@
 				class="table table-border table-bordered table-hover table-bg ">
 				<thead>
 					<tr class="text-c">
-						<th width="100">教师编号</th>
-						<th width="80">姓名</th>
-						<th width="30">院系</th>
-						<th width="30">职位</th>
-						<th width="100">操作</th>
+						<th width="100">课程编号</th>
+						<th width="40">课程名称</th>
+						<th width="80">简介</th>
+						<th width="20">专业</th>
+						<th width="10">学分</th>
+						<th width="10">学时</th>
+						<th width="70">操作</th>
 					</tr>
 				</thead>
 				<tbody>
-					<c:if test="${teacherList != null }">
-						<c:forEach items="${teacherList }" var="teacher">
+					<c:if test="${courseList != null }">
+						<c:forEach items="${courseList }" var="course">
 							<tr class="text-c">
-								<td>${teacher.getTeacherNo() }</td>
-								<td>${teacher.getTeacherName() }</td>
-								<td>${teacher.getRoleStr() }</td>
-								<td>${teacher.getDepat().getDeptName() }</td>
+								<td>${course.getCourseNo() }</td>
+								<td>${course.getCourseName() }</td>
+								<td>${course.getCourseDescription() }</td>
+								<td>${course.getMajor().getMajorName() }</td>
+								<td>${course.getCredt() }</td>
+								<td>${course.getClassHour() }</td>
 								<td><a class="btn btn-success radius"
 									href="">查看</a>
-									<a class="btn btn-success radius" onclick="teacher_del(this,${teacher.getTeacherNo() })" style="background: red;">删除</a></td>
+									<a class="btn btn-success radius" onclick="course_del(this,${course.getCourseNo() })" style="background: red;">删除</a></td>
 							</tr>
 						</c:forEach>
 					</c:if>
@@ -62,12 +66,12 @@
 	
 	
 	<script type="text/javascript">
-	/*教师-删除*/
-	function teacher_del(obj,teacherNo){
+	/*课程-删除*/
+	function course_del(obj,courseNo){
 		layer.confirm('确认要删除吗？',function(index){
 			$.ajax({
 				type: 'POST',
-				url: 'http://localhost:8080/stusys/teacher?flag=delete&teacherNo='+teacherNo,
+				url: 'http://localhost:8080/stusys/course?flag=delete&courseNo='+courseNo,
 				dataType: 'json',
 				success: function(data){
 					if(data.delResult > 0){

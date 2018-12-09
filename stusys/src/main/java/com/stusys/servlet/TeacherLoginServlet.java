@@ -1,4 +1,4 @@
-package com.stusys.stu.servlet;
+package com.stusys.servlet;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class StudentSelectCourseServlet
+ * Servlet implementation class TeacherLoginServlet
  */
-@WebServlet("/student/course")
-public class StudentSelectCourseServlet extends HttpServlet {
+@WebServlet("/teacher/login")
+public class TeacherLoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public StudentSelectCourseServlet() {
+    public TeacherLoginServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -26,8 +26,8 @@ public class StudentSelectCourseServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String flag = request.getParameter("flag");
-		if("select".equals(flag));
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**

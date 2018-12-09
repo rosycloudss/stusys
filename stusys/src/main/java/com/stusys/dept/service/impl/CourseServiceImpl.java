@@ -125,7 +125,7 @@ public class CourseServiceImpl implements CourseService, TeacherCourseService {
 	@Override
 	public List<TeacherCourse> queryTCByParameters(TeacherCourse teaCourse, Page page) {
 		List<TeacherCourse> teacherCourseList = teacherCourseDao.select(teaCourse, page);
-		queryCourseByTC(teacherCourseList);
+		queryCourseAndTeacherByTC(teacherCourseList);
 		return teacherCourseList;
 	}
 
@@ -172,7 +172,7 @@ public class CourseServiceImpl implements CourseService, TeacherCourseService {
 		return teacherCourseDao.count(teacherCourse);
 	}
 	
-	private List<TeacherCourse> queryCourseByTC(List<TeacherCourse> teacherCourseList){
+	private List<TeacherCourse> queryCourseAndTeacherByTC(List<TeacherCourse> teacherCourseList){
 		if(teacherCourseList != null && !teacherCourseList.isEmpty()) {
 			for(TeacherCourse teacherCourse : teacherCourseList) {
 				teacherCourse.setCourse(queryByCourseNo(teacherCourse.getCourse().getCourseNo()));
@@ -181,6 +181,17 @@ public class CourseServiceImpl implements CourseService, TeacherCourseService {
 		}
 		return teacherCourseList;
 		
+	}
+
+	@Override
+	public TeacherCourse queryTCByTCNo(long tcNo) {
+		TeacherCourse tc = new TeacherCourse();
+		tc.setTcNo(tcNo);
+		List<TeacherCourse> tcList = queryTCByParameters(tc, null);
+		if(tcList != null && !tcList.isEmpty()) {
+			return tcList.get(0);
+		}
+		return null;
 	}
 
 }

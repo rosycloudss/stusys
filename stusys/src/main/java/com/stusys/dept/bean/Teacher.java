@@ -8,6 +8,7 @@ package com.stusys.dept.bean;
  */
 public class Teacher {
 	private String teacherNo;// 教师编号
+	private String password;//教师登录密码
 	private String teacherName;// 教师名称
 	private Department depat = new Department();// 院系信息
 	private long createTime;// 创建时间
@@ -25,6 +26,14 @@ public class Teacher {
 	 */
 	public void setTeacherNo(String teacherNo) {
 		this.teacherNo = teacherNo;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	/**
@@ -92,15 +101,15 @@ public class Teacher {
 		return "";
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	
+
+	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "Teacher [teacherNo=" + teacherNo + ", teacherName=" + teacherName + ", depat=" + depat + ", createTime="
-				+ createTime + ", role=" + role + "]";
+		return "Teacher [teacherNo=" + teacherNo + ", password=" + password + ", teacherName=" + teacherName
+				+ ", depat=" + depat + ", createTime=" + createTime + ", role=" + role + "]";
 	}
 
 	/*
