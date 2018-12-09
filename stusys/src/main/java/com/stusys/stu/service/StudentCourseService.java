@@ -16,4 +16,7 @@ public interface StudentCourseService {
 	List<StudentCourse> queryStudentCourse(StudentCourse sc,Page page);
 	
 	List<StudentCourse> queryStudentCourse(String stuNo,Page page);
+	
+	StudentCourse queryStudentCourse(long scNo);
+	
 }

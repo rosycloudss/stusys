@@ -42,26 +42,28 @@
 						<th width="20">学分</th>
 						<th width="20">学时</th>
 						<th width="40">种类</th>
+						<th width="50">学期</th>
 						<th width="70">上课地点</th>
 						<th width="40">人数</th>
 						<th width="100">操作</th>
 					</tr>
 				</thead>
 				<tbody>
-					<c:if test="${teacherCourseList != null}">
-						<c:forEach items="${teacherCourseList}" var="teacherCourse">
+					<c:if test="${scList != null}">
+						<c:forEach items="${scList}" var="sc">
 							<tr class="text-c">
-								<td>${teacherCourse.getCourse().getCourseNo() }</td>
-								<td>${teacherCourse.getCourse().getCourseName() }</td>
-								<td>${teacherCourse.getCourse().getCourseDescription() }</td>
-								<td>${teacherCourse.getCourse().getMajor().getMajorName() }</td>
-								<td>${teacherCourse.getTeacher().getTeacherName() }</td>
-								<td>${teacherCourse.getCourse().getCredt() }</td>
-								<td>${teacherCourse.getCourse().getClassHour() }</td>
-								<td>${teacherCourse.getCourse().getCourseType() }</td>
-								<td>${teacherCourse.getTeachAddressTime() }</td>
-								<td>${teacherCourse.getSelectNum() }/${teacherCourse.getStudentNum() }</td>
-								<td><a href="#" onclick="course_select(this,${student.getStuNo() },${teacherCourse.getTcNo() })" class="btn btn-success radius">选择</a></td>
+								<td>${sc.getTc().getCourse().getCourseNo() }</td>
+								<td>${sc.getTc().getCourse().getCourseName() }</td>
+								<td>${sc.getTc().getCourse().getCourseDescription() }</td>
+								<td>${sc.getTc().getCourse().getMajor().getMajorName() }</td>
+								<td>${sc.getTc().getTeacher().getTeacherName() }</td>
+								<td>${sc.getTc().getCourse().getCredt() }</td>
+								<td>${sc.getTc().getCourse().getClassHour() }</td>
+								<td>${sc.getTc().getCourse().getCourseType() }</td>
+								<td>${sc.getTc().getSemester() }</td>
+								<td>${sc.getTc().getTeachAddressTime() }</td>
+								<td>${sc.getTc().getSelectNum() }/${sc.getTc().getStudentNum() }</td>
+								<td><a href="#" onclick="stu_course_del(this,${sc.getScNo() })" class="btn btn-success radius">退课</a></td>
 							</tr>
 						</c:forEach>
 					</c:if>
@@ -71,32 +73,26 @@
 	</div>
 	
 	<script type="text/javascript">
-	/*学生-选课*/
-	function course_select(obj,stuNo,tcNo){
-		if(obj.text == '选择'){
-			layer.confirm('确认要选择吗？',function(index){
-				$.ajax({
-					type: 'POST',
-					url: 'http://localhost:8080/stusys/student/course?flag=select&stuNo='+stuNo+'&tcNo='+tcNo,
-					dataType: 'json',
-					success: function(data){
-						if(data.select > 0){
-							layer.msg('选择成功!',{icon:1,time:1000});
-							obj.text='已选择';
-						}else if(data.select == 0){
-							layer.msg('选择失败!',{icon:0,time:1000});
-						}else {
-							layer.msg('你已选择该课程!',{icon:1,time:1000});
-							obj.text='已选择';
-						}
-					}, 
-					error:function(data) {
-						console.log(data.msg);
-					},
-				});		
-			});
-		}
-		
+	/*学生-退课*/
+	function stu_course_del(obj,scNo){
+		layer.confirm('确认要退课吗？',function(index){
+			$.ajax({
+				type: 'POST',
+				url: 'http://localhost:8080/stusys/student/course?flag=del&scNo='+scNo,
+				dataType: 'json',
+				success: function(data){
+					if(data.delResult > 0){
+						$(obj).parent("td").parents("tr").remove();
+						layer.msg('退课成功!',{icon:1,time:1000});
+					}else{
+						layer.msg('退课失败!',{icon:0,time:1000});
+					}
+				}, 
+				error:function(data) {
+					console.log(data.msg);
+				},
+			});				
+		});
 	}
 	</script>
 	<!--_footer 作为公共模版分离出去-->

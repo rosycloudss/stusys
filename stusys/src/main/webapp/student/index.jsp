@@ -33,10 +33,9 @@
 					<ul class="cl">
 						<li>超级管理员</li>
 						<li class="dropDown dropDown_hover"><a href="#"
-							class="dropDown_A">admin <i class="Hui-iconfont">&#xe6d5;</i></a>
+							class="dropDown_A">欢迎你 ${student.getName() } <i class="Hui-iconfont">&#xe6d5;</i></a>
 							<ul class="dropDown-menu menu radius box-shadow">
-								<li><a href="javascript:;" onclick="myselfinfo()">个人信息</a></li>
-								<li><a href="#">切换账户</a></li>
+								<li><a data-href="<%=request.getContextPath()%>/student/student-info.jsp" data-title="学籍信息" href="javascript:;" onclick="myselfinfo()">个人信息</a></li>
 								<li><a href="#">退出</a></li>
 							</ul></li>
 						<li id="Hui-msg"><a href="#" title="消息"><span
@@ -72,12 +71,12 @@
 					<ul>
 						<li><a data-href="<%=request.getContextPath()%>/student/student-info.jsp" data-title="学籍信息"
 							href="javascript:void(0)">学籍信息</a></li>
-						<li><a data-href="" data-title="我的课表"
+						<li><a data-href="<%=request.getContextPath()%>/student/course?flag=query&flag1=cl&stuNo=${student.getStuNo() }" data-title="我的课表"
 							href="javascript:void(0)">我的课表</a></li>
 						<li><a
 							data-href="<%=request.getContextPath()%>/teacher_course?flag=query&role=student"
 							data-title="选课" href="javascript:void(0)">选课</a></li>
-						<li><a data-href="score-table.jsp" data-title="我的成绩"
+						<li><a data-href="<%=request.getContextPath()%>/student/course?flag=query&flag1=sl&stuNo=${student.getStuNo() }" data-title="我的成绩"
 							href="javascript:void(0)">我的成绩</a></li>
 					</ul>
 				</dd>

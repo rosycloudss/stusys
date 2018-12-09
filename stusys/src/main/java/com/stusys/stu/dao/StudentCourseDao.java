@@ -30,7 +30,7 @@ public class StudentCourseDao {
 	 * @return
 	 */
 	public int add(StudentCourse stuCourse) {
-		String sql = "INSERT INTO TB_STUDENT_COURSE(SC_NO,STU_NO,TC_NO,SCORE_NO) VALUSES(SEQ_SC.nextval,?,?,?)";
+		String sql = "INSERT INTO TB_STUDENT_COURSE(SC_NO,STU_NO,TC_NO,SCORE_NO) VALUES(SEQ_SC.nextval,?,?,?)";
 		int affectColums = 0;
 		try {
 			conn = DBUtil.getConnection();
@@ -54,7 +54,7 @@ public class StudentCourseDao {
 	 * @return
 	 */
 	public int delete(long scNo) {
-		String sql = "DELETE FROM TB_STUDENT_COURSE WERHE SC_NO=?";
+		String sql = "DELETE FROM TB_STUDENT_COURSE WHERE SC_NO=?";
 		int affectColums = 0;
 		try {
 			conn = DBUtil.getConnection();
@@ -76,7 +76,7 @@ public class StudentCourseDao {
 	 * @return
 	 */
 	public List<StudentCourse> select(StudentCourse sc, Page page) {
-		StringBuffer sql = new StringBuffer("SELECT SC_NO,STU_NO,TC_NO,SCORE_NO FROM TB_STUDENT_COURSE WEHRE 1=1 ");
+		StringBuffer sql = new StringBuffer("SELECT SC_NO,STU_NO,TC_NO,SCORE_NO FROM TB_STUDENT_COURSE WHERE 1=1 ");
 		List<StudentCourse> scList = new ArrayList<>();
 		if (sc != null) {
 			if (sc.getScNo() != 0) {
@@ -118,7 +118,7 @@ public class StudentCourseDao {
 			rs = prestat.executeQuery();
 			scList = rowMapper(rs);
 		} catch (SQLException e) {
-			System.out.println("查询学生选课信息失败！");
+			System.out.println("查询学生选课信息失败！" + e);
 		} finally {
 			DBUtil.close(rs, prestat, conn);
 		}

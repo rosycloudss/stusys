@@ -38,7 +38,8 @@ public class StudentCourseServiceImpl implements StudentCourseService{
 	public List<StudentCourse> queryStudentCourse(StudentCourse sc, Page page) {
 		List<StudentCourse> scList = scDao.select(sc, page);
 		if(scList != null && !scList.isEmpty()) {
-			for(StudentCourse stuCourse : scList) {
+			for(int i = 0;i < scList.size();i++) {
+				StudentCourse stuCourse = scList.get(i);
 				if(stuCourse.getScore() != null) {
 					stuCourse.setScore(scoreDao.select(stuCourse.getScore().getScoreNo()));
 				}
@@ -47,14 +48,27 @@ public class StudentCourseServiceImpl implements StudentCourseService{
 				}
 			}
 		}
-		return scDao.select(sc, page);
+		return scList;
 	}
+	
+	
 
 	@Override
 	public List<StudentCourse> queryStudentCourse(String stuNo, Page page) {
 		StudentCourse sc = new StudentCourse();
 		sc.setStuNo(stuNo);
 		return queryStudentCourse(sc, page);
+	}
+
+	@Override
+	public StudentCourse queryStudentCourse(long scNo) {
+		StudentCourse sc = new StudentCourse();
+		sc.setScNo(scNo);
+		List<StudentCourse> scList = queryStudentCourse(sc, null);
+		if(scList != null && !scList.isEmpty()) {
+			return scList.get(0);
+		}
+		return null;
 	}
 
 
