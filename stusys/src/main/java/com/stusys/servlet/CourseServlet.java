@@ -107,6 +107,7 @@ public class CourseServlet extends HttpServlet {
 		String courseName = request.getParameter("courseName");
 		String major = request.getParameter("major");
 		String courseNo = request.getParameter("courseNo");
+		String flag1 = request.getParameter("flag1");
 		Course course = null;
 		if (courseName != null && major != null) {
 			course = new Course();
@@ -118,7 +119,12 @@ public class CourseServlet extends HttpServlet {
 		if (courseNo != null) {// 如果课程编号不为null则查询单个课程信息，并跳转到修改课程界面
 			course = courseService.queryByCourseNo(Long.parseLong(courseNo));
 			request.setAttribute("course", course);
-			request.getRequestDispatcher("/course/update-course.jsp").forward(request, response);
+			System.out.println(flag1);
+			if ("select".equals(flag1)) {//如何flag1等于select则跳转到到教师选课界面
+				request.getRequestDispatcher("/teacher/course-select.jsp").forward(request, response);
+			} else {
+				request.getRequestDispatcher("/course/update-course.jsp").forward(request, response);
+			}
 		} else {// 如果课程编号为null则按照courseName，major查询课程信息，并跳转到课程列表界面
 			List<Course> courseList = courseService.queryByParamenters(course, null);
 			request.setAttribute("courseList", courseList);

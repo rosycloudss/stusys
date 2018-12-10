@@ -1,6 +1,7 @@
 package com.stusys.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson.JSONObject;
 import com.stusys.dept.bean.TeacherCourse;
 import com.stusys.dept.service.TeacherCourseService;
 import com.stusys.dept.service.impl.CourseServiceImpl;
@@ -36,10 +38,50 @@ public class TeacherCourseServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		String flag = request.getParameter("flag");
+		System.out.println(flag);
 		if ("query".equals(flag)) {
 			queryTeacherCourse(request, response);
+		}else if("add".equals(flag)) {
+			addTeacherCourse(request, response);
 		}
 
+	}
+	/**
+	 * 添加教师授课信息
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 */
+	public void addTeacherCourse(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		TeacherCourseService tcs = new CourseServiceImpl();
+		String courseNo = request.getParameter("courseNo");
+		String teacherNo = request.getParameter("teacherNo");
+		String semester = request.getParameter("semester");
+		String teachTime = request.getParameter("teachTime");
+		String teachAddress = request.getParameter("teachAddress");
+		String studentNum = request.getParameter("studentNum");
+		System.out.println(courseNo);
+		int addResult = 0;
+		System.out.println(semester);
+		System.out.println(teacherNo);
+		//组装TeacherCourse并添加教师授课信息
+		if(courseNo != null && teacherNo != null) {
+			TeacherCourse tc = new TeacherCourse();
+			tc.getCourse().setCourseNo(Long.parseLong(courseNo));
+			tc.setSemester(semester);
+			tc.getTeacher().setTeacherNo(teacherNo);
+			tc.setStudentNum(Integer.parseInt(studentNum));
+			tc.setTeachAddressTime(teachAddress+ " " + teachTime); 
+			addResult = tcs.addTC(tc);
+		}
+		
+		JSONObject jsonResult = new JSONObject();
+		jsonResult.put("addResult", addResult);
+		response.setContentType("application/json;charset=utf-8");// 指定返回的格式为JSON格式
+		response.setCharacterEncoding("UTF-8");
+		PrintWriter out = response.getWriter();
+		out.println(jsonResult); // 利用json返回删除结果
+		out.flush();
 	}
 
 	/**

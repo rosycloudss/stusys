@@ -6,14 +6,12 @@ import com.stusys.dept.service.TeacherCourseService;
 import com.stusys.dept.service.impl.CourseServiceImpl;
 import com.stusys.page.Page;
 import com.stusys.stu.bean.StudentCourse;
-import com.stusys.stu.dao.ScoreDao;
 import com.stusys.stu.dao.StudentCourseDao;
 import com.stusys.stu.service.StudentCourseService;
 
 public class StudentCourseServiceImpl implements StudentCourseService{
 
 	StudentCourseDao scDao = new StudentCourseDao();
-	ScoreDao scoreDao = new ScoreDao();
 	TeacherCourseService teacherCourseService = new CourseServiceImpl();
 	
 	@Override
@@ -40,9 +38,6 @@ public class StudentCourseServiceImpl implements StudentCourseService{
 		if(scList != null && !scList.isEmpty()) {
 			for(int i = 0;i < scList.size();i++) {
 				StudentCourse stuCourse = scList.get(i);
-				if(stuCourse.getScore() != null) {
-					stuCourse.setScore(scoreDao.select(stuCourse.getScore().getScoreNo()));
-				}
 				if(stuCourse.getTc() != null) {
 					stuCourse.setTc(teacherCourseService.queryTCByTCNo(stuCourse.getTc().getTcNo()));
 				}

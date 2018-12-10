@@ -15,8 +15,8 @@ public class StudentCourseServiceTest {
 	public void test() {
 		StudentCourseService scs = new StudentCourseServiceImpl();
 		List<StudentCourse> scList = scs.queryStudentCourse((StudentCourse) null, null);
-		System.out.println(scList.get(0).getTc());
-		
+//		System.out.println(scList.get(0).getTc());
+		System.out.println();
 	}
 
 }

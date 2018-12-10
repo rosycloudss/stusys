@@ -2,6 +2,7 @@ package com.stusys.stu.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -96,7 +97,16 @@ public class StudentCourseServlet extends HttpServlet {
 		String stuNo = request.getParameter("stuNo");
 		String scNo = request.getParameter("scNo");
 		String flag1 = request.getParameter("flag1");
-
+		String currenSemester = request.getParameter("semester");
+		
+		//判断request中是否有学期信息，没有则从session中获取，有则替换session中的学期信息
+		if(currenSemester == null) {
+			currenSemester = (String) request.getSession().getAttribute("currentSemester");
+		}else {
+			request.getSession().setAttribute("currentSemester",currenSemester);
+		}
+		
+		List<StudentCourse> scList = new ArrayList<StudentCourse>();
 		if (tcNo != null || stuNo != null) {
 			StudentCourse sc = new StudentCourse();
 			if (tcNo != null) {
@@ -105,7 +115,7 @@ public class StudentCourseServlet extends HttpServlet {
 			if (stuNo != null) {
 				sc.setStuNo(stuNo);
 			}
-			List<StudentCourse> scList = scs.queryStudentCourse(sc, null);
+			scList = scs.queryStudentCourse(sc, null);
 			request.setAttribute("scList", scList);
 		}
 		if (scNo != null) {
@@ -115,6 +125,14 @@ public class StudentCourseServlet extends HttpServlet {
 		if ("cl".equals(flag1)) {// cl表示学生选课列表
 			request.getRequestDispatcher("/student/student-course-list.jsp").forward(request, response);// 跳转到学生选课信息表
 		} else if ("sl".equals(flag1)) {// sl表示学生成绩列表
+			for(int i =0;i < scList.size();i++) { //过滤掉成绩为-1 的
+				if(scList.get(i).getScore().getScore() != -1f) {
+					scList.remove(i);
+				}else if(!scList.get(i).getTc().getSemester().equals(currenSemester)){//过滤掉与当前学期不符合的
+					scList.remove(i);
+				}
+				
+			}
 			request.getRequestDispatcher("/student/score-list.jsp").forward(request, response);// 跳转到学生成绩列表
 		}
 

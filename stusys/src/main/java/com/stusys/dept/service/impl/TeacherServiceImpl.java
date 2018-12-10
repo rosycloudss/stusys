@@ -41,6 +41,9 @@ public class TeacherServiceImpl implements TeacherService {
 		return teacherDao.count(teacher);
 	}
 
+	/**
+	 * 通过教师属性查找教师信息，Page表示当前页面信息
+	 */
 	@Override
 	public List<Teacher> queryTeacher(Teacher teacher, Page page) {
 		List<Teacher> teacherList = teacherDao.select(teacher, page);
@@ -58,11 +61,31 @@ public class TeacherServiceImpl implements TeacherService {
 		return teacherList;
 	}
 
+	/**
+	 * 通过教师编号查找教师信息
+	 */
 	@Override
 	public Teacher queryTeacherByNo(String teacherNo) {
 		if (teacherNo != null) {
 			Teacher teacher = new Teacher();
 			teacher.setTeacherNo(teacherNo);
+			List<Teacher> teacherList = queryTeacher(teacher, null);
+			if(teacherList != null && !teacherList.isEmpty()) {
+				return teacherList.get(0);
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * 通过教师编号和密码查找教师信息，如何查不到则返回null
+	 */
+	@Override
+	public Teacher queryTeacher(String teacherNo, String password) {
+		if(teacherNo != null && password != null) {
+			Teacher teacher = new Teacher();
+			teacher.setTeacherNo(teacherNo);
+			teacher.setPassword(password);
 			List<Teacher> teacherList = queryTeacher(teacher, null);
 			if(teacherList != null && !teacherList.isEmpty()) {
 				return teacherList.get(0);

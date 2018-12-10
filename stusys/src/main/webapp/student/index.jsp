@@ -31,16 +31,12 @@
 				<nav id="Hui-userbar"
 					class="nav navbar-nav navbar-userbar hidden-xs">
 					<ul class="cl">
-						<li>超级管理员</li>
+						<li>学生</li>
 						<li class="dropDown dropDown_hover"><a href="#"
 							class="dropDown_A">欢迎你 ${student.getName() } <i class="Hui-iconfont">&#xe6d5;</i></a>
 							<ul class="dropDown-menu menu radius box-shadow">
 								<li><a data-href="<%=request.getContextPath()%>/student/student-info.jsp" data-title="学籍信息" href="javascript:;" onclick="myselfinfo()">个人信息</a></li>
 								<li><a href="#">退出</a></li>
-							</ul></li>
-						<li id="Hui-msg"><a href="#" title="消息"><span
-								class="badge badge-danger">1</span><i class="Hui-iconfont"
-								style="font-size: 18px">&#xe68a;</i></a></li>
 						<li id="Hui-skin" class="dropDown right dropDown_hover"><a
 							href="javascript:;" class="dropDown_A" title="换肤"><i
 								class="Hui-iconfont" style="font-size: 18px">&#xe62a;</i></a>

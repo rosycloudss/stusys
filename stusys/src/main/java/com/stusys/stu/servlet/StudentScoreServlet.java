@@ -1,31 +1,23 @@
-package com.stusys.servlet;
+package com.stusys.stu.servlet;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class LogoutServlet
+ * Servlet implementation class StudentScoreServlet
  */
-/**
- * 
- * @author LIWEI
- * @time 2018年12月9日下午6:51:12
- * @description:退出登录
- */
-@WebServlet("/logout")
-public class LogoutServlet extends HttpServlet {
+@WebServlet("/student/score")
+public class StudentScoreServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LogoutServlet() {
+    public StudentScoreServlet() {
         super();
     }
 
@@ -33,16 +25,14 @@ public class LogoutServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		session.removeAttribute("student");
-		session.removeAttribute("teacher");
-		request.getRequestDispatcher("/" + request.getContextPath() + "/student/login.jsp").forward(request, response);
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

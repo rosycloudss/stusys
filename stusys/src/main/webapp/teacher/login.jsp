@@ -18,11 +18,11 @@
 <div class="header"></div>
 <div class="loginWraper">
   <div id="loginform" class="loginBox">
-    <form class="form form-horizontal" action=" <%=request.getContextPath() %>/student/loginServlet" method="post">
+    <form class="form form-horizontal" action=" <%=request.getContextPath() %>/teacher/login" method="post">
       <div class="row cl">
         <label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60d;</i></label>
         <div class="formControls col-xs-8"> 
-          <input id="" name="teacherNo" type="text" placeholder="学号" class="input-text size-L">
+          <input id="" name="teacherNo" type="text" placeholder="教师编号" class="input-text size-L">
         </div>
       </div>
       <div class="row cl">

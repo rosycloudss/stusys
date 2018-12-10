@@ -1,19 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page isELIgnored="false"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE HTML>
 <html>
 <head>
 <meta charset="utf-8">
 <link rel="stylesheet" type="text/css"
-	href="../static/h-ui/css/H-ui.min.css" />
+	href="<%=request.getContextPath() %>/static/h-ui/css/H-ui.min.css" />
 <link rel="stylesheet" type="text/css"
-	href="../static/h-ui.admin/css/H-ui.admin.css" />
+	href="<%=request.getContextPath() %>/static/h-ui.admin/css/H-ui.admin.css" />
 <link rel="stylesheet" type="text/css"
-	href="../lib/Hui-iconfont/1.0.8/iconfont.css" />
+	href="<%=request.getContextPath() %>/lib/Hui-iconfont/1.0.8/iconfont.css" />
 <link rel="stylesheet" type="text/css"
-	href="../static/h-ui.admin/skin/default/skin.css" id="skin" />
+	href="<%=request.getContextPath() %>/static/h-ui.admin/skin/default/skin.css" id="skin" />
 <link rel="stylesheet" type="text/css"
-	href="../static/h-ui.admin/css/style.css" />
+	href="<%=request.getContextPath() %>/static/h-ui.admin/css/style.css" />
 <title>我的课表</title>
 </head>
 <body>
@@ -26,30 +28,26 @@
 			class="Hui-iconfont">&#xe68f;</i></a>
 	</nav>
 	<div class="page-container">
-		<div align="center">
-			日期范围： <input type="text"
-				onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'logmax\')||\'%y-%M-%d\'}' })"
-				placeholder="起始时间" id="logmin" class="input-text Wdate"
-				style="width: 120px;"> - <input type="text"
-				onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'logmin\')}',maxDate:'%y-%M-%d' })"
-				placeholder="结束时间" id="logmax" class="input-text Wdate"
-				style="width: 120px;">
-			<button name="" id="" class="btn btn-success" type="submit">
-				<i class="Hui-iconfont">&#xe665;</i> 确认
-			</button>
+		<div  align="center">
+			<form action="<%=request.getContextPath()%>/student/course?flag=query&flag1=sl&stuNo=${student.getStuNo() }">
+				<select name="semester" style="height: 30px;">
+					<c:forEach items="${semesterList }" var="semester">
+						<option value="${semester }" ${semester==currentSemester?"selected":"" } >${semester }</option>
+					</c:forEach>
+				</select>
+				<input name="" id="" class="btn btn-success" type="submit" value="切换学期">
+			</form>
 		</div>
 		<div class="cl pd-5 bg-1 bk-gray mt-20">
-			<span style="margin-left: 10px;" class="l">学号：20162430211</span> <span
-				style="margin-left: 10px;" class="l">姓名：李伟 </span> <span
-				style="margin-left: 10px;" class="1">班级：软件工程(卓越工程师)一班</span>
+			<span style="margin-left: 10px;" class="l">学号：${student.getStuNo() }</span> <span
+				style="margin-left: 10px;" class="l">姓名：${student.getName() } </span> 
 			<div class="mt-20">
 				<table
 					class="table table-border table-bordered table-bg table-hover table-sort table-responsive">
 					<thead>
 						<tr>
 							<th width="10%">学年学期</th>
-							<th width="10%">课程代码</th>
-							<th width="10%">课程序号</th>
+							<th width="10%">课程编号</th>
 							<th width="20%">课程名称</th>
 							<th width="14%">课程类别</th>
 							<th width="9%">学分</th>
@@ -58,126 +56,36 @@
 						</tr>
 
 					</thead>
-
-					<tbody id="grid11563218371_data">
-						<tr>
-							<td>2017-2018 2</td>
-							<td>225043</td>
-							<td></td>
-							<td>大学物理实验A(II)</td>
-							<td>必修课</td>
-							<td>1.5</td>
-							<td style="">81</td>
-							<td>3.2</td>
-						</tr>
-						<tr>
-							<td>2017-2018 2</td>
-							<td>243202</td>
-							<td>24320201</td>
-							<td>面向对象原理与语言</td>
-							<td>必修课</td>
-							<td>4</td>
-							<td style="">84</td>
-							<td>3.2</td>
-						</tr>
-						<tr>
-							<td>2017-2018 2</td>
-							<td>243203</td>
-							<td>24320301</td>
-							<td>计算机网络原理与技术</td>
-							<td>必修课</td>
-							<td>5</td>
-							<td style="">82</td>
-							<td>3.2</td>
-						</tr>
-						<tr>
-							<td>2017-2018 2</td>
-							<td>243325</td>
-							<td>24332501</td>
-							<td>数据库技术与应用</td>
-							<td>必修课</td>
-							<td>3</td>
-							<td>88</td>
-							<td>3.7</td>
-						</tr>
-						<tr>
-							<td>2017-2018 2</td>
-							<td>391503</td>
-							<td>39150322</td>
-							<td>毛泽东思想和中国特色社会主义理论体系概论 (下)</td>
-							<td>必修课</td>
-							<td>3</td>
-							<td style="">88</td>
-							<td>3.7</td>
-						</tr>
-						<tr>
-							<td>2017-2018 2</td>
-							<td>371019</td>
-							<td></td>
-							<td>大学英语读写（IV）</td>
-							<td>必修课</td>
-							<td>2</td>
-							<td style="">67</td>
-							<td>1.7</td>
-						</tr>
-						<tr>
-							<td>2017-2018 2</td>
-							<td>371024</td>
-							<td></td>
-							<td>大学英语听说（Ⅳ）</td>
-							<td>必修课</td>
-							<td>1</td>
-							<td style="">60</td>
-							<td>1.2</td>
-						</tr>
-						<tr>
-							<td>2017-2018 2</td>
-							<td>491004</td>
-							<td>491004.28</td>
-							<td>体育（IV）</td>
-							<td>必修课</td>
-							<td>1</td>
-							<td style="">78</td>
-							<td>2.7</td>
-						</tr>
-						<tr>
-							<td>2017-2018 2</td>
-							<td>391014</td>
-							<td>39101425</td>
-							<td>马克思主义基本原理</td>
-							<td>必修课</td>
-							<td>3</td>
-							<td style="">78</td>
-							<td>2.7</td>
-						</tr>
-						<tr>
-							<td>2017-2018 2</td>
-							<td>242310</td>
-							<td>24231001</td>
-							<td>软件工程概论</td>
-							<td>必修课</td>
-							<td>2</td>
-							<td style="">85</td>
-							<td>3.7</td>
-						</tr>
+					<tbody>
+					<c:forEach items="${scList }" var="sc">
+						<tr class="text-c">
+								<td>${sc.getTc().getSemester() }</td>
+								<td>${sc.getTc().getCourse().getCourseNo() }</td>
+								<td>${sc.getTc().getCourse().getCourseName() }</td>
+								<td>${sc.getTc().getCourse().getCourseType() }</td>
+								<td>${sc.getTc().getCourse().getCredt() }</td>
+								<td>${sc.getScore().getScore() }
+								<td>${sc.getScore().getGradePoint() }</td>
+							</tr>
+					</c:forEach>
 					</tbody>
 				</table>
 			</div>
 		</div>
 	</div>
 	<!--_footer 作为公共模版分离出去-->
-	<script type="text/javascript" src="../lib/jquery/1.9.1/jquery.min.js"></script>
-	<script type="text/javascript" src="../lib/layer/2.4/layer.js"></script>
-	<script type="text/javascript" src="../static/h-ui/js/H-ui.min.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath() %>/lib/jquery/1.9.1/jquery.min.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath() %>/lib/layer/2.4/layer.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath() %>/static/h-ui/js/H-ui.min.js"></script>
 	<script type="text/javascript"
-		src="../static/h-ui.admin/js/H-ui.admin.js"></script>
+		src="<%=request.getContextPath() %>/static/h-ui.admin/js/H-ui.admin.js"></script>
 	<!--/_footer 作为公共模版分离出去-->
 
 	<!--请在下方写此页面业务相关的脚本-->
 	<script type="text/javascript"
-		src="../lib/My97DatePicker/4.8/WdatePicker.js"></script>
+		src="<%=request.getContextPath() %>/lib/My97DatePicker/4.8/WdatePicker.js"></script>
 	<script type="text/javascript"
 		src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
-	<script type="text/javascript" src="../lib/laypage/1.2/laypage.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath() %>/lib/laypage/1.2/laypage.js"></script>
 </body>
 </html>

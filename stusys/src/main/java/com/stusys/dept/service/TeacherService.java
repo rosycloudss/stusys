@@ -14,6 +14,8 @@ public interface TeacherService {
 	int updateTeacher(Teacher teacher);
 
 	int countTeacher(Teacher teacher);
+	
+	Teacher queryTeacher(String teacherNo,String password);
 
 	List<Teacher> queryTeacher(Teacher teacher, Page page);
 

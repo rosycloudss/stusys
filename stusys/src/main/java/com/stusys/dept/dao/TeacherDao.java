@@ -73,14 +73,15 @@ public class TeacherDao {
 	 */
 	public int update(Teacher teacher) {
 		int affectColums = 0;
-		String sql = "UPDATE TB_TEACHER SET TEACHER_NAME=?,ROLE=?,DEPT_NO=? WHERE TEACHER_NO=?";
+		String sql = "UPDATE TB_TEACHER SET TEACHER_NAME=?,ROLE=?,DEPT_NO=?,TEACHER_PASSWORD=? WHERE TEACHER_NO=?";
 		try {
 			conn = DBUtil.getConnection();
 			prestat = conn.prepareStatement(sql);
 			prestat.setString(1, teacher.getTeacherName());
 			prestat.setInt(2, teacher.getRole());
 			prestat.setInt(3, teacher.getDepat().getDeptNo());
-			prestat.setString(4, teacher.getTeacherNo());
+			prestat.setString(4, teacher.getPassword());
+			prestat.setString(5, teacher.getTeacherNo());
 			affectColums = prestat.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println("修改教师信息失败！" + e);

@@ -53,8 +53,9 @@
 								<td>${course.getMajor().getMajorName() }</td>
 								<td>${course.getCredt() }</td>
 								<td>${course.getClassHour() }</td>
-								<td><a class="btn btn-success radius"
-									href="">查看</a>
+								<td>
+								<a class="btn btn-success radius"
+									href="#" onclick="teacher_select('老师选课','<%=request.getContextPath()%>/course?flag=query&flag1=select&courseNo=${course.getCourseNo() }','','')">选课</a>
 									<a class="btn btn-success radius" onclick="course_del(this,${course.getCourseNo() })" style="background: red;">删除</a></td>
 							</tr>
 						</c:forEach>
@@ -87,7 +88,10 @@
 			});		
 		});
 	}
-	
+	/*老师-选课*/
+	function teacher_select(title,url,w,h){
+		layer_show(title,url,w,h);
+	}
 	</script>
 	
 	<!--_footer 作为公共模版分离出去-->

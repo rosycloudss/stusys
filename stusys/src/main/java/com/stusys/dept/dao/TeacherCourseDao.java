@@ -23,8 +23,6 @@ public class TeacherCourseDao {
 	private PreparedStatement prestat;
 	private ResultSet rs;
 
-
-
 	/**
 	 * 添加教师授课信息
 	 * 
@@ -33,7 +31,7 @@ public class TeacherCourseDao {
 	 */
 	public int add(TeacherCourse teaCourse) {
 		int affectColums = 0;
-		String sql = "INSERT INTO TB_TEACHER_COURSE(TC_NO,COURSE_NO,TEACHER_NO,SEMESTER,TEACH_ADDRESS_TIME,STUDENT_NUM,SELECT_NUM) VALUES(SEQ_TC,?,?,?,?,?,?)";
+		String sql = "INSERT INTO TB_TEACHER_COURSE(TC_NO,COURSE_NO,TEACHER_NO,SEMESTER,TEACH_ADDRESS_TIME,STUDENT_NUM,SELECT_NUM) VALUES(SEQ_TC.nextval,?,?,?,?,?,?)";
 		try {
 			conn = DBUtil.getConnection();
 			prestat = conn.prepareStatement(sql);
@@ -42,10 +40,10 @@ public class TeacherCourseDao {
 			prestat.setString(3, teaCourse.getSemester());
 			prestat.setString(4, teaCourse.getTeachAddressTime());
 			prestat.setInt(5, teaCourse.getStudentNum());
-			prestat.setInt(6, teaCourse.getSelectNum());
+			prestat.setInt(6, 0);
 			affectColums = prestat.executeUpdate();
 		} catch (SQLException e) {
-			System.out.println("添加教师授课信息失败");
+			System.out.println("添加教师授课信息失败" + e);
 		} finally {
 			DBUtil.close(null, prestat, conn);
 		}
@@ -116,7 +114,7 @@ public class TeacherCourseDao {
 			prestat.setString(2, teaCourse.getTeacher().getTeacherNo());
 			prestat.setString(3, teaCourse.getSemester());
 			prestat.setString(4, teaCourse.getTeachAddressTime());
-			prestat.setInt(5, teaCourse.getStudentNum());
+			prestat.setInt(5, teaCourse.getStudentNum() > 0 ? teaCourse.getStudentNum() : 0);
 			prestat.setInt(6, teaCourse.getSelectNum());
 			prestat.setLong(7, teaCourse.getTcNo());
 			affectColums = prestat.executeUpdate();
@@ -130,12 +128,14 @@ public class TeacherCourseDao {
 
 	/**
 	 * 查询教师授课信息个数
+	 * 
 	 * @param teaCourse
 	 * @return
 	 */
 	public int count(TeacherCourse teaCourse) {
 		return select(teaCourse, null).size();
 	}
+
 	public List<TeacherCourse> select(TeacherCourse teaCourse, Page page) {
 		List<TeacherCourse> teacherCourseList = new ArrayList<TeacherCourse>();
 		StringBuffer sql = new StringBuffer(
