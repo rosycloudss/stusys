@@ -13,9 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.stusys.dept.bean.Teacher;
-import com.stusys.dept.service.TeacherService;
-import com.stusys.dept.service.impl.TeacherServiceImpl;
+import com.stusys.bean.Teacher;
+import com.stusys.service.TeacherService;
+import com.stusys.service.impl.TeacherServiceImpl;
 
 /**
  * Servlet implementation class TeacherServlet

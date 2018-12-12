@@ -29,7 +29,7 @@
 	</nav>
 	<div class="page-container">
 		<div  align="center">
-			<form action="<%=request.getContextPath()%>/student/course?flag=query&flag1=sl&stuNo=${student.getStuNo() }">
+			<form action="<%=request.getContextPath()%>/student/course?flag=query&flag1=sl&stuNo=${student.getStuNo() }" method="post">
 				<select name="semester" style="height: 30px;">
 					<c:forEach items="${semesterList }" var="semester">
 						<option value="${semester }" ${semester==currentSemester?"selected":"" } >${semester }</option>

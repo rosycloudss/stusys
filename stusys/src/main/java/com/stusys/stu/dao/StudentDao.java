@@ -8,9 +8,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.stusys.dept.bean.Department;
-import com.stusys.dept.bean.Major;
-import com.stusys.dept.bean.Teacher;
+import com.stusys.bean.Department;
+import com.stusys.bean.Major;
+import com.stusys.bean.Teacher;
 import com.stusys.page.Page;
 import com.stusys.stu.bean.ClassInfo;
 import com.stusys.stu.bean.Student;

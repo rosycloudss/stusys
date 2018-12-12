@@ -12,9 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.stusys.dept.bean.Major;
-import com.stusys.dept.service.MajorService;
-import com.stusys.dept.service.impl.DepartmentAndMajorServiceImpl;
+import com.stusys.bean.Major;
+import com.stusys.service.MajorService;
+import com.stusys.service.impl.DepartmentAndMajorServiceImpl;
 
 /**
  * Servlet implementation class GetDepartmentsServlet

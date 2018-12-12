@@ -17,7 +17,7 @@
 	id="skin" />
 <link rel="stylesheet" type="text/css"
 	href="<%=request.getContextPath()%>/static/h-ui.admin/css/style.css" />
-<title>添加课程</title>
+<title>选择课程</title>
 <link
 	href="<%=request.getContextPath()%>/lib/webuploader/0.1.5/webuploader.css"
 	rel="stylesheet" type="text/css" />

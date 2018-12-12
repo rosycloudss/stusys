@@ -6,7 +6,7 @@ package com.stusys.stu.bean;
  * @description 学籍信息修改申请
  */
 
-import com.stusys.dept.bean.Teacher;
+import com.stusys.bean.Teacher;
 
 public class ApplyInfo {
 

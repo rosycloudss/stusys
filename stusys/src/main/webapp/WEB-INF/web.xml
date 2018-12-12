@@ -4,25 +4,5 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
-  <filter>
-  	<filter-name>SemesterFilter</filter-name>
-  	<display-name>SemesterFilter</display-name>
-  	<description></description>
-  	<filter-class>com.stusys.filter.SemesterFilter</filter-class>
-  </filter>
-  <filter-mapping>
-  	<filter-name>SemesterFilter</filter-name>
-  	<url-pattern>/SemesterFilter</url-pattern>
-  </filter-mapping>
-  <servlet>
-  	<servlet-name>GetSemesterServlet</servlet-name>
-  	<display-name>GetSemesterServlet</display-name>
-  	<description></description>
-  	<servlet-class>com.stusys.servlet.GetSemesterServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-  	<servlet-name>GetSemesterServlet</servlet-name>
-  	<url-pattern>/GetSemesterServlet</url-pattern>
-  </servlet-mapping>
   
 </web-app>

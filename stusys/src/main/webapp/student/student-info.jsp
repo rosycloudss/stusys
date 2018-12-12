@@ -48,18 +48,6 @@
 			href="javascript:location.replace(location.href);" title="刷新"><i
 			class="Hui-iconfont">&#xe68f;</i></a>
 	</nav>
-	<!-- 
-	
-	<div class="cl pd-5 bg-1 bk-gray mt-20">
-		<span class="l"><button onclick="show_table1()"
-				class="btn btn-danger radius">
-				<i class="Hui-iconfont">&#xe6e2;</i> 学籍信息
-			</button>
-			<button class="btn btn-primary radius" onclick="show_table2()">
-				<i class="Hui-iconfont">&#xe600;</i> 修改个人信息
-			</button></span>
-	</div>
-	 -->
 
 	<div class="page-container" id="tabPage1">
 		<table style="width: 95%" align="center"

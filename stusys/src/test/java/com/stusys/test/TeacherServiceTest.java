@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.stusys.dept.bean.Teacher;
-import com.stusys.dept.service.TeacherService;
-import com.stusys.dept.service.impl.TeacherServiceImpl;
+import com.stusys.bean.Teacher;
+import com.stusys.service.TeacherService;
+import com.stusys.service.impl.TeacherServiceImpl;
 import com.stusys.util.MD5Util;
 
 public class TeacherServiceTest {

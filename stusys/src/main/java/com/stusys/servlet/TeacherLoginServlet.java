@@ -8,9 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.stusys.dept.bean.Teacher;
-import com.stusys.dept.service.TeacherService;
-import com.stusys.dept.service.impl.TeacherServiceImpl;
+import com.stusys.bean.Teacher;
+import com.stusys.service.TeacherService;
+import com.stusys.service.impl.TeacherServiceImpl;
 import com.stusys.util.MD5Util;
 
 /**
@@ -43,9 +43,9 @@ public class TeacherLoginServlet extends HttpServlet {
 		}
 		if (teacher != null) {// 登录成功则跳转到教师首页
 			request.getSession().setAttribute("teacher", teacher);
-			request.getRequestDispatcher("/teacher/index.jsp").forward(request, response);
+			response.sendRedirect(request.getContextPath() + "/teacher/index.jsp");
 		} else { // 登录失败则跳转到教师登录界面
-			request.getRequestDispatcher("/teacher/login.jsp").forward(request, response);
+			response.sendRedirect(request.getContextPath() + "/login.jsp");
 		}
 
 	}

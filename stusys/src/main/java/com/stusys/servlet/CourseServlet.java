@@ -12,9 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.stusys.dept.bean.Course;
-import com.stusys.dept.service.CourseService;
-import com.stusys.dept.service.impl.CourseServiceImpl;
+import com.stusys.bean.Course;
+import com.stusys.service.CourseService;
+import com.stusys.service.impl.CourseServiceImpl;
 
 /**
  * Servlet implementation class CourseServlet

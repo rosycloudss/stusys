@@ -2,7 +2,7 @@ package com.stusys.test;
 
 import org.junit.Test;
 
-import com.stusys.dept.service.impl.DepartmentAndMajorServiceImpl;
+import com.stusys.service.impl.DepartmentAndMajorServiceImpl;
 
 public class DepartmentServiceTest {
 

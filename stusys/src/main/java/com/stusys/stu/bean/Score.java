@@ -1,8 +1,8 @@
 package com.stusys.stu.bean;
 
 public class Score {
-	private float score = -1f;// 分数
-	private float gradePoint = -1f;// 绩点
+	private float score = 0f;// 分数
+	private float gradePoint = 0f;// 绩点
 
 
 

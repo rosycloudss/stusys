@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
  * 
  * @author LIWEI
  * @time 2018年12月9日下午6:51:12
- * @description:退出登录
+ * @description:退出登录,清除登录学生和登录教师信息
  */
 @WebServlet("/logout")
 public class LogoutServlet extends HttpServlet {
@@ -36,7 +36,7 @@ public class LogoutServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		session.removeAttribute("student");
 		session.removeAttribute("teacher");
-		request.getRequestDispatcher("/" + request.getContextPath() + "/student/login.jsp").forward(request, response);
+		response.sendRedirect(request.getContextPath() + "/login.jsp");
 	}
 
 	/**

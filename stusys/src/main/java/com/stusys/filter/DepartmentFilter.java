@@ -13,9 +13,9 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.stusys.dept.bean.Department;
-import com.stusys.dept.service.DepartmentService;
-import com.stusys.dept.service.impl.DepartmentAndMajorServiceImpl;
+import com.stusys.bean.Department;
+import com.stusys.service.DepartmentService;
+import com.stusys.service.impl.DepartmentAndMajorServiceImpl;
 
 /**
  * 

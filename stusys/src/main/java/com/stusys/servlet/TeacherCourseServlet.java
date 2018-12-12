@@ -11,9 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSONObject;
-import com.stusys.dept.bean.TeacherCourse;
-import com.stusys.dept.service.TeacherCourseService;
-import com.stusys.dept.service.impl.CourseServiceImpl;
+import com.stusys.bean.TeacherCourse;
+import com.stusys.service.TeacherCourseService;
+import com.stusys.service.impl.CourseServiceImpl;
 
 /**
  * Servlet implementation class StudentCourseServlet
@@ -131,7 +131,10 @@ public class TeacherCourseServlet extends HttpServlet {
 			request.setAttribute("teacherCourseList", teacherCourseList);
 		}
 		if("teacher".equals(role)) {
-			
+			for(int i = 0;i < teacherCourseList.size();i++) {
+				teacherCourseList.get(i).setTeacher(null);
+			}
+			request.getRequestDispatcher("/teacher/teacher-course.jsp").forward(request, response);
 		}else if("student".equals(role)) {
 			request.getRequestDispatcher("/student/course-list.jsp").forward(request, response);
 		}

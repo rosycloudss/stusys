@@ -1,6 +1,6 @@
 package com.stusys.stu.bean;
 
-import com.stusys.dept.bean.Major;
+import com.stusys.bean.Major;
 
 /**
  * 

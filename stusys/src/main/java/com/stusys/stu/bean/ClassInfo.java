@@ -3,8 +3,8 @@ package com.stusys.stu.bean;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.stusys.dept.bean.Major;
-import com.stusys.dept.bean.Teacher;
+import com.stusys.bean.Major;
+import com.stusys.bean.Teacher;
 
 /**
  * 

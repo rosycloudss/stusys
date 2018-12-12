@@ -36,7 +36,7 @@
 							class="dropDown_A">欢迎你 ${student.getName() } <i class="Hui-iconfont">&#xe6d5;</i></a>
 							<ul class="dropDown-menu menu radius box-shadow">
 								<li><a data-href="<%=request.getContextPath()%>/student/student-info.jsp" data-title="学籍信息" href="javascript:;" onclick="myselfinfo()">个人信息</a></li>
-								<li><a href="#">退出</a></li>
+								<li><a href="<%=request.getContextPath()%>/logout">退出</a></li>
 						<li id="Hui-skin" class="dropDown right dropDown_hover"><a
 							href="javascript:;" class="dropDown_A" title="换肤"><i
 								class="Hui-iconfont" style="font-size: 18px">&#xe62a;</i></a>
@@ -87,7 +87,7 @@
 		<div id="Hui-tabNav" class="Hui-tabNav hidden-xs">
 			<div class="Hui-tabNav-wp">
 				<ul id="min_title_list" class="acrossTab cl">
-					<li class="active"><span title="我的桌面" data-href="welcome.html">首页</span>
+					<li class="active"><span title="我的桌面" data-href="home.html">首页</span>
 						<em></em></li>
 				</ul>
 			</div>

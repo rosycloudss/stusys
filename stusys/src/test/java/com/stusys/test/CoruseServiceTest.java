@@ -2,8 +2,8 @@ package com.stusys.test;
 
 import org.junit.Test;
 
-import com.stusys.dept.bean.Course;
-import com.stusys.dept.service.impl.CourseServiceImpl;
+import com.stusys.bean.Course;
+import com.stusys.service.impl.CourseServiceImpl;
 
 public class CoruseServiceTest {
 
