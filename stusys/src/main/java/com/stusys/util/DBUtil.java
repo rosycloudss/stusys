@@ -1,13 +1,20 @@
 package com.stusys.util;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Properties;
+
+import javax.sql.DataSource;
+
+import org.apache.commons.dbcp.BasicDataSourceFactory;
 
 /**
  * 数据库连接获取和释放工具类
+ * 数据库连接池
  * 
  * @author liwei
  * @date 2018年10月12日
@@ -15,20 +22,21 @@ import java.sql.Statement;
  * @projectName chapter01
  */
 public class DBUtil {
-	// 数据库实例用户名
-	static String user = "scott";
-	// 数据库实例密码
-	static String password = "1759840027";
-	// 数据库实例连接地址
-	static String url = "jdbc:oracle:thin:@localhost:1521:orcl";
-	// 数据库驱动
-	static String driver = "oracle.jdbc.driver.OracleDriver";
+	
+	// 创建数据源
+	private static DataSource dataSource = null;
 
 	static {
 		try {
-			Class.forName(driver);// 加载数据库驱动
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			// 加载dbcpconfig.properties配置文件
+			InputStream in = DBUtil.class.getClassLoader().getResourceAsStream("dbcpconfig.properties");
+			Properties prop = new Properties();
+			prop.load(in);
+			dataSource = BasicDataSourceFactory.createDataSource(prop);
+		} catch (IOException e) {
+			System.out.println("加载dbcpconfig.properties配置文件失败！" + e);
+		} catch (Exception e) {
+			System.out.println("创建数据源失败！" + e);
 		}
 	}
 
@@ -36,15 +44,10 @@ public class DBUtil {
 	 * 获取连接
 	 * 
 	 * @return
+	 * @throws SQLException 
 	 */
-	public static Connection getConnection() {
-		Connection conn = null;
-		try {
-			conn = DriverManager.getConnection(url, user, password);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return conn;
+	public static Connection getConnection() throws SQLException {
+		return dataSource.getConnection();
 	}
 
 	/**
@@ -65,7 +68,7 @@ public class DBUtil {
 	 * 
 	 * @param rs
 	 */
-	public static void close(ResultSet rs) {
+	private static void close(ResultSet rs) {
 		if (rs != null) {
 			try {
 				rs.close();
@@ -81,7 +84,7 @@ public class DBUtil {
 	 * 
 	 * @param stat
 	 */
-	public static void close(Statement stat) {
+	private static void close(Statement stat) {
 		if (stat != null) {
 			try {
 				stat.close();
@@ -97,7 +100,7 @@ public class DBUtil {
 	 * 
 	 * @param conn
 	 */
-	public static void close(Connection conn) {
+	private static void close(Connection conn) {
 		if (conn != null) {
 			try {
 				conn.close();
@@ -107,5 +110,5 @@ public class DBUtil {
 			}
 		}
 	}
-	
+
 }

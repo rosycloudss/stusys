@@ -9,7 +9,6 @@ public class CoruseServiceTest {
 
 	@Test
 	public void test() {
-		CourseServiceImpl courseService = new CourseServiceImpl();
 		
 
 		Course course = new Course();
@@ -18,17 +17,29 @@ public class CoruseServiceTest {
 
 //		System.out.println(courseService.queryByCourseNo(241));
 //		System.out.println(courseService.queryByParamenters(null, null));
-//		System.out.println(courseService.queryTCByParameters(null, null));
-		
+//		for (int i = 1; i <2; i++) {
+//			new Thread(new Runnable() {
+//
+//				@Override
+//				public void run() {
+//					System.out.println(Thread.currentThread().getName());
+//					CourseServiceImpl courseService = new CourseServiceImpl();
+//					// TODO Auto-generated method stub
+//					System.out.println(Thread.currentThread().getName() +  courseService.queryTCByParameters(null, null));
+//
+//				}
+//			},"thread-" + i).start();
+//			;
+//		}
+
 //		System.out.println();
-		
-		
-		course.setClassHour(32);
-		course.setCourseDescription("........");
-		course.setCourseName("操作系统");
-		course.setCourseType("工科");
-		course.getMajor().setMajorNo(24);
-		System.out.println(courseService.add(course));
+
+//		course.setClassHour(32);
+//		course.setCourseDescription("........");
+//		course.setCourseName("操作系统");
+//		course.setCourseType("工科");
+//		course.getMajor().setMajorNo(24);
+//		System.out.println(courseService.add(course));
 	}
 
 }
