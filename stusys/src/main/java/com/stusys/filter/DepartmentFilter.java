@@ -23,7 +23,7 @@ import com.stusys.service.impl.DepartmentAndMajorServiceImpl;
  * @time 2018年12月3日上午11:15:13
  * @description:检测session中是否含有院系信息，如果没有则查找院系信息，并存放在session中
  */
-@WebFilter(urlPatterns= {"/student/add-student.jsp","/student/update.jsp","/teacher/add-teacher.jsp"})
+@WebFilter("/*")
 public class DepartmentFilter implements Filter {
 
 	/**

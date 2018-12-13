@@ -6,10 +6,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.stusys.bean.Major;
+import com.stusys.bean.Student;
 import com.stusys.page.Page;
-import com.stusys.stu.bean.Student;
-import com.stusys.stu.service.StudentService;
-import com.stusys.stu.service.impl.StudentServiceImpl;
+import com.stusys.service.StudentService;
+import com.stusys.service.impl.StudentServiceImpl;
 import com.stusys.util.MD5Util;
 
 public class StudentServiceImplTest {

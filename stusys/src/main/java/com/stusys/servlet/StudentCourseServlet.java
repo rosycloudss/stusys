@@ -14,15 +14,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSONObject;
+import com.stusys.bean.StudentCourse;
 import com.stusys.bean.Teacher;
 import com.stusys.bean.TeacherCourse;
+import com.stusys.service.StudentCourseService;
+import com.stusys.service.StudentService;
 import com.stusys.service.TeacherCourseService;
 import com.stusys.service.impl.CourseServiceImpl;
-import com.stusys.stu.bean.StudentCourse;
-import com.stusys.stu.service.StudentCourseService;
-import com.stusys.stu.service.StudentService;
-import com.stusys.stu.service.impl.StudentCourseServiceImpl;
-import com.stusys.stu.service.impl.StudentServiceImpl;
+import com.stusys.service.impl.StudentCourseServiceImpl;
+import com.stusys.service.impl.StudentServiceImpl;
 
 /**
  * Servlet implementation class StudentSelectCourseServlet
@@ -109,6 +109,7 @@ public class StudentCourseServlet extends HttpServlet {
 				for(String str : entry.getValue()) {
 					sc.getScore().setScore(Float.parseFloat(str));
 				}
+				scs.updateStudentCourse(sc);
 			}
 		}
 		Teacher teacher = (Teacher) request.getSession().getAttribute("teacher");
@@ -132,14 +133,8 @@ public class StudentCourseServlet extends HttpServlet {
 		String flag1 = request.getParameter("flag1");
 		String currenSemester = request.getParameter("semester");
 
-		// 判断request中是否有学期信息，没有则从session中获取，有则替换session中的学期信息
-		if (currenSemester == null) {
-			currenSemester = (String) request.getSession().getAttribute("currentSemester");
-		} else {
-			request.getSession().setAttribute("currentSemester", currenSemester);
-		}
-
 		List<StudentCourse> scList = new ArrayList<StudentCourse>();
+		System.out.println(tcNo);
 		if (tcNo != null || stuNo != null) {
 			StudentCourse sc = new StudentCourse();
 			if (tcNo != null) {
@@ -148,6 +143,7 @@ public class StudentCourseServlet extends HttpServlet {
 			if (stuNo != null) {
 				sc.setStuNo(stuNo);
 			}
+			System.out.println(sc.getTc().getTcNo() + "----" + sc.getStuNo());
 			scList = scs.queryStudentCourse(sc, null);
 			request.setAttribute("scList", scList);
 		}
@@ -155,7 +151,6 @@ public class StudentCourseServlet extends HttpServlet {
 			StudentService stuService = new StudentServiceImpl();
 			TeacherCourseService tcService = new CourseServiceImpl();
 			request.setAttribute("teacherCourse", tcService.queryTCByTCNo(Long.parseLong(tcNo)));
-			System.out.println(tcService.queryTCByTCNo(Long.parseLong(tcNo)));
 			System.out.println(scList);
 			if (scList != null && !scList.isEmpty()) {
 				for (int i = 0; i < scList.size(); i++) {
@@ -175,14 +170,6 @@ public class StudentCourseServlet extends HttpServlet {
 			if ("cl".equals(flag1)) {// cl表示学生选课列表
 				request.getRequestDispatcher("/student/student-course-list.jsp").forward(request, response);// 跳转到学生选课信息表
 			} else if ("sl".equals(flag1)) {// sl表示学生成绩列表
-				for (int i = 0; i < scList.size(); i++) { // 过滤掉成绩为-1 的
-					if (scList.get(i).getScore().getScore() != -1f) {
-						scList.remove(i);
-					} else if (!scList.get(i).getTc().getSemester().equals(currenSemester)) {// 过滤掉与当前学期不符合的
-						scList.remove(i);
-					}
-				}
-				System.out.println(scList);
 				request.getRequestDispatcher("/student/score-list.jsp").forward(request, response);// 跳转到学生成绩列表
 			}
 		}

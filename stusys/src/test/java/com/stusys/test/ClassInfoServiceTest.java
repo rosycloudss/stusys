@@ -3,10 +3,10 @@ package com.stusys.test;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.stusys.bean.ClassInfo;
 import com.stusys.page.Page;
-import com.stusys.stu.bean.ClassInfo;
-import com.stusys.stu.service.ClassInfoService;
-import com.stusys.stu.service.impl.ClassInfoServiceImpl;
+import com.stusys.service.ClassInfoService;
+import com.stusys.service.impl.ClassInfoServiceImpl;
 
 public class ClassInfoServiceTest {
 	private ClassInfo classInfo;

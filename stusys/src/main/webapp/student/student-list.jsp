@@ -29,6 +29,13 @@
 			class="Hui-iconfont">&#xe68f;</i></a>
 	</nav>
 	<div class="page-container">
+		<div align="center">
+			<form action="<%=request.getContextPath()%>/student?flag=query" method="post">
+				<span>学号：</span><input type="text" class="input-text" style="width:120px;" name="stuNo">
+				<span>姓名：</span><input type="text" class="input-text" style="width:120px;" name="stuName">
+				<input name="" id="" class="btn btn-success" type="submit" value="搜索">
+			</form>
+		</div>
 		<div class="mt-20">
 			<table
 				class="table table-border table-bordered table-hover table-bg ">
@@ -49,7 +56,7 @@
 					<c:if test="${stuList != null }">
 						<c:forEach items="${stuList }" var="stu">
 							<tr class="text-c">
-								<td><a  href="<%=request.getContextPath()%>/student?flag=query&flag1=update&stuNo=${stu.getStuNo()}">${stu.getStuNo() }</a></td>
+								<td><a href="javascript:;"  onclick="student_edit('学生修改','http://localhost:8080/stusys/student?flag=query&flag1=update&stuNo=${stu.getStuNo()}','','510')">${stu.getStuNo() }</a></td>
 								<td>${stu.getName() }</td>
 								<td>${stu.getGender() }</td>
 								<td>${stu.getMajor().getMajorName() }</td>
@@ -58,8 +65,10 @@
 								<td>${stu.getStateStr() }</td>
 								<td>${stu.getEnterTime() }</td>
 								<td><a class="btn btn-success radius"
-									href="#" onclick="student_edit('学生修改','http://localhost:8080/stusys/student?flag=query&flag1=update&stuNo=${stu.getStuNo()}','','510')">查看</a>
-									<a class="btn btn-success radius" onclick="student_del(this,${stu.getStuNo() })" style="background: red;">删除</a></td>
+										href="javascript:;" onclick="student_edit('学生修改','http://localhost:8080/stusys/student?flag=query&flag1=update&stuNo=${stu.getStuNo()}','','510')">查看</a>
+								<c:if test="${teacher.getRole() == 2 }">
+								<a class="btn btn-success radius" onclick="student_del(this,${stu.getStuNo() })" style="background: red;">删除</a></td>
+								</c:if>
 							</tr>
 						</c:forEach>
 					</c:if>

@@ -16,6 +16,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.stusys.bean.Teacher;
 import com.stusys.service.TeacherService;
 import com.stusys.service.impl.TeacherServiceImpl;
+import com.stusys.util.MD5Util;
 
 /**
  * Servlet implementation class TeacherServlet
@@ -71,7 +72,7 @@ public class TeacherServlet extends HttpServlet {
 				Teacher teacher = new Teacher();
 				teacher.setTeacherNo("" + new Date().getTime());// 以添加时间作为教师的编号
 				teacherNo = teacher.getTeacherNo();
-
+				teacher.setPassword(MD5Util.MD5("123456"));
 				teacher.setTeacherName(teacherName);
 				teacher.getDepat().setDeptNo(Integer.parseInt(dept));
 				teacher.setRole(Integer.parseInt(role));

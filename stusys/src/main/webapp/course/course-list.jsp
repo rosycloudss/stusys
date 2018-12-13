@@ -56,7 +56,9 @@
 								<td>
 								<a class="btn btn-success radius"
 									href="#" onclick="teacher_select('老师选课','<%=request.getContextPath()%>/course?flag=query&flag1=select&courseNo=${course.getCourseNo() }','','')">选课</a>
+								<c:if test="${teacher.getRole() == 2 }">
 									<a class="btn btn-success radius" onclick="course_del(this,${course.getCourseNo() })" style="background: red;">删除</a></td>
+								</c:if>
 							</tr>
 						</c:forEach>
 					</c:if>

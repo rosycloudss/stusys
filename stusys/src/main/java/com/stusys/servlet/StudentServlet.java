@@ -12,9 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSONObject;
-import com.stusys.stu.bean.Student;
-import com.stusys.stu.service.StudentService;
-import com.stusys.stu.service.impl.StudentServiceImpl;
+import com.stusys.bean.Student;
+import com.stusys.service.StudentService;
+import com.stusys.service.impl.StudentServiceImpl;
 import com.stusys.util.MD5Util;
 
 /**
@@ -91,6 +91,7 @@ public class StudentServlet extends HttpServlet {
 		Student student = new Student();
 		int addCount = 0;
 		int updateCount = 0;
+		System.out.println("major =" + major);
 		if (stuName != null) {
 			student = new Student();
 			try {
@@ -168,7 +169,15 @@ public class StudentServlet extends HttpServlet {
 		StudentService stuService = new StudentServiceImpl();
 		
 		String stuNo = request.getParameter("stuNo");
-		int affectColums = stuService.delete(stuNo);
+		int delResult = stuService.delete(stuNo);
+		
+		JSONObject jsonnResult = new JSONObject();
+		jsonnResult.put("delResult", delResult);
+		response.setContentType("application/json;charset=utf-8");// 指定返回的格式为JSON格式
+		response.setCharacterEncoding("UTF-8");
+		PrintWriter out = response.getWriter();
+		out.println(jsonnResult); // 利用json返回删除结果
+		out.flush();
 
 	}
 
@@ -189,14 +198,13 @@ public class StudentServlet extends HttpServlet {
 		if ("update".equals(flag1)) {
 			Student stu = stuService.query(stuNo);
 			request.setAttribute("queryedStu", stu);
-			System.out.println(stu);
 			request.getRequestDispatcher("/student/student-update.jsp").forward(request, response);
 		} else {
 			Student student = new Student();
-			if (stuNo != null) {
+			if (stuNo != null && !stuNo.equals("")) {
 				student.setStuNo(stuNo);
 			}
-			if (stuName != null) {
+			if (stuName != null && !stuName.equals("")) {
 				student.setName(stuName);
 			}
 			List<Student> stuList = stuService.query(student, null);

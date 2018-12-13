@@ -53,7 +53,7 @@
 			<div class=leftloginBox>
 				<!-- 学生登录 -->
 				<form id="student_login" class="form form-horizontal" title="学生登录"
-					action=" <%=request.getContextPath()%>/student/loginServlet"
+					action=" <%=request.getContextPath()%>/studentLogin"
 					method="post">
 					<div class="row cl">
 						<label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60d;</i></label>
@@ -83,7 +83,7 @@
 			<div class="rightloginBox">
 				<!-- 教师登录 -->
 				<form id="teacher-login" class="form form-horizontal"
-					action=" <%=request.getContextPath()%>/teacher/login" method="post">
+					action=" <%=request.getContextPath()%>/teacherLogin" method="post">
 					<div class="row cl">
 						<label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60d;</i></label>
 						<div class="formControls col-xs-8">

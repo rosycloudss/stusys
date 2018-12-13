@@ -12,14 +12,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.stusys.stu.bean.Student;
-import com.stusys.stu.service.StudentService;
-import com.stusys.stu.service.impl.StudentServiceImpl;
+import com.stusys.bean.Student;
+import com.stusys.service.StudentService;
+import com.stusys.service.impl.StudentServiceImpl;
 
 /**
  * Servlet implementation class LoginServlet
  */
-@WebServlet("/student/loginServlet")
+@WebServlet("/studentLogin")
 public class StudentLoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	StudentService studentService;

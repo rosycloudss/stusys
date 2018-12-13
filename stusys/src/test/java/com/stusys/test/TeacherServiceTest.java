@@ -1,5 +1,6 @@
 package com.stusys.test;
 
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
@@ -20,5 +21,13 @@ public class TeacherServiceTest {
 //			teacher.setPassword(MD5Util.MD5(teacher.getTeacherNo()));
 //			System.out.println(teacherService.updateTeacher(teacher));
 //		}
+		
+		Teacher teacher = new Teacher();
+		teacher.setTeacherNo("" + new Date().getTime());// 以添加时间作为教师的编号
+		teacher.setPassword(MD5Util.MD5("123456"));
+		teacher.setTeacherName("张老师");
+		teacher.getDepat().setDeptNo(24);
+		teacher.setRole(2);
+		 System.out.println(teacherService.addTeacher(teacher)); 
 	}
 }

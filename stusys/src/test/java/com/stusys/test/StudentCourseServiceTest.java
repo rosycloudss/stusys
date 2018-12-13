@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.stusys.stu.bean.StudentCourse;
-import com.stusys.stu.service.StudentCourseService;
-import com.stusys.stu.service.impl.StudentCourseServiceImpl;
+import com.stusys.bean.StudentCourse;
+import com.stusys.service.StudentCourseService;
+import com.stusys.service.impl.StudentCourseServiceImpl;
 
 public class StudentCourseServiceTest {
 	

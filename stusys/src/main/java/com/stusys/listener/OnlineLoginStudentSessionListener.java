@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSessionBindingEvent;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
-import com.stusys.stu.bean.Student;
+import com.stusys.bean.Student;
 
 @WebListener
 public class OnlineLoginStudentSessionListener implements HttpSessionListener,HttpSessionAttributeListener{

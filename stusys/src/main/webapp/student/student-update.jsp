@@ -49,7 +49,9 @@
 					</tr>
 					<tr>
 						<td width="25%" class="title" style="width: 18%">学号：</td>
-						<td width="25%"><input type="text" name="stuNo"
+						<td width="25%"><input type="text" disabled="disabled"
+							value="${queryedStu.getStuNo() }" class="input-text">
+							<input type="hidden" name="stuNo"
 							value="${queryedStu.getStuNo() }" class="input-text"></td>
 						<td width="25%" class="title" style="width: 18%">姓名：</td>
 						<td width="25%"><input type="text" name="stuName"
@@ -75,7 +77,7 @@
 					</tr>
 					<tr>
 						<td class="title" style="width: 18%">年级：</td>
-						<td><select name="grade" class="input-text">
+						<td><select disabled="disabled" name="grade" class="input-text">
 								<option ${queryedStu.getGrade() eq '2018'?'selected':'' } value="2018">2018</option>
 								<option ${queryedStu.getGrade() eq '2017'?'selected':'' } value="2017">2017</option>
 								<option ${queryedStu.getGrade() eq '2016'?'selected':'' } value="2016">2016</option>
@@ -94,7 +96,7 @@
 					</tr>
 					<tr>
 						<td class="title" style="width: 18%">院系：</td>
-						<td><select name="dept" id="dept" class="input-text">
+						<td><select disabled="disabled" name="dept" id="dept" class="input-text">
 								<c:if test="${sessionScope.deptList != null }">
 									<c:forEach items="${sessionScope.deptList }" var="dept">
 										<option ${queryedStu.getMajor().getDept().getDeptNo()==dept.getDeptNo()?'selected':'' } value="${dept.getDeptNo() }">${dept.getDeptName() }[${dept.getDeptNo() }]</option>
@@ -102,7 +104,7 @@
 								</c:if>
 						</select></td>
 						<td class="title" style="width: 18%">专业：</td>
-						<td><select name="major" id="major" class="input-text">
+						<td><select disabled="disabled" name="major" id="major" class="input-text">
 								<c:if test="${sessionScope.deptList != null }">
 									<c:forEach items="${sessionScope.deptList }" var="dept">
 										<c:if

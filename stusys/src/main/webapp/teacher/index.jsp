@@ -31,17 +31,13 @@
 				<nav id="Hui-userbar"
 					class="nav navbar-nav navbar-userbar hidden-xs">
 					<ul class="cl">
-						<li>超级管理员</li>
+						<li>${teacher.getRoleStr() }</li>
 						<li class="dropDown dropDown_hover"><a href="#"
-							class="dropDown_A">admin <i class="Hui-iconfont">&#xe6d5;</i></a>
+							class="dropDown_A">${teacher.getTeacherName() } <i class="Hui-iconfont">&#xe6d5;</i></a>
 							<ul class="dropDown-menu menu radius box-shadow">
-								<li><a href="javascript:;" onclick="myselfinfo()">个人信息</a></li>
-								<li><a href="#">切换账户</a></li>
-								<li><a href="#">退出</a></li>
+								<li><a href="<%=request.getContextPath()%>/logout">退出登录</a></li>
 							</ul></li>
-						<li id="Hui-msg"><a href="#" title="消息"><span
-								class="badge badge-danger">1</span><i class="Hui-iconfont"
-								style="font-size: 18px">&#xe68a;</i></a></li>
+						
 						<li id="Hui-skin" class="dropDown right dropDown_hover"><a
 							href="javascript:;" class="dropDown_A" title="换肤"><i
 								class="Hui-iconfont" style="font-size: 18px">&#xe62a;</i></a>
@@ -92,20 +88,22 @@
 					</ul>
 				</dd>
 			</dl>
-			<dl id="menu-picture">
-				<dt>
-					<i class="Hui-iconfont">&#xe613;</i> 教师管理<i
-						class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
-				</dt>
-				<dd>
-					<ul>
-						<li><a data-href="<%=request.getContextPath()%>/teacher?flag=query" data-title="教师列表"
-							href="javascript:void(0)">教师列表</a></li>
-						<li><a data-href="<%=request.getContextPath()%>/teacher/add-teacher.jsp" data-title="添加教师"
-							href="javascript:void(0)">添加教师</a></li>
-					</ul>
-				</dd>
-			</dl>
+			<c:if test="${teacher.getRole() == 2 }">
+				<dl id="menu-picture">
+					<dt>
+						<i class="Hui-iconfont">&#xe613;</i> 教师管理<i
+							class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
+					</dt>
+					<dd>
+						<ul>
+							<li><a data-href="<%=request.getContextPath()%>/teacher?flag=query" data-title="教师列表"
+								href="javascript:void(0)">教师列表</a></li>
+							<li><a data-href="<%=request.getContextPath()%>/teacher/add-teacher.jsp" data-title="添加教师"
+								href="javascript:void(0)">添加教师</a></li>
+						</ul>
+					</dd>
+				</dl>
+			</c:if>
 			<dl id="menu-product">
 				<dt>
 					<i class="Hui-iconfont">&#xe620;</i> 课程管理<i
@@ -130,7 +128,7 @@
 		<div id="Hui-tabNav" class="Hui-tabNav hidden-xs">
 			<div class="Hui-tabNav-wp">
 				<ul id="min_title_list" class="acrossTab cl">
-					<li class="active"><span title="我的桌面" data-href="<%=request.getContextPath()%>/home.html">我的桌面</span>
+					<li class="active"><span title="我的桌面" data-href="home.html">我的桌面</span>
 						<em></em></li>
 				</ul>
 			</div>
@@ -144,7 +142,7 @@
 		<div id="iframe_box" class="Hui-article">
 			<div class="show_iframe">
 				<div style="display: none" class="loading"></div>
-				<iframe scrolling="yes" frameborder="0" src="home.html"></iframe>
+				<iframe scrolling="yes" frameborder="0" src="<%=request.getContextPath()%>/home.html"></iframe>
 			</div>
 		</div>
 	</section>

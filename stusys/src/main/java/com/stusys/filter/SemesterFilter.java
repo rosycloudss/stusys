@@ -15,7 +15,10 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * Servlet Filter implementation class SemesterFilter
+ * 
+ * @author LIWEI
+ * @time 2018年12月12日下午9:22:19
+ * @description:生成学期信息
  */
 @WebFilter("/*")
 public class SemesterFilter implements Filter {

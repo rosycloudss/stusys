@@ -16,7 +16,7 @@ import com.stusys.util.MD5Util;
 /**
  * Servlet implementation class TeacherLoginServlet
  */
-@WebServlet("/teacher/login")
+@WebServlet("/teacherLogin")
 public class TeacherLoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
