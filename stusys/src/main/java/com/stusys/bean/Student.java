@@ -13,10 +13,8 @@ public class Student {
 	private String password;// 密码
 	private String name;// 学生姓名
 	private String gender;// 学生性别
-	private String birthday;// 学生生日
 	private String idCard;// 学生身份证号
-//	private Integer majorId;// 专业编号
-	private Major major = new Major();// 专业信息
+	private Major major;// 专业信息
 	private String address;// 学生家庭住址
 	private String phone1;// 联系电话1
 	private String phone2;// 联系电话2
@@ -24,14 +22,13 @@ public class Student {
 	private String email;// 学生邮箱
 	private String education;// 学历 （本科，研究生，博士）
 	private String enterTime;// 入校时间
-	private Integer state;// 状态（1.在读，2.毕业，3.休学，4.劝退）
+	private int state;// 状态（1.在读，2.毕业，3.休学，4.劝退）
 	private String photoPath;// 学生照片地址
-	private String salt;// 盐
 	private Long createTime;// 创建时间
-	private String classNo;// 班级编号
+	private int lock = 0;// 0,表示未上锁，1表示已上锁
 
-	
 	private String grade;
+
 	/**
 	 * @return the stuNo
 	 */
@@ -44,7 +41,7 @@ public class Student {
 	 */
 	public void setStuNo(String stuNo) {
 		this.stuNo = stuNo;
-		if(stuNo != null && stuNo.length() > 4) {
+		if (stuNo != null && stuNo.length() > 4) {
 			grade = stuNo.substring(0, 4);
 		}
 	}
@@ -89,20 +86,6 @@ public class Student {
 	 */
 	public void setGender(String gender) {
 		this.gender = gender;
-	}
-
-	/**
-	 * @return the birthday
-	 */
-	public String getBirthday() {
-		return birthday;
-	}
-
-	/**
-	 * @param birthday the birthday to set
-	 */
-	public void setBirthday(String birthday) {
-		this.birthday = birthday;
 	}
 
 	/**
@@ -276,20 +259,6 @@ public class Student {
 	}
 
 	/**
-	 * @return the salt
-	 */
-	public String getSalt() {
-		return salt;
-	}
-
-	/**
-	 * @param salt the salt to set
-	 */
-	public void setSalt(String salt) {
-		this.salt = salt;
-	}
-
-	/**
 	 * @return the createTime
 	 */
 	public Long getCreateTime() {
@@ -303,74 +272,45 @@ public class Student {
 		this.createTime = createTime;
 	}
 
-	public String getClassNo() {
-		return classNo;
-	}
-
-	public void setClassNo(String classNo) {
-		this.classNo = classNo;
-	}
-
+	/**
+	 * @return the grade
+	 */
 	public String getGrade() {
 		return grade;
 	}
 
+	/**
+	 * @param grade the grade to set
+	 */
+	public void setGrade(String grade) {
+		this.grade = grade;
+	}
+
+	/**
+	 * @return the lock
+	 */
+	public int getLock() {
+		return lock;
+	}
+
+	/**
+	 * @param lock the lock to set
+	 */
+	public void setLock(int lock) {
+		this.lock = lock;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return "Student [stuNo=" + stuNo + ", password=" + password + ", name=" + name + ", gender=" + gender
-				+ ", birthday=" + birthday + ", idCard=" + idCard + ", major=" + major + ", address=" + address
-				+ ", phone1=" + phone1 + ", phone2=" + phone2 + ", qq=" + qq + ", email=" + email + ", education="
-				+ education + ", enterTime=" + enterTime + ", state=" + state + ", photoPath=" + photoPath + ", salt="
-				+ salt + ", createTime=" + createTime + ", classNo=" + classNo + "]";
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((address == null) ? 0 : address.hashCode());
-		result = prime * result + ((birthday == null) ? 0 : birthday.hashCode());
-		result = prime * result + ((createTime == null) ? 0 : createTime.hashCode());
-		result = prime * result + ((education == null) ? 0 : education.hashCode());
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((enterTime == null) ? 0 : enterTime.hashCode());
-		result = prime * result + ((gender == null) ? 0 : gender.hashCode());
-		result = prime * result + ((idCard == null) ? 0 : idCard.hashCode());
-		result = prime * result + ((major == null) ? 0 : major.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((password == null) ? 0 : password.hashCode());
-		result = prime * result + ((phone1 == null) ? 0 : phone1.hashCode());
-		result = prime * result + ((phone2 == null) ? 0 : phone2.hashCode());
-		result = prime * result + ((photoPath == null) ? 0 : photoPath.hashCode());
-		result = prime * result + ((qq == null) ? 0 : qq.hashCode());
-		result = prime * result + ((salt == null) ? 0 : salt.hashCode());
-		result = prime * result + ((state == null) ? 0 : state.hashCode());
-		result = prime * result + ((stuNo == null) ? 0 : stuNo.hashCode());
-		return result;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Student other = (Student) obj;
-		if (!other.getStuNo().equals(this.getStuNo())) {
-			return false;
-		}
-		return true;
+				+ ", idCard=" + idCard + ", major=" + major + ", address=" + address + ", phone1=" + phone1
+				+ ", phone2=" + phone2 + ", qq=" + qq + ", email=" + email + ", education=" + education + ", enterTime="
+				+ enterTime + ", state=" + state + ", photoPath=" + photoPath + ", createTime=" + createTime + ", lock="
+				+ lock + ", grade=" + grade + "]";
 	}
 }

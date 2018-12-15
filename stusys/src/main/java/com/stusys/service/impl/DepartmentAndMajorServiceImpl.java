@@ -59,6 +59,20 @@ public class DepartmentAndMajorServiceImpl implements DepartmentService, MajorSe
 		return majorList;
 	}
 
+	/**
+	 * 通过专业编号专业信息
+	 */
+	@Override
+	public Major queryMajorByNo(int majorNo) {
+		Major major = new Major();
+		major.setMajorNo(majorNo);
+		List<Major> majorList = queryMajorByParameters(major, null);
+		if (majorList != null && !majorList.isEmpty()) {
+			return majorList.get(0);
+		}
+		return null;
+	}
+
 	@Override
 	public int addDepartment(Department dept) {
 		if (dept != null) {

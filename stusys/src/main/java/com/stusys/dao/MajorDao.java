@@ -7,7 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.stusys.bean.Department;
 import com.stusys.bean.Major;
+import com.stusys.bean.Teacher;
 import com.stusys.page.Page;
 import com.stusys.util.DBUtil;
 
@@ -178,11 +180,21 @@ public class MajorDao {
 			Major major = new Major();
 			major.setMajorNo(rs.getInt("MAJOR_NO"));
 			major.setMajorName(rs.getString("MAJOR_NAME"));
-			major.getDept().setDeptNo(rs.getInt("DEPT_NO"));
+			
+			if(rs.getInt("DEPT_NO") != 0) {
+				Department dept = new Department();
+				dept.setDeptNo(rs.getInt("DEPT_NO"));
+				major.setDept(dept);
+			}
 			major.setCreateTime(rs.getLong("CREATE_TIME"));
 			major.setLenOfSchool(rs.getInt("LEN_OF_SCHOOL"));
 			major.setType(rs.getString("TYPE"));
-			major.getTeacher().setTeacherNo("TEACHER_NO");
+			
+			if(rs.getString("TEACHER_NO") != null) {
+				Teacher teacher = new Teacher();
+				teacher.setTeacherNo(rs.getString("TEACHER_NO"));
+				major.setTeacher(teacher);
+			}
 			majorList.add(major);
 		}
 		return majorList;

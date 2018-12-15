@@ -9,6 +9,7 @@ import com.stusys.dao.CourseDao;
 import com.stusys.dao.TeacherCourseDao;
 import com.stusys.page.Page;
 import com.stusys.service.CourseService;
+import com.stusys.service.MajorService;
 import com.stusys.service.TeacherCourseService;
 import com.stusys.service.TeacherService;
 
@@ -23,8 +24,10 @@ public class CourseServiceImpl implements CourseService, TeacherCourseService {
 	private CourseDao courseDao = new CourseDao();
 
 	private TeacherCourseDao teacherCourseDao = new TeacherCourseDao();
-	
+
 	private TeacherService teacherService = new TeacherServiceImpl();
+
+	private MajorService majorService = new DepartmentAndMajorServiceImpl();
 
 	/**
 	 * 添加课程信息
@@ -89,7 +92,16 @@ public class CourseServiceImpl implements CourseService, TeacherCourseService {
 	 */
 	@Override
 	public List<Course> queryByParamenters(Course course, Page page) {
-		return courseDao.select(course, page);
+		List<Course> courseList = courseDao.select(course, page);
+		if (courseList != null && !courseList.isEmpty()) {
+			for (int i = 0; i < courseList.size(); i++) {
+				Course cou = courseList.get(0);
+				if (cou.getMajor() != null && cou.getMajor().getMajorNo() != 0) {
+					cou.setMajor(majorService.queryMajorByNo(cou.getMajor().getMajorNo()));
+				}
+			}
+		}
+		return courseList;
 	}
 
 	/**
@@ -171,16 +183,16 @@ public class CourseServiceImpl implements CourseService, TeacherCourseService {
 	public int countTC(TeacherCourse teacherCourse) {
 		return teacherCourseDao.count(teacherCourse);
 	}
-	
-	private List<TeacherCourse> queryCourseAndTeacherByTC(List<TeacherCourse> teacherCourseList){
-		if(teacherCourseList != null && !teacherCourseList.isEmpty()) {
-			for(TeacherCourse teacherCourse : teacherCourseList) {
+
+	private List<TeacherCourse> queryCourseAndTeacherByTC(List<TeacherCourse> teacherCourseList) {
+		if (teacherCourseList != null && !teacherCourseList.isEmpty()) {
+			for (TeacherCourse teacherCourse : teacherCourseList) {
 				teacherCourse.setCourse(queryByCourseNo(teacherCourse.getCourse().getCourseNo()));
 				teacherCourse.setTeacher(teacherService.queryTeacherByNo(teacherCourse.getTeacher().getTeacherNo()));
 			}
 		}
 		return teacherCourseList;
-		
+
 	}
 
 	@Override
@@ -188,7 +200,7 @@ public class CourseServiceImpl implements CourseService, TeacherCourseService {
 		TeacherCourse tc = new TeacherCourse();
 		tc.setTcNo(tcNo);
 		List<TeacherCourse> tcList = queryTCByParameters(tc, null);
-		if(tcList != null && !tcList.isEmpty()) {
+		if (tcList != null && !tcList.isEmpty()) {
 			return tcList.get(0);
 		}
 		return null;

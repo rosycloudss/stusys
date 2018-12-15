@@ -1,8 +1,5 @@
 package com.stusys.bean;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * 
  * @author liwei

@@ -17,6 +17,7 @@ public interface MajorService {
 
 	List<Major> queryMajorByDeptNo(Integer deptNo, Page page);
 	
+	Major queryMajorByNo(int majorNo);
 	
 
 }

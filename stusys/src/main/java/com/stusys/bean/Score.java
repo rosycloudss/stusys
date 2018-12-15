@@ -98,7 +98,6 @@ public class Score {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Score other = (Score) obj;
 		return true;
 	}
 

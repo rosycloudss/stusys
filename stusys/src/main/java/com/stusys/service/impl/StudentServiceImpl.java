@@ -6,13 +6,13 @@ import java.util.List;
 import com.stusys.bean.Student;
 import com.stusys.dao.StudentDao;
 import com.stusys.page.Page;
+import com.stusys.service.MajorService;
 import com.stusys.service.StudentService;
-import com.stusys.util.MD5Util;
 
 public class StudentServiceImpl implements StudentService {
 
 	StudentDao stuDao = new StudentDao();
-
+	MajorService majorService = new DepartmentAndMajorServiceImpl();
 	/**
 	 * 添加学生信息
 	 */
@@ -61,7 +61,11 @@ public class StudentServiceImpl implements StudentService {
 	 */
 	public Student login(String stuNo, String password) {
 		List<Student> stuList = new ArrayList<Student>();
-		stuList.addAll(stuDao.select(stuNo, MD5Util.MD5(password)));
+		if (stuNo != null && password != null) {
+			Student stu = new Student();
+			stu.setStuNo(stuNo);
+			stuList.addAll(query(stu, null));
+		}
 		if (!stuList.isEmpty()) {
 			return stuList.get(0);
 		}
@@ -73,7 +77,15 @@ public class StudentServiceImpl implements StudentService {
 	 */
 	public List<Student> query(Student stu, Page page) {
 		List<Student> stuList = new ArrayList<Student>();
-		stuList.addAll(stuDao.select(stu, page));
+		stuList = stuDao.select(stu, page);
+		if(stuList != null && !stuList.isEmpty()) {
+			for(int i = 0;i < stuList.size();i++) {
+				Student student = stuList.get(i);
+				if(student.getMajor() != null) {
+					student.setMajor(majorService.queryMajorByNo(student.getMajor().getMajorNo()));
+				}
+			}
+		}
 		return stuList;
 	}
 
@@ -88,9 +100,9 @@ public class StudentServiceImpl implements StudentService {
 	public Student query(String stuNo) {
 		Student student = new Student();
 		student.setStuNo(stuNo);
-		List<Student> stus = query(student, null);
-		if(!stus.isEmpty()) {
-			return stus.get(0);
+		List<Student> stuList = query(student, null);
+		if (stuList != null && !stuList.isEmpty()) {
+			return stuList.get(0);
 		}
 		return null;
 	}
@@ -106,7 +118,7 @@ public class StudentServiceImpl implements StudentService {
 	public List<Student> query(String stuName, Page page) {
 		Student student = new Student();
 		student.setName(stuName);
-		return query(student,page);
+		return query(student, page);
 	}
 
 }

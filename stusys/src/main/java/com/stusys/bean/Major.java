@@ -1,6 +1,5 @@
 package com.stusys.bean;
 
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -12,12 +11,12 @@ import java.util.Set;
 public class Major {
 	private int majorNo;// 专业编号
 	private String majorName;// 专业名称
-	private Department dept = new Department();// 学院信息
+	private Department dept;// 学院信息
 	private long createTime;// 创建时间
 	private int lenOfSchool;// 学制
 	private String type;// 专业种类
-	private Teacher teacher = new Teacher();// 系主任信息
-	private Set<Course> courseSet = new HashSet<Course>();
+	private Teacher teacher;// 系主任信息
+	private Set<Course> courseSet;
 
 	/**
 	 * @return the majorNo

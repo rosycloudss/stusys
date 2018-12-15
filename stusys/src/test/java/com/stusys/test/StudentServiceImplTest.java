@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import com.stusys.bean.Major;
 import com.stusys.bean.Student;
+import com.stusys.dao.StudentDao;
 import com.stusys.page.Page;
 import com.stusys.service.StudentService;
 import com.stusys.service.impl.StudentServiceImpl;
@@ -27,7 +28,6 @@ public class StudentServiceImplTest {
 		student.setPassword(MD5Util.MD5("123456"));
 		student.setGender("男");
 		Date birthday = new Date(1997 - 1900, 11 - 1, 4);
-		student.setBirthday(birthday.toString());
 		student.setIdCard("5130291997100400");
 		Major major = new Major();
 		major.setMajorNo(1);
@@ -39,11 +39,9 @@ public class StudentServiceImplTest {
 		student.setEmail("1759840027@qq.com");
 		student.setEducation("本科");
 		Date enterTime = new Date(2016 - 1900, 9 - 1, 1);
-//		System.out.println(enterTime);
 		student.setEnterTime(enterTime.toString());
 		student.setState(1);
 		student.setPhotoPath("  ");
-		student.setSalt("12345");
 		student.setCreateTime(System.currentTimeMillis());
 		page.setPageStart(0);
 		page.setPageCurrent(1);
@@ -55,7 +53,7 @@ public class StudentServiceImplTest {
 		System.out.println(stuService.add(student));
 	}
 
-	@Test
+//	@Test
 	public void updateTest() {
 		student.setName("liwei");
 		System.out.println(stuService.update(student));
@@ -66,7 +64,7 @@ public class StudentServiceImplTest {
 	public void loginTest() {
 		System.out.println(stuService.login("20162430212", "123456"));
 	}
-
+//
 //	@Test
 	public void queryTest() {
 		Student stu = new Student();
@@ -75,7 +73,15 @@ public class StudentServiceImplTest {
 //		System.out.println(stuService.query(student, page));
 //		System.out.println(stuService.count(null));
 //		System.out.println(stuService.query((Student) null, page));
+		StudentDao stuDao = new StudentDao();
+		System.out.println(stuDao.select(null, page));
 		
-		System.out.println(student.getGrade());
+//		System.out.println(student.getGrade());
 	}
+	@Test
+	public void deleteTest() {
+//		System.out.println(stuService.delete("20162430214"));
+		System.out.println(stuService.query("20162430214"));
+	}
+	
 }
