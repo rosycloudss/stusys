@@ -1,9 +1,13 @@
 package com.stusys.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.stusys.bean.Course;
+import com.stusys.bean.Major;
+import com.stusys.bean.Teacher;
 import com.stusys.bean.TeacherCourse;
 import com.stusys.dao.CourseDao;
 import com.stusys.dao.TeacherCourseDao;
@@ -94,10 +98,18 @@ public class CourseServiceImpl implements CourseService, TeacherCourseService {
 	public List<Course> queryByParamenters(Course course, Page page) {
 		List<Course> courseList = courseDao.select(course, page);
 		if (courseList != null && !courseList.isEmpty()) {
+			Map<Integer, Major> majorMap = new HashMap<Integer, Major>();// 缓存Major信息
 			for (int i = 0; i < courseList.size(); i++) {
-				Course cou = courseList.get(0);
+				Course cou = courseList.get(i);
 				if (cou.getMajor() != null && cou.getMajor().getMajorNo() != 0) {
-					cou.setMajor(majorService.queryMajorByNo(cou.getMajor().getMajorNo()));
+					int majorNo = cou.getMajor().getMajorNo();
+					if (majorMap.get(majorNo) != null) {// 如果majorMap含有当前Major信息，则设置为课程的专业信息
+						cou.setMajor(majorMap.get(majorNo));
+					} else {// 否则从数据库中查询专业信息
+						Major major = majorService.queryMajorByNo(majorNo);
+						majorMap.put(majorNo, major);
+						cou.setMajor(major);
+					}
 				}
 			}
 		}
@@ -137,7 +149,31 @@ public class CourseServiceImpl implements CourseService, TeacherCourseService {
 	@Override
 	public List<TeacherCourse> queryTCByParameters(TeacherCourse teaCourse, Page page) {
 		List<TeacherCourse> teacherCourseList = teacherCourseDao.select(teaCourse, page);
-		queryCourseAndTeacherByTC(teacherCourseList);
+		if (teacherCourseList != null && !teacherCourseList.isEmpty()) {
+			Map<Long, Course> courseMap = new HashMap<Long, Course>();// 缓存课程信息
+			Map<String, Teacher> teacherMap = new HashMap<String, Teacher>();// 缓存教师信息
+			for (TeacherCourse teacherCourse : teacherCourseList) {
+				// 设置TeacherCourse中的课程信息
+				if (teacherCourse.getCourse() != null && teacherCourse.getCourse().getCourseNo() != 0) {
+					long courseNo = teacherCourse.getCourse().getCourseNo();
+					if (courseMap.get(courseNo) == null) {
+						Course course = queryByCourseNo(courseNo);
+						courseMap.put(courseNo, course);
+					}
+					teacherCourse.setCourse(courseMap.get(courseNo));
+				}
+				// 设置TeacherCourse中的老师信息
+				if (teacherCourse.getTeacher() != null && teacherCourse.getTeacher().getTeacherNo() != null) {
+					String teacherNo = teacherCourse.getTeacher().getTeacherNo();
+					if (teacherMap.get(teacherNo) == null) {
+						Teacher teacher = teacherService.queryTeacherByNo(teacherCourse.getTeacher().getTeacherNo());
+						teacherMap.put(teacherNo, teacher);
+					}
+					teacherCourse.setTeacher(teacherMap.get(teacherNo));
+				}
+				teacherCourse.setTeacher(teacherService.queryTeacherByNo(teacherCourse.getTeacher().getTeacherNo()));
+			}
+		}
 		return teacherCourseList;
 	}
 
@@ -155,7 +191,7 @@ public class CourseServiceImpl implements CourseService, TeacherCourseService {
 			if (teacherName != null) {
 				teacherCourse.getTeacher().setTeacherName(teacherName);
 			}
-			teacherCourseList = teacherCourseDao.select(teacherCourse, page);
+			teacherCourseList = queryTCByParameters(teacherCourse, page);
 		}
 		return teacherCourseList;
 	}
@@ -174,25 +210,15 @@ public class CourseServiceImpl implements CourseService, TeacherCourseService {
 			if (courseNo != null) {
 				teacherCourse.getCourse().setCourseNo(courseNo);
 			}
-			teacherCourseList = teacherCourseDao.select(teacherCourse, page);
+			teacherCourseList = queryTCByParameters(teacherCourse, page);
 		}
+
 		return teacherCourseList;
 	}
 
 	@Override
 	public int countTC(TeacherCourse teacherCourse) {
 		return teacherCourseDao.count(teacherCourse);
-	}
-
-	private List<TeacherCourse> queryCourseAndTeacherByTC(List<TeacherCourse> teacherCourseList) {
-		if (teacherCourseList != null && !teacherCourseList.isEmpty()) {
-			for (TeacherCourse teacherCourse : teacherCourseList) {
-				teacherCourse.setCourse(queryByCourseNo(teacherCourse.getCourse().getCourseNo()));
-				teacherCourse.setTeacher(teacherService.queryTeacherByNo(teacherCourse.getTeacher().getTeacherNo()));
-			}
-		}
-		return teacherCourseList;
-
 	}
 
 	@Override

@@ -98,20 +98,9 @@ public class TeacherDao {
 	 * @return
 	 */
 	public int count(Teacher teacher) {
-		return select(teacher, null).size();
-	}
 
-	/**
-	 * 通过
-	 * 
-	 * @param teacher
-	 * @param page
-	 * @return
-	 */
-	public List<Teacher> select(Teacher teacher, Page page) {
-		List<Teacher> teacherList = new ArrayList<Teacher>();
-		StringBuffer sql = new StringBuffer(
-				"SELECT TEACHER_NO,TEACHER_NAME,CREATE_TIME,ROLE,DEPT_NO FROM TB_TEACHER WHERE 1=1 ");
+		StringBuffer sql = new StringBuffer("SELECT COUNT(TEACHER_NO) TEACHER_NUM FROM TB_TEACHER WHERE 1=1 ");
+		int teacherNum = 0;
 		if (teacher != null) {
 			if (teacher.getTeacherNo() != null) {
 				sql.append(" AND TEACHER_NO=?");
@@ -129,11 +118,73 @@ public class TeacherDao {
 				sql.append(" AND DEPT_NO=?");
 			}
 		}
-		if (page != null) {
-			sql.append(" AND ROWNUM>=" + page.getPageStart() + " AND ROWNUM<"
-					+ (page.getPageSize() + page.getPageStart()));
+		try {
+			conn = DBUtil.getConnection();
+			prestat = conn.prepareStatement(sql.toString());
+			if (teacher != null) {
+				int count = 1;
+				if (teacher.getTeacherNo() != null) {
+					prestat.setString(count++, teacher.getTeacherNo());
+				}
+				if (teacher.getTeacherName() != null) {
+					prestat.setString(count++, teacher.getTeacherName());
+				}
+				if (teacher.getCreateTime() != 0) {
+					prestat.setLong(count++, teacher.getCreateTime());
+				}
+				if (teacher.getRole() != 0) {
+					prestat.setInt(count++, teacher.getRole());
+				}
+				if (teacher.getDepat().getDeptNo() != 0) {
+					prestat.setInt(count++, teacher.getDepat().getDeptNo());
+				}
+			}
+			rs = prestat.executeQuery();
+			while(rs.next()) {
+				teacherNum = rs.getInt("TEACHER_NUM");
+				break;
+			}
+		} catch (SQLException e) {
+			System.out.println("查询教师数量失败！" + e);
+		} finally {
+			DBUtil.close(rs, prestat, conn);
 		}
+		return teacherNum;
+	}
 
+	/**
+	 * 通过
+	 * 
+	 * @param teacher
+	 * @param page
+	 * @return
+	 */
+	public List<Teacher> select(Teacher teacher, Page page) {
+		List<Teacher> teacherList = new ArrayList<Teacher>();
+		StringBuffer sql = new StringBuffer(
+				"SELECT * FROM (SELECT TEACHER_NO,TEACHER_NAME,CREATE_TIME,ROLE,DEPT_NO,ROWNUM RN FROM TB_TEACHER WHERE 1=1 ");
+		if (teacher != null) {
+			if (teacher.getTeacherNo() != null) {
+				sql.append(" AND TEACHER_NO=?");
+			}
+			if (teacher.getTeacherName() != null) {
+				sql.append(" AND TEACHER_NAME=?");
+			}
+			if (teacher.getCreateTime() != 0) {
+				sql.append(" AND CREATE_TIME=?");
+			}
+			if (teacher.getRole() != 0) {
+				sql.append(" AND ROLE=?");
+			}
+			if (teacher.getDepat().getDeptNo() != 0) {
+				sql.append(" AND DEPT_NO=?");
+			}
+		}
+		sql.append(")");
+		if (page != null) {
+			sql.append(" WHERE RN>" + page.getPageStart() + " AND RN<=" + (page.getPageSize() + page.getPageStart()));
+		}
+		System.out.println(sql);
 		try {
 			conn = DBUtil.getConnection();
 			prestat = conn.prepareStatement(sql.toString());

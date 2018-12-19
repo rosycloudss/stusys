@@ -12,10 +12,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSONObject;
+import com.stusys.bean.Major;
 import com.stusys.bean.Student;
+import com.stusys.page.Page;
 import com.stusys.service.StudentService;
 import com.stusys.service.impl.StudentServiceImpl;
 import com.stusys.util.MD5Util;
+import com.stusys.util.WebUtil;
 
 /**
  * Servlet implementation class AddStudentServlet
@@ -95,8 +98,10 @@ public class StudentServlet extends HttpServlet {
 		if (stuName != null) {
 			student = new Student();
 			try {
-				if (add) {
-					student.getMajor().setMajorNo(Integer.parseInt(major));
+				if (add) {//add为true则添加学生信息
+					Major m = new Major();
+					m.setMajorNo(Integer.parseInt(major));
+					student.setMajor(m);
 					int stuCount = stuService.count(student);
 					stuCount++;
 					stuNo = grade + major;
@@ -127,10 +132,10 @@ public class StudentServlet extends HttpServlet {
 				System.out.println("添加学生信息失败！" + e);
 			}
 			System.out.println(student);
-			if (add) {
+			if (add) {//add为true则添加学生信息
 				addCount = stuService.add(student);// 添加学生信息，并获取添加的学生数量
 			} else {
-				updateCount = stuService.update(student);
+				updateCount = stuService.update(student); //修改学生信息
 			}
 		}
 		PrintWriter out = response.getWriter();
@@ -195,11 +200,13 @@ public class StudentServlet extends HttpServlet {
 		String flag1 = request.getParameter("flag1");
 		String stuNo = request.getParameter("stuNo");
 		String stuName = request.getParameter("stuName");
-		if ("update".equals(flag1)) {
+		if ("update".equals(flag1)) {//修改学生信息
 			Student stu = stuService.query(stuNo);
 			request.setAttribute("queryedStu", stu);
 			request.getRequestDispatcher("/student/student-update.jsp").forward(request, response);
 		} else {
+			//查询学生信息
+			//获取学生查询条件
 			Student student = new Student();
 			if (stuNo != null && !stuNo.equals("")) {
 				student.setStuNo(stuNo);
@@ -207,8 +214,18 @@ public class StudentServlet extends HttpServlet {
 			if (stuName != null && !stuName.equals("")) {
 				student.setName(stuName);
 			}
-			List<Student> stuList = stuService.query(student, null);
+			//设置当前页面信息
+			String currentPageStr = request.getParameter("currentPage");
+			Page page = new Page(stuService.count(student), 1, 10);
+			page.setPath(WebUtil.getPath(request));
+			if(currentPageStr != null && !"".equals(currentPageStr)) {
+				page.setPageCurrent(Integer.parseInt(currentPageStr));;
+			}
+			System.out.println(page.getPath());
+			//获取学生信息
+			List<Student> stuList = stuService.query(student, page);
 			request.setAttribute("stuList", stuList);
+			request.setAttribute("page", page);
 			request.getRequestDispatcher("/student/student-list.jsp").forward(request, response);
 		}
 	}

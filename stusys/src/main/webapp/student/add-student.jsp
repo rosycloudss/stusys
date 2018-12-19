@@ -37,7 +37,7 @@
 	</nav>
 
 	<div class="page-container">
-		<form action="<%=request.getContextPath() %>/student?flag=add" method="post" id="form-student-add">
+		<form action="<%=request.getContextPath() %>/student?flag=add" method="post" enctype="multipart/form-data" id="form-student-add">
 			<table style="width: 95%" align="center"
 				class="table table-border table-bordered table-bg table-sort"
 				id="studentInfoTb">
@@ -46,11 +46,13 @@
 						class="">添加学生信息</td>
 				</tr>
 				<tr>
-					<td width="25%" class="title" style="width: 18%">姓名：</td>
+					<td width="25%" class="title" style="width: 18%"><label for="stuName">姓名：</label></td>
 					<td width="25%"><input type="text" name="stuName"
 						class="input-text"></td>
+						<!-- 
 					<td width="25%" class="title" style="width: 18%">头像：</td>
 					<td width="25%"><input type="file" name="stuPhoto"></td>
+						 -->
 				</tr>
 				<tr>
 					<td class="title" style="width: 18%">性别：</td>
@@ -121,9 +123,9 @@
 					<td></td>
 				</tr>
 				<tr>
-					<td colspan="2"><input type="submit" class="input-text"
-						value="提交"></td>
-					<td colspan="2"><input type="reset" class="input-text"
+					<td colspan="2"><input type="submit" class="btn-primary radius input-text" value="提交"
+						></td>
+					<td colspan="2"><input type="reset" class="btn-primary radius input-text"
 						value="重置"></td>
 
 				</tr>
@@ -145,8 +147,81 @@
 	<script type="text/javascript"
 		src="<%=request.getContextPath()%>/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/lib/laypage/1.2/laypage.js"></script>
-	
+	<script type="text/javascript" src="<%=request.getContextPath()%>/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/lib/jquery.validation/1.14.0/validate-methods.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/lib/jquery.validation/1.14.0/messages_zh.js"></script>
 	<script type="text/javascript">
+	$().ready(function(){
+		$("#form-student-add").validate({
+			rules:{
+				stuName:{
+					required:true,
+				},
+				sex:{
+					required:true,
+				},
+				idCard:{
+					required:true,
+					minlength:18,
+					maxlength:18,
+				},
+				grade:{
+					required:true,
+				},
+				education:{
+					required:true,
+				},
+				dept:{
+					required:true,
+				},
+				major:{
+					required:true,
+				},
+				enterTime:{
+					required:true,
+				},
+				state:{
+					required:true,
+				},
+				email:{
+					required:false,
+					email:true
+				}
+			},
+			
+			messages:{
+				stuName:"请输入姓名",
+				sex:"请选择性别",
+				idCard:{
+					required:"请输入身份证号",
+					minlength:"身份证格式错误",
+					maxlength:"身份证格式错误",
+				},
+				grade:{
+					required:"请输入年级",
+				},
+				education:{
+					required:"请输入学历",
+				},
+				dept:{
+					required:"请输入院系",
+				},
+				major:{
+					required:"请输入专业",
+				},
+				enterTime:{
+					required:"请输入入学时间",
+				},
+				state:{
+					required:"请输入学籍状态",
+				},
+				email:{
+					required:"请输入邮箱",
+					email:"邮箱格式错误",
+				}
+			}
+		});
+	});
 		$("#dept").change(function(){
 		  $("#major").html("");
 			$.ajax({
@@ -165,46 +240,7 @@
 				},
 			});	
 		});
-		$(function(){
-			$('.skin-minimal input').iCheck({
-				checkboxClass: 'icheckbox-blue',
-				radioClass: 'iradio-blue',
-				increaseArea: '20%'
-			});
-			
-			$("#form-student-add").validate({
-				rules:{
-					username:{
-						required:true,
-						minlength:2,
-						maxlength:16
-					},
-					sex:{
-						required:true,
-					},
-					mobile:{
-						required:true,
-						isMobile:true,
-					},
-					email:{
-						required:true,
-						email:true,
-					},
-					uploadfile:{
-						required:true,
-					},
-					
-				},
-				onkeyup:false,
-				focusCleanup:true,
-				success:"valid",
-				submitHandler:function(form){
-					var index = parent.layer.getFrameIndex(window.name);
-					//parent.$('.btn-refresh').click();
-					parent.layer.close(index);
-				}
-			});
-		});
+		
 	</script>
 </body>
 </html>

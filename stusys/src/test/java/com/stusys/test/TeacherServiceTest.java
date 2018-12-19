@@ -1,11 +1,11 @@
 package com.stusys.test;
 
 import java.util.Date;
-import java.util.List;
 
 import org.junit.Test;
 
 import com.stusys.bean.Teacher;
+import com.stusys.page.Page;
 import com.stusys.service.TeacherService;
 import com.stusys.service.impl.TeacherServiceImpl;
 import com.stusys.util.MD5Util;
@@ -28,6 +28,10 @@ public class TeacherServiceTest {
 		teacher.setTeacherName("张老师");
 		teacher.getDepat().setDeptNo(24);
 		teacher.setRole(2);
-		 System.out.println(teacherService.addTeacher(teacher)); 
+//		 System.out.println(teacherService.addTeacher(teacher)); 
+		 System.out.println(teacherService.countTeacher(null));
+		 
+		 Page page = new Page(teacherService.countTeacher(null),2,4);
+		 System.out.println(teacherService.queryTeacher((Teacher)null, page));
 	}
 }

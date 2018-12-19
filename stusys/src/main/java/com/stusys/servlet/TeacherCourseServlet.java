@@ -121,16 +121,9 @@ public class TeacherCourseServlet extends HttpServlet {
 			}
 		}
 		List<TeacherCourse> teacherCourseList = courseService.queryTCByParameters(teacherCourse, null);
-		//如果TCNo不为null，则只查询一个教师授课信息，否则查询多个教师授课信息
-		if (TCNo != null) {
-			if (teacherCourseList != null && !teacherCourseList.isEmpty()) {
-				TeacherCourse tc = teacherCourseList.get(0);
-				request.setAttribute("teacherCourse", tc);
-			}
-		} else {
-			request.setAttribute("teacherCourseList", teacherCourseList);
-		}
-		if("teacher".equals(role)) {
+		request.setAttribute("teacherCourseList", teacherCourseList);
+		
+		if("teacher".equals(role)) {//如果以教师身份登录
 			for(int i = 0;i < teacherCourseList.size();i++) {
 				teacherCourseList.get(i).setTeacher(null);
 			}

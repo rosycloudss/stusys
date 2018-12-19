@@ -42,7 +42,9 @@ public class DepartmentAndMajorServiceImpl implements DepartmentService, MajorSe
 		List<Major> majorList = majorDao.select(major, page);
 		if (majorList != null && !majorList.isEmpty()) {
 			for (Major m : majorList) {
-				m.setDept(queryDepartByNo(m.getDept().getDeptNo()));
+				if (m.getDept() != null && m.getDept().getDeptNo() != 0) {
+					m.setDept(queryDepartByNo(m.getDept().getDeptNo()));
+				}
 			}
 		}
 		return majorList;
@@ -53,7 +55,9 @@ public class DepartmentAndMajorServiceImpl implements DepartmentService, MajorSe
 		List<Major> majorList = new ArrayList<Major>();
 		if (deptNo != null) {
 			Major major = new Major();
-			major.getDept().setDeptNo(deptNo);
+			Department dept = new Department();
+			dept.setDeptNo(deptNo);
+			major.setDept(dept);
 			majorList = queryMajorByParameters(major, page);
 		}
 		return majorList;

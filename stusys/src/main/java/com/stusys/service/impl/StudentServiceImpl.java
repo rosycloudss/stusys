@@ -1,8 +1,11 @@
 package com.stusys.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.stusys.bean.Major;
 import com.stusys.bean.Student;
 import com.stusys.dao.StudentDao;
 import com.stusys.page.Page;
@@ -79,10 +82,16 @@ public class StudentServiceImpl implements StudentService {
 		List<Student> stuList = new ArrayList<Student>();
 		stuList = stuDao.select(stu, page);
 		if(stuList != null && !stuList.isEmpty()) {
+			Map<Integer,Major> majorMap = new HashMap<Integer,Major>(); //缓存专业信息
 			for(int i = 0;i < stuList.size();i++) {
-				Student student = stuList.get(i);
-				if(student.getMajor() != null) {
-					student.setMajor(majorService.queryMajorByNo(student.getMajor().getMajorNo()));
+				Student student = stuList.get(i); 
+				if(student.getMajor() != null && student.getMajor().getMajorNo() != 0) {
+					int majorNo = student.getMajor().getMajorNo();
+					if(majorMap.get(majorNo) == null) {//如果缓存中没有当前专业信息，则从数据库中查找专业信息
+						Major major = majorService.queryMajorByNo(majorNo);
+						majorMap.put(majorNo, major);
+					}
+					student.setMajor(majorMap.get(majorNo));
 				}
 			}
 		}
@@ -110,7 +119,9 @@ public class StudentServiceImpl implements StudentService {
 	@Override
 	public List<Student> query(int majorNo, Page page) {
 		Student student = new Student();
-		student.getMajor().setMajorNo(majorNo);
+		Major major = new Major();
+		major.setMajorNo(majorNo);
+		student.setMajor(major);;
 		return stuDao.select(student, page);
 	}
 

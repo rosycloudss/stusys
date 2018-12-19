@@ -1,6 +1,8 @@
 package com.stusys.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.stusys.bean.StudentCourse;
 import com.stusys.bean.TeacherCourse;
@@ -54,14 +56,23 @@ public class StudentCourseServiceImpl implements StudentCourseService {
 		return scDao.update(sc);
 	}
 
+	/**
+	 * 查询学生选课信息
+	 */
 	@Override
 	public List<StudentCourse> queryStudentCourse(StudentCourse sc, Page page) {
 		List<StudentCourse> scList = scDao.select(sc, page);
 		if (scList != null && !scList.isEmpty()) {
+			Map<Long,TeacherCourse> teacherCourseMap = new HashMap<Long,TeacherCourse>();//缓存教师选课信息
 			for (int i = 0; i < scList.size(); i++) {
 				StudentCourse stuCourse = scList.get(i);
-				if (stuCourse.getTc() != null) {
-					stuCourse.setTc(teacherCourseService.queryTCByTCNo(stuCourse.getTc().getTcNo()));
+				if (stuCourse.getTc() != null && stuCourse.getTc().getTcNo() != 0) {
+					long tcNo = stuCourse.getTc().getTcNo();
+					if(teacherCourseMap.get(tcNo) == null) {
+						TeacherCourse teacherCourse = teacherCourseService.queryTCByTCNo(tcNo);
+						teacherCourseMap.put(tcNo, teacherCourse);
+					}
+					stuCourse.setTc(teacherCourseMap.get(tcNo));
 				}
 			}
 		}

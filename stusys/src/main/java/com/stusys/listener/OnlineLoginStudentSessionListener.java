@@ -1,10 +1,13 @@
 package com.stusys.listener;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.annotation.WebListener;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionAttributeListener;
 import javax.servlet.http.HttpSessionBindingEvent;
@@ -14,7 +17,7 @@ import javax.servlet.http.HttpSessionListener;
 import com.stusys.bean.Student;
 
 @WebListener
-public class OnlineLoginStudentSessionListener implements HttpSessionListener,HttpSessionAttributeListener{
+public class OnlineLoginStudentSessionListener implements HttpSessionListener, HttpSessionAttributeListener {
 
 	/**
 	 * 
@@ -33,7 +36,7 @@ public class OnlineLoginStudentSessionListener implements HttpSessionListener,Ht
 //			}
 //			onlineStudentList.add(student);
 //		}
-		
+
 	}
 
 	public void attributeRemoved(HttpSessionBindingEvent event) {
@@ -56,14 +59,11 @@ public class OnlineLoginStudentSessionListener implements HttpSessionListener,Ht
 		HttpSession session = se.getSession();
 		ServletContext servletContext = session.getServletContext();
 		List<Student> onlineStudentList = (ArrayList<Student>) servletContext.getAttribute("onlineStudentList");
-		Student onlineStudent = (Student)session.getAttribute("student");
-		if(onlineStudentList != null && onlineStudent != null) {
-			onlineStudentList.remove(onlineStudent);	
+		Student onlineStudent = (Student) session.getAttribute("student");
+		if (onlineStudentList != null && onlineStudent != null) {
+			onlineStudentList.remove(onlineStudent);
 			System.out.println("学生 " + onlineStudent.getStuNo() + "退出登录");
 		}
 	}
-
-	
-	
 
 }

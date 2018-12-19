@@ -14,9 +14,11 @@ import javax.servlet.http.HttpServletResponse;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.stusys.bean.Teacher;
+import com.stusys.page.Page;
 import com.stusys.service.TeacherService;
 import com.stusys.service.impl.TeacherServiceImpl;
 import com.stusys.util.MD5Util;
+import com.stusys.util.WebUtil;
 
 /**
  * Servlet implementation class TeacherServlet
@@ -113,12 +115,24 @@ public class TeacherServlet extends HttpServlet {
 		Teacher teacher = null;
 		if (teacherName != null || teacherNo != null) {
 			teacher = new Teacher();
-			teacher.setTeacherName(teacherName);
-			teacher.setTeacherNo(teacherNo);
+			if (teacherName != null && !"".equals(teacherName)) {
+				teacher.setTeacherName(teacherName);
+			}
+			if(teacherNo != null&&!"".equals(teacherNo)) {
+				teacher.setTeacherNo(teacherNo);
+			}
+		}
+		//设置当前页面信息
+		String currentPageStr = request.getParameter("currentPage");
+		Page page = new Page(teacherService.countTeacher(teacher), 1, 10);
+		page.setPath(WebUtil.getPath(request));
+		if(currentPageStr != null && !"".equals(currentPageStr)) {
+			page.setPageCurrent(Integer.parseInt(currentPageStr));;
 		}
 		// 查询教师信息
-		List<Teacher> teacherList = teacherService.queryTeacher(teacher, null);
+		List<Teacher> teacherList = teacherService.queryTeacher(teacher, page);
 		request.setAttribute("teacherList", teacherList);
+		request.setAttribute("page", page);
 		request.getRequestDispatcher("/teacher/teacher-list.jsp").forward(request, response);
 	}
 

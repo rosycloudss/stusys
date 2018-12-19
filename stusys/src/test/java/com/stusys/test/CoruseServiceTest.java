@@ -14,6 +14,9 @@ public class CoruseServiceTest {
 		Course course = new Course();
 
 		course.setCourseNo(241);
+		CourseServiceImpl courseServiceImpl = new CourseServiceImpl();
+		
+		System.out.println(courseServiceImpl.queryTCByParameters(null, null));
 
 //		System.out.println(courseService.queryByCourseNo(241));
 //		System.out.println(courseService.queryByParamenters(null, null));

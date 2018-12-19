@@ -56,12 +56,6 @@
 						<td width="25%" class="title" style="width: 18%">姓名：</td>
 						<td width="25%"><input type="text" name="stuName"
 							value="${queryedStu.getName() }" class="input-text"></td>
-						<td width="30%" class="title" colspan="9" style="width: 18%">
-							<div>
-								<img align="middle" alt="${queryedStu.getName() }" src="${queryedStu.getPhotoPath() }"
-									width="100px" height="100px"> <br>
-							</div>
-						</td>
 
 					</tr>
 					<tr>

@@ -375,7 +375,7 @@ public class StudentDao {
 	public List<Student> select(Student stu, Page page) {
 		List<Student> stuList = new ArrayList<Student>();
 		StringBuffer sql = new StringBuffer(
-				"SELECT STU_NO,STU_PASSWORD,STU_NAME,STU_GENDER,STU_IDCARD,MAJOR_NO,STU_ADDRESS,STU_PHONE1,STU_PHONE2,STU_QQ,STU_EMAIL,STU_EDUCATION,STU_STATE,STU_PHOTO_PATH,STU_ENTER_TIME,CREATE_TIME,STU_LOCK FROM TB_STUDENT WHERE 1=1 ");
+				"SELECT * FROM( SELECT STU_NO,STU_PASSWORD,STU_NAME,STU_GENDER,STU_IDCARD,MAJOR_NO,STU_ADDRESS,STU_PHONE1,STU_PHONE2,STU_QQ,STU_EMAIL,STU_EDUCATION,STU_STATE,STU_PHOTO_PATH,STU_ENTER_TIME,CREATE_TIME,STU_LOCK, ROWNUM RN FROM TB_STUDENT WHERE 1=1 ");
 		if(stu != null) {
 			if(stu.getStuNo() != null) {
 				sql.append(" AND STU_NO=?");
@@ -404,12 +404,13 @@ public class StudentDao {
 				sql.append(" AND STU_LOCK=0");//如果lock值不为1或0 则默认为0
 			}
 		}
+		sql.append(") ");
 		//分页
 		if (page != null) {
-			sql.append(" AND ROWNUM>=" + page.getPageStart() + " AND ROWNUM<"
+			sql.append(" WHERE RN>" + page.getPageStart() + " AND RN<="
 					+ (page.getPageSize() + page.getPageStart()));
 		}
-		
+		System.out.println(sql.toString());
 		try {
 			conn = DBUtil.getConnection();
 			prestat = conn.prepareStatement(sql.toString());
