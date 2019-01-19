@@ -1,7 +1,6 @@
 package com.stusys.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -9,15 +8,12 @@ import java.util.Map.Entry;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.util.Base64;
 import com.stusys.bean.StudentCourse;
 import com.stusys.bean.Teacher;
-import com.stusys.bean.TeacherCourse;
 import com.stusys.service.StudentCourseService;
 import com.stusys.service.StudentService;
 import com.stusys.service.TeacherCourseService;
@@ -111,7 +107,7 @@ public class StudentCourseServlet extends BaseServlet {
 		String stuNo = request.getParameter("stuNo");
 		String scNo = request.getParameter("scNo");
 		String flag1 = request.getParameter("f1");
-		String currenSemester = request.getParameter("semester");
+//		String currenSemester = request.getParameter("semester");
 
 		List<StudentCourse> scList = new ArrayList<StudentCourse>();
 		System.out.println(tcNo);

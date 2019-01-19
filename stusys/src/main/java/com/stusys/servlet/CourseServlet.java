@@ -1,12 +1,10 @@
 package com.stusys.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,9 +14,6 @@ import com.stusys.service.CourseService;
 import com.stusys.service.impl.CourseServiceImpl;
 import com.stusys.servlet.base.BaseServlet;
 
-/**
- * Servlet implementation class CourseServlet
- */
 @WebServlet("/course")
 public class CourseServlet extends BaseServlet {
 	private static final long serialVersionUID = 1L;
@@ -50,8 +45,6 @@ public class CourseServlet extends BaseServlet {
 		}
 
 		String url = request.getContextPath() + "/course/add-course.jsp";
-		PrintWriter out = response.getWriter();
-
 		if (addCount > 0) {
 			responseHtml(response, "添加成功！", url);
 		} else {

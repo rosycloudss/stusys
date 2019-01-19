@@ -1,13 +1,10 @@
 package com.stusys.listener;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.annotation.WebListener;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionAttributeListener;
 import javax.servlet.http.HttpSessionBindingEvent;
@@ -23,19 +20,7 @@ public class OnlineLoginStudentSessionListener implements HttpSessionListener, H
 	 * 
 	 */
 	public void attributeAdded(HttpSessionBindingEvent event) {
-		// TODO Auto-generated method stub
 		HttpSessionAttributeListener.super.attributeAdded(event);
-//		HttpSession session = event.getSession();
-//		Student student = (Student)session.getAttribute("student");
-//		ServletContext servletContext = session.getServletContext();
-//		if(student != null) {
-//			List<Student> onlineStudentList = (ArrayList<Student>) servletContext.getAttribute("onlineStudentList");
-//			if(onlineStudentList == null) {
-//				onlineStudentList = new ArrayList<Student>();
-//				servletContext.setAttribute("onlineStudentList", onlineStudentList);
-//			}
-//			onlineStudentList.add(student);
-//		}
 
 	}
 

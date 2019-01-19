@@ -16,10 +16,12 @@ import javax.servlet.http.HttpSession;
 import com.stusys.bean.Student;
 import com.stusys.service.StudentService;
 import com.stusys.service.impl.StudentServiceImpl;
-import com.stusys.util.MD5Util;
 
 /**
- * Servlet implementation class LoginServlet
+ * 
+ * @author LIWEI
+ * @time 2019年1月19日上午9:07:07
+ * @description:学生登录
  */
 @WebServlet("/studentLogin")
 public class StudentLoginServlet extends HttpServlet {

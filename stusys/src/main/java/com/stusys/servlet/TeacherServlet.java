@@ -1,17 +1,14 @@
 package com.stusys.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.stusys.bean.Teacher;
 import com.stusys.page.Page;
@@ -21,26 +18,10 @@ import com.stusys.servlet.base.BaseServlet;
 import com.stusys.util.MD5Util;
 import com.stusys.util.WebUtil;
 
-/**
- * Servlet implementation class TeacherServlet
- */
 @WebServlet("/teacher")
 public class TeacherServlet extends BaseServlet {
 	private static final long serialVersionUID = 1L;
 	private TeacherService teacherService = new TeacherServiceImpl();
-//	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-//			throws ServletException, IOException {
-//
-//
-//		if ("add".equals(flag)) { // 添加教师信息
-//			addTeacher(request, response);
-//		} else if ("query".equals(flag)) {
-//			queryTeacher(request, response);
-//		} else if ("delete".equals(flag)) {
-//			deleteTeacher(request, response);
-//		}
-//
-//	}
 
 	/**
 	 * 添加教师信息

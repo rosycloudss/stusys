@@ -26,11 +26,9 @@ import com.stusys.service.impl.DepartmentAndMajorServiceImpl;
 @WebFilter("/*")
 public class DepartmentFilter implements Filter {
 	public DepartmentFilter() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public void destroy() {
-		// TODO Auto-generated method stub
 	}
 
 	@SuppressWarnings("unchecked")

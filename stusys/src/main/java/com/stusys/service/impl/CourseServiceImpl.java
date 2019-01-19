@@ -10,7 +10,6 @@ import com.stusys.bean.Major;
 import com.stusys.bean.Teacher;
 import com.stusys.bean.TeacherCourse;
 import com.stusys.dao.CourseDao;
-import com.stusys.dao.StudentCourseDao;
 import com.stusys.dao.TeacherCourseDao;
 import com.stusys.page.Page;
 import com.stusys.service.CourseService;
