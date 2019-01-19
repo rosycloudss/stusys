@@ -36,11 +36,11 @@ public class StudentCourseServiceImpl implements StudentCourseService {
 	 * 删除学生选课信息，同时在老师授课表中的选课学生数减一
 	 */
 	@Override
-	public int delStudentCourse(long scNo) {
+	public int delStudentCourse(Long scNo,Long tcNo) {
 		StudentCourse sc = queryStudentCourse(scNo);
 		System.out.println(sc);
 		if (sc != null) {
-			int delete = scDao.delete(scNo);
+			int delete = scDao.delete(scNo,null);
 			TeacherCourse tc = teacherCourseService.queryTCByTCNo(sc.getTc().getTcNo());
 			tc.setSelectNum(tc.getSelectNum() - 1);
 			if (tc.getSelectNum() >= 0) {

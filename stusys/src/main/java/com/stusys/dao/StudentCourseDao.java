@@ -53,13 +53,35 @@ public class StudentCourseDao {
 	 * @param scNo
 	 * @return
 	 */
-	public int delete(long scNo) {
-		String sql = "DELETE FROM TB_STUDENT_COURSE WHERE SC_NO=?";
+	public int delete(Long scNo,Long tcNo) {
+		if(scNo == null && tcNo == null) {
+			return 0;
+		}
+		
+		StringBuffer sql = new StringBuffer("DELETE FROM TB_STUDENT_COURSE WHERE");
+		StringBuffer appendSql = new StringBuffer("");
+		if(scNo != null) {
+			appendSql.append(" AND SC_NO=?");
+		}
+		if(tcNo != null) {
+			appendSql.append(" AND TC_NO=?");
+		}
+		if (appendSql.length() > 0) {
+			appendSql.replace(0, 4, "");
+		}
+		sql.append(appendSql);
 		int affectColums = 0;
 		try {
 			conn = DBUtil.getConnection();
-			prestat = conn.prepareStatement(sql);
-			prestat.setLong(1, scNo);
+			prestat = conn.prepareStatement(sql.toString());
+			int count = 1;
+			if(scNo != null) {
+				prestat.setLong(count++, scNo);
+			}
+			if(tcNo != null) {
+				prestat.setLong(count++, tcNo);
+			}
+			
 			affectColums = prestat.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println("删除学生选课信息失败！" + e);
@@ -69,7 +91,7 @@ public class StudentCourseDao {
 		return affectColums;
 	}
 	/**
-	 * 修改学生
+	 * 修改学生选课信息
 	 * @param sc
 	 * @return
 	 */

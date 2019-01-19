@@ -63,8 +63,8 @@
 							<tr class="text-c">
 								<td>${teacher.getTeacherNo() }</td>
 								<td>${teacher.getTeacherName() }</td>
-								<td>${teacher.getRoleStr() }</td>
 								<td>${teacher.getDepat().getDeptName() }</td>
+								<td>${teacher.getRoleStr() }</td>
 								<td><a class="btn btn-success radius"
 									href="">查看</a>
 									<a class="btn btn-success radius" onclick="teacher_del(this,${teacher.getTeacherNo() })" style="background: red;">删除</a></td>
@@ -137,7 +137,7 @@
 		layer.confirm('确认要删除吗？',function(index){
 			$.ajax({
 				type: 'POST',
-				url: 'http://localhost:8080/stusys/teacher?flag=delete&teacherNo='+teacherNo,
+				url: 'http://localhost:8080/stusys/teacher?f=d&teacherNo='+teacherNo,
 				dataType: 'json',
 				success: function(data){
 					if(data.delResult > 0){

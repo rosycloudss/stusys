@@ -64,7 +64,7 @@
 									<a href="#" onclick="course_select(this,${student.getStuNo() },${teacherCourse.getTcNo() })" class="btn btn-success radius">选择</a>
 								</c:if>
 								<c:if test="${teacher != null }">
-									<a href="<%=request.getContextPath() %>/student/course?flag=query&flag1=sc&tcNo=${teacherCourse.getTcNo() }"  class="btn btn-success radius">查看学生</a>
+									<a href="<%=request.getContextPath() %>/student/course?f=q&f1=tscl&tcNo=${teacherCourse.getTcNo() }"  class="btn btn-success radius">查看学生</a>
 								</c:if>
 								</td>
 							</tr>

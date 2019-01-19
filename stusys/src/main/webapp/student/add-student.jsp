@@ -37,10 +37,9 @@
 	</nav>
 
 	<div class="page-container">
-		<form action="<%=request.getContextPath() %>/student?flag=add" method="post" enctype="multipart/form-data" id="form-student-add">
+		<form action="<%=request.getContextPath() %>/student?f=a" method="post" id="form-student-add">
 			<table style="width: 95%" align="center"
-				class="table table-border table-bordered table-bg table-sort"
-				id="studentInfoTb">
+				class="table table-border table-bordered table-bg table-sort">
 				<tr>
 					<td colspan="5" style="font-weight: bold; text-align: center"
 						class="">添加学生信息</td>
@@ -65,6 +64,7 @@
 				<tr>
 					<td class="title" style="width: 18%">年级：</td>
 					<td><select name="grade" class="input-text">
+							<option value="2019">2019</option>
 							<option value="2018">2018</option>
 							<option value="2017">2017</option>
 							<option value="2016">2016</option>
@@ -81,6 +81,7 @@
 				<tr>
 					<td class="title" style="width: 18%">院系：</td>
 					<td><select name="dept" id="dept" class="input-text">
+							<option value="0">---选择院系---</option>
 							<c:if test="${sessionScope.deptList != null }">
 								<c:forEach items="${sessionScope.deptList }" var="dept">
 									<option value="${dept.getDeptNo() }">${dept.getDeptName() }[${dept.getDeptNo() }]</option>
@@ -88,8 +89,11 @@
 							</c:if>
 					</select></td>
 					<td class="title" style="width: 18%">专业：</td>
-					<td><select name="major" id="major" class="input-text">
-					</select></td>
+					<td>
+						<select name="major" id="major" class="input-text">
+							<option value='0'>---选择专业---</option>
+						</select>
+					</td>
 				</tr>
 				<tr>
 					<td class="title" style="width: 18%">入校时间：</td>
@@ -222,24 +226,26 @@
 			}
 		});
 	});
-		$("#dept").change(function(){
-		  $("#major").html("");
-			$.ajax({
-				type: 'POST',
-				url: 'http://localhost:8080/stusys/major/getbydeptno?deptNo=' + $("#dept").val(),
-				dataType: 'json',
-				success: function(data){
-					dataObj = data; //返回的result为json格式的数据
-					 $.each(dataObj,function(index,item){
-						 alert(item.majorNo);
-						 $("#major").append("<option value='"+item.majorNo+"'>"+item.majorName+"</option>")
-					 });
-				},
-				error:function(data) {
-					layer.confirm("获取专业信息失败！",null);
-				},
-			});	
+	$("#dept").change(function(){
+		$("#major").html("<option value='0'>---选择专业---</option>")
+		  if($("#dept").val() != 0){
+			  $.ajax({
+					type: 'POST',
+					url: 'http://localhost:8080/stusys/major/getbydeptno?deptNo=' + $("#dept").val(),
+					dataType: 'json',
+					success: function(data){
+						dataObj = data; //返回的result为json格式的数据
+						 $.each(dataObj,function(index,item){
+							 $("#major").append("<option value='"+item.majorNo+"'>"+item.majorName+"</option>")
+						 });
+					},
+					error:function(data) {
+						layer.confirm("获取专业信息失败！",null);
+					},
+				});	
+		  }
 		});
+		
 		
 	</script>
 </body>

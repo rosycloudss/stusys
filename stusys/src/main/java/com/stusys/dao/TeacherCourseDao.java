@@ -89,6 +89,7 @@ public class TeacherCourseDao {
 			if (courseNo != null) {
 				prestat.setLong(count++, courseNo);
 			}
+			System.out.println(sql.toString());
 			affectColums = prestat.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println("删除教师讲课信息失败" + e);

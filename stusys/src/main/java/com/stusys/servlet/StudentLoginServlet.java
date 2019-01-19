@@ -1,6 +1,7 @@
 package com.stusys.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import com.stusys.bean.Student;
 import com.stusys.service.StudentService;
 import com.stusys.service.impl.StudentServiceImpl;
+import com.stusys.util.MD5Util;
 
 /**
  * Servlet implementation class LoginServlet
@@ -22,23 +24,15 @@ import com.stusys.service.impl.StudentServiceImpl;
 @WebServlet("/studentLogin")
 public class StudentLoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	StudentService studentService;
+	StudentService studentService = new StudentServiceImpl();
+	PrintWriter out = null;
 
-	/**
-	 * Default constructor.
-	 */
-	public StudentLoginServlet() {
-		// TODO Auto-generated constructor stub
-		studentService = new StudentServiceImpl();
-	}
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
 	@SuppressWarnings("unchecked")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		out = response.getWriter();
+		
 		String stuNo = request.getParameter("stuNo");
 		String password = request.getParameter("password");
 		HttpSession session = request.getSession();
@@ -60,17 +54,21 @@ public class StudentLoginServlet extends HttpServlet {
 			loginStudentList.add(stu);
 			response.sendRedirect(request.getContextPath() + "/student/index.jsp");
 		} else {
-			response.sendRedirect(request.getContextPath() + "/login.jsp");
+			
+			// 返回添加结果
+			response.setContentType("text/html");
+			response.setCharacterEncoding("utf-8");
+			out.println("<html>");
+			out.println("<script>");
+			
+			out.println("alert('账号或密码错误!');");
+			out.println("window.location.href='" + request.getContextPath() + "/login.jsp'");
+			out.println("</script>");
+			out.println("</html>");
 		}
 	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

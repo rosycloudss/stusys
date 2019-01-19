@@ -9,7 +9,7 @@ public interface StudentCourseService {
 	
 	int addStudentCourse(StudentCourse sc);
 	
-	int delStudentCourse(long scNo);
+	int delStudentCourse(Long scNo,Long tcNo);
 	
 	int updateStudentCourse(StudentCourse sc);
 	

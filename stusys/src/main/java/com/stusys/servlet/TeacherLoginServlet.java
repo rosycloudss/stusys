@@ -1,6 +1,7 @@
 package com.stusys.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,6 +21,7 @@ import com.stusys.util.MD5Util;
 public class TeacherLoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	private PrintWriter out;
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -34,6 +36,7 @@ public class TeacherLoginServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		out = response.getWriter();
 		TeacherService ts = new TeacherServiceImpl();
 		String teacherNo = request.getParameter("teacherNo");
 		String password = request.getParameter("password");
@@ -44,8 +47,18 @@ public class TeacherLoginServlet extends HttpServlet {
 		if (teacher != null) {// 登录成功则跳转到教师首页
 			request.getSession().setAttribute("teacher", teacher);
 			response.sendRedirect(request.getContextPath() + "/teacher/index.jsp");
-		} else { // 登录失败则跳转到教师登录界面
-			response.sendRedirect(request.getContextPath() + "/login.jsp");
+		} else { 
+			// 登录失败则跳转到教师登录界面
+			// 返回添加结果
+			response.setContentType("text/html");
+			response.setCharacterEncoding("utf-8");
+			out.println("<html>");
+			out.println("<script>");
+
+			out.println("alert('账号或密码错误!');");
+			out.println("window.location.href='" + request.getContextPath() + "/login.jsp'");
+			out.println("</script>");
+			out.println("</html>");
 		}
 
 	}

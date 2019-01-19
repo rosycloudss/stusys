@@ -38,7 +38,7 @@
 
 	<div class="page-container">
 		<c:if test="${queryedStu != null }">
-			<form action="<%=request.getContextPath()%>/student?flag=update"
+			<form
 				method="post" id="form-student-update">
 				<table style="width: 95%" align="center"
 					class="table table-border table-bordered table-bg table-sort"
@@ -141,8 +141,10 @@
 							value="${queryedStu.getAddress() }"></td>
 					</tr>
 					<tr>
-						<td colspan="4"><input type="button" class=" input-text" onclick="student_update()"
+						<td colspan="2"><input type="button" class=" input-text" onclick="student_update()"
 							value="确认修改"></td>
+						<td colspan="2"><input type="button" class=" input-text" onclick="reset_passwd(${queryedStu.getStuNo()})"
+							value="重置学生密码"></td>
 					</tr>
 				</table>
 			</form>
@@ -191,10 +193,10 @@
 		});
 		
 		/*修改学生信息*/
-		function student_update(){
+		function student_update(stuNo){
 			$.ajax({
 				type: 'POST',
-				url: 'http://localhost:8080/stusys/student?flag=update',
+				url: 'http://localhost:8080/stusys/student?f=u',
 				dataType: 'json',
 				data:$("#form-student-update").serialize(),
 				success: function(result){
@@ -210,6 +212,29 @@
 					console.log(result.msg);
 				},
 			});		
+		}
+		/*重置学生密码*/
+		function reset_passwd(stuNo){
+			layer.confirm('是否要重置学生密码为123456',function(index){
+				$.ajax({
+					type: 'POST',
+					url: 'http://localhost:8080/stusys/student?f=u&stuNo=' + stuNo + '&password=123456',
+					dataType: 'json',
+					success: function(result){
+						if(result.updateResult > 0){
+							alert("重置密码成功！");
+						}else{
+							alert("重置密码失败！");
+						}
+						var index = parent.layer.getFrameIndex(window.name);
+						parent.layer.close(index);
+					}, 
+					error:function(result) {
+						console.log(result.msg);
+					},
+				});		
+				
+			});
 		}
 	</script>
 

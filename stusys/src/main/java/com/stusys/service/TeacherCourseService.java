@@ -10,7 +10,7 @@ public interface TeacherCourseService {
 	
 	public int addTC(TeacherCourse teaCourse);
 	
-	public int deleteTC(long teaCourseNo);
+	public int deleteTC(Long teaCourseNo,String teacherNo, Long courseNo);
 	
 	public int updateTC(TeacherCourse teaCourse);
 	

@@ -66,7 +66,7 @@
 				</dt>
 				<dd>
 					<ul>
-						<li><a data-href="<%=request.getContextPath()%>/teacher_course?flag=query&role=teacher&teacherNo=${teacher.getTeacherNo() }" data-title="我的授课"
+						<li><a data-href="<%=request.getContextPath()%>/teacher_course?f=q&role=teacher&teacherNo=${teacher.getTeacherNo() }" data-title="我的授课"
 							href="javascript:void(0)">我的授课</a></li>
 					</ul>
 				</dd>
@@ -80,7 +80,7 @@
 				</dt>
 				<dd>
 					<ul>
-						<li><a data-href="<%=request.getContextPath()%>/student?flag=query" data-title="学生列表"
+						<li><a data-href="<%=request.getContextPath()%>/student?f=q" data-title="学生列表"
 							href="javascript:void(0)">学生列表</a></li>
 						<li><a
 							data-href="<%=request.getContextPath()%>/student/add-student.jsp"
@@ -96,7 +96,7 @@
 					</dt>
 					<dd>
 						<ul>
-							<li><a data-href="<%=request.getContextPath()%>/teacher?flag=query" data-title="教师列表"
+							<li><a data-href="<%=request.getContextPath()%>/teacher?f=q" data-title="教师列表"
 								href="javascript:void(0)">教师列表</a></li>
 							<li><a data-href="<%=request.getContextPath()%>/teacher/add-teacher.jsp" data-title="添加教师"
 								href="javascript:void(0)">添加教师</a></li>
@@ -113,7 +113,7 @@
 					<ul>
 						<li><a data-href="<%=request.getContextPath()%>/course/add-course.jsp" data-title="添加课程"
 							href="javascript:void(0)">添加课程</a></li>
-						<li><a data-href="<%=request.getContextPath()%>/course?flag=query" data-title="课程列表"
+						<li><a data-href="<%=request.getContextPath()%>/course?f=q" data-title="课程列表"
 							href="javascript:void(0)">课程列表</a></li>
 					</ul>
 				</dd>

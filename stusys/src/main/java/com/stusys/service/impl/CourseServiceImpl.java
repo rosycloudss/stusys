@@ -10,6 +10,7 @@ import com.stusys.bean.Major;
 import com.stusys.bean.Teacher;
 import com.stusys.bean.TeacherCourse;
 import com.stusys.dao.CourseDao;
+import com.stusys.dao.StudentCourseDao;
 import com.stusys.dao.TeacherCourseDao;
 import com.stusys.page.Page;
 import com.stusys.service.CourseService;
@@ -29,10 +30,6 @@ public class CourseServiceImpl implements CourseService, TeacherCourseService {
 
 	private TeacherCourseDao teacherCourseDao = new TeacherCourseDao();
 
-	private TeacherService teacherService = new TeacherServiceImpl();
-
-	private MajorService majorService = new DepartmentAndMajorServiceImpl();
-
 	/**
 	 * 添加课程信息
 	 */
@@ -49,7 +46,11 @@ public class CourseServiceImpl implements CourseService, TeacherCourseService {
 	 */
 	@Override
 	public int delete(long courseNo) {
-		return courseDao.delete(courseNo);
+		if (deleteTC(null, null, courseNo) >= 0) {
+			return courseDao.delete(courseNo);
+		} else {
+			return 0;
+		}
 	}
 
 	/**
@@ -96,6 +97,7 @@ public class CourseServiceImpl implements CourseService, TeacherCourseService {
 	 */
 	@Override
 	public List<Course> queryByParamenters(Course course, Page page) {
+		MajorService majorService = new DepartmentAndMajorServiceImpl();
 		List<Course> courseList = courseDao.select(course, page);
 		if (courseList != null && !courseList.isEmpty()) {
 			Map<Integer, Major> majorMap = new HashMap<Integer, Major>();// 缓存Major信息
@@ -131,8 +133,8 @@ public class CourseServiceImpl implements CourseService, TeacherCourseService {
 	 * 删除教师授课信息
 	 */
 	@Override
-	public int deleteTC(long teaCourseNo) {
-		return teacherCourseDao.delete(teaCourseNo, null, null);
+	public int deleteTC(Long teaCourseNo, String teacherNo, Long courseNo) {
+		return teacherCourseDao.delete(teaCourseNo, teacherNo, courseNo);
 	}
 
 	@Override
@@ -148,6 +150,7 @@ public class CourseServiceImpl implements CourseService, TeacherCourseService {
 	 */
 	@Override
 	public List<TeacherCourse> queryTCByParameters(TeacherCourse teaCourse, Page page) {
+		TeacherService teacherService = new TeacherServiceImpl();
 		List<TeacherCourse> teacherCourseList = teacherCourseDao.select(teaCourse, page);
 		if (teacherCourseList != null && !teacherCourseList.isEmpty()) {
 			Map<Long, Course> courseMap = new HashMap<Long, Course>();// 缓存课程信息

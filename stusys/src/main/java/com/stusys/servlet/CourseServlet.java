@@ -10,53 +10,26 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.stusys.bean.Course;
 import com.stusys.service.CourseService;
 import com.stusys.service.impl.CourseServiceImpl;
+import com.stusys.servlet.base.BaseServlet;
 
 /**
  * Servlet implementation class CourseServlet
  */
 @WebServlet("/course")
-public class CourseServlet extends HttpServlet {
+public class CourseServlet extends BaseServlet {
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public CourseServlet() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		String flag = request.getParameter("flag");
-		System.out.println(flag);
-		if ("add".equals(flag)) {
-			addCourse(request, response);
-		} else if ("query".equals(flag)) {
-			queryCourse(request, response);
-		} else if ("delete".equals(flag)) {
-			deleteCourse(request, response);
-		}
-	}
+	private CourseService courseService = new CourseServiceImpl();
+	private final String SELECT_COURSE = "s";
 
 	/**
 	 * 添加课程信息
-	 * 
-	 * @param request
-	 * @param response
-	 * @throws IOException
 	 */
-	private void addCourse(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		CourseService courseService = new CourseServiceImpl();
+	@Override
+	public void add(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String courseName = request.getParameter("courseName");
 		String courseDescription = request.getParameter("courseDescription");
 		String major = request.getParameter("major");
@@ -76,40 +49,52 @@ public class CourseServlet extends HttpServlet {
 			addCount = courseService.add(course);
 		}
 
+		String url = request.getContextPath() + "/course/add-course.jsp";
 		PrintWriter out = response.getWriter();
-		response.setContentType("text/html");
-		response.setCharacterEncoding("utf-8");
-		out.println("<html>");
-		out.println("<script>");
+
 		if (addCount > 0) {
-			out.println("alert('添加成功!');");
+			responseHtml(response, "添加成功！", url);
 		} else {
-			out.println("alert('添加失败!');");
+			responseHtml(response, "添加失败！", url);
 		}
-		out.println("window.location.href='" + request.getContextPath() + "/course/add-course.jsp'");
-		out.println("</script>");
-		out.println("</html>");
-		out.flush();
 		System.out.println(addCount);
+
 	}
 
 	/**
-	 * 查询课程信息
-	 * 
-	 * @param request
-	 * @param response
-	 * @throws ServletException
-	 * @throws IOException
+	 * 删除课程信息，并返回json格式的数据 {"delResult":1} 删除成功 {"delResult":0} 删除失败
 	 */
-	private void queryCourse(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		CourseServiceImpl courseService = new CourseServiceImpl();
+	@Override
+	public void delete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String courseNo = request.getParameter("courseNo");
+		int delResult = 0;
+		if (courseNo != null) {
+			delResult = courseService.delete(Long.parseLong(courseNo));
+		}
+
+		// 将删除结果放在json中
+		JSONObject jsonnResult = new JSONObject();
+		jsonnResult.put("delResult", delResult);
+		responseJson(response, jsonnResult.toString());
+
+	}
+
+	@Override
+	public void update(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		// TODO Auto-generated method stub
+
+	}
+
+	/**
+	 *  查询课程信息
+	 */
+	@Override
+	public void query(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		String courseName = request.getParameter("courseName");
 		String major = request.getParameter("major");
 		String courseNo = request.getParameter("courseNo");
-		String flag1 = request.getParameter("flag1");
-		
-		
+		String flag1 = request.getParameter("f1");
+
 		Course course = null;
 		if (courseName != null && major != null) {
 			course = new Course();
@@ -121,51 +106,17 @@ public class CourseServlet extends HttpServlet {
 		if (courseNo != null) {// 如果课程编号不为null则查询单个课程信息，并跳转到修改课程界面
 			course = courseService.queryByCourseNo(Long.parseLong(courseNo));
 			request.setAttribute("course", course);
-			if ("select".equals(flag1)) {//如何flag1等于select则跳转到到教师选课界面
+			if (SELECT_COURSE.equals(flag1)) {// 如何flag1等于select则跳转到到教师选课界面
 				request.getRequestDispatcher("/teacher/course-select.jsp").forward(request, response);
-			} else {
+			} else {// 否则跳转到修改课程界面
 				request.getRequestDispatcher("/course/update-course.jsp").forward(request, response);
 			}
 		} else {// 如果课程编号为null则按照courseName，major查询课程信息，并跳转到课程列表界面
-			
 			List<Course> courseList = courseService.queryByParamenters(course, null);
 			request.setAttribute("courseList", courseList);
 			request.getRequestDispatcher("/course/course-list.jsp").forward(request, response);
 		}
-	}
 
-	/**
-	 * 删除课程信息
-	 * 
-	 * @param request
-	 * @param response
-	 * @throws IOException
-	 */
-	private void deleteCourse(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		CourseService courseService = new CourseServiceImpl();
-		String courseNo = request.getParameter("courseNo");
-		int delResult = 0;
-		if (courseNo != null) {
-			delResult = courseService.delete(Long.parseLong(courseNo));
-		}
-
-		JSONObject jsonnResult = new JSONObject();
-		jsonnResult.put("delResult", delResult);
-		response.setContentType("application/json;charset=utf-8");// 指定返回的格式为JSON格式
-		response.setCharacterEncoding("UTF-8");
-		PrintWriter out = response.getWriter();
-		out.println(jsonnResult); // 利用json返回删除结果
-		out.flush();
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
 	}
 
 }

@@ -78,7 +78,7 @@
 		layer.confirm('确认要退课吗？',function(index){
 			$.ajax({
 				type: 'POST',
-				url: 'http://localhost:8080/stusys/student/course?flag=del&scNo='+scNo,
+				url: 'http://localhost:8080/stusys/student/course?f=d&scNo='+scNo,
 				dataType: 'json',
 				success: function(data){
 					if(data.delResult > 0){

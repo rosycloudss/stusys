@@ -7,14 +7,15 @@ import com.stusys.bean.Teacher;
 import com.stusys.dao.DepartmentDao;
 import com.stusys.dao.TeacherDao;
 import com.stusys.page.Page;
+import com.stusys.service.TeacherCourseService;
 import com.stusys.service.TeacherService;
 
 public class TeacherServiceImpl implements TeacherService {
 
 	private TeacherDao teacherDao = new TeacherDao();
 	private DepartmentDao deptDao = new DepartmentDao();
-
-
+	
+	
 	@Override
 	public int addTeacher(Teacher teacher) {
 		if (teacher != null) {
@@ -25,7 +26,8 @@ public class TeacherServiceImpl implements TeacherService {
 
 	@Override
 	public int deleteTeacher(String teacherNo) {
-		if (teacherNo != null) {
+		TeacherCourseService teacherCourseService = new CourseServiceImpl();
+		if (teacherNo != null && teacherCourseService.deleteTC(null, teacherNo, null) > 0) {
 			return teacherDao.delete(teacherNo);
 		}
 		return 0;

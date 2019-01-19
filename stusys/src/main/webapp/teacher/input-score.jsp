@@ -34,7 +34,7 @@
 		<span style="margin-left: 10px;" class="l">课程名称：${teacherCourse.getCourse().getCourseName() }
 		</span>
 		<div class="mt-20">
-			<form action="<%=request.getContextPath() %>/student/course?flag=update"  class="form form-horizontal" method="post">
+			<form action="<%=request.getContextPath() %>/student/course?f=u"  class="form form-horizontal" method="post">
 				<table
 					class="table table-border table-bordered table-hover table-bg ">
 					<thead>

@@ -11,11 +11,12 @@ import com.stusys.dao.StudentDao;
 import com.stusys.page.Page;
 import com.stusys.service.MajorService;
 import com.stusys.service.StudentService;
+import com.stusys.util.MD5Util;
 
 public class StudentServiceImpl implements StudentService {
 
 	StudentDao stuDao = new StudentDao();
-	MajorService majorService = new DepartmentAndMajorServiceImpl();
+	
 	/**
 	 * 添加学生信息
 	 */
@@ -67,6 +68,7 @@ public class StudentServiceImpl implements StudentService {
 		if (stuNo != null && password != null) {
 			Student stu = new Student();
 			stu.setStuNo(stuNo);
+			stu.setPassword(MD5Util.MD5(password));
 			stuList.addAll(query(stu, null));
 		}
 		if (!stuList.isEmpty()) {
@@ -79,6 +81,7 @@ public class StudentServiceImpl implements StudentService {
 	 * 通过学生属性查找学生信息
 	 */
 	public List<Student> query(Student stu, Page page) {
+		MajorService majorService = new DepartmentAndMajorServiceImpl();
 		List<Student> stuList = new ArrayList<Student>();
 		stuList = stuDao.select(stu, page);
 		if(stuList != null && !stuList.isEmpty()) {

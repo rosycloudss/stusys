@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.util.Base64;
 import com.stusys.bean.StudentCourse;
 import com.stusys.bean.Teacher;
 import com.stusys.bean.TeacherCourse;
@@ -23,49 +24,25 @@ import com.stusys.service.TeacherCourseService;
 import com.stusys.service.impl.CourseServiceImpl;
 import com.stusys.service.impl.StudentCourseServiceImpl;
 import com.stusys.service.impl.StudentServiceImpl;
+import com.stusys.servlet.base.BaseServlet;
 
 /**
  * Servlet implementation class StudentSelectCourseServlet
  */
 @WebServlet("/student/course")
-public class StudentCourseServlet extends HttpServlet {
+public class StudentCourseServlet extends BaseServlet {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public StudentCourseServlet() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+	private StudentCourseService scs = new StudentCourseServiceImpl();
+	private final String STUDENT_COURSE_LIST = "scl";// 学生选课列表
+	private final String STUDENT_SCORE_LIST = "ssl";// 学生分数列表
+	private final String TEACHER_STUDENT_COURSE_LIST = "tscl";// 教师查看选择该课的学生
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
+	 * 学生选课
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		String flag = request.getParameter("flag");
-		if ("select".equals(flag)) {
-			selectCourse(request, response);
-		} else if ("query".equals(flag)) {
-			queryStudentCourse(request, response);
-		} else if ("del".equals(flag)) {
-			delStudentCourse(request, response);
-		}else if("update".equals(flag)) {
-			updateStudentCourse(request, response);
-		}
-	}
-
-	/**
-	 * 添加学生选课信息
-	 * 
-	 * @param request
-	 * @param response
-	 * @throws IOException
-	 */
-	private void selectCourse(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		StudentCourseService scs = new StudentCourseServiceImpl();
+	@Override
+	public void add(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		String tcNo = request.getParameter("tcNo");
 		String stuNo = request.getParameter("stuNo");
 
@@ -83,54 +60,60 @@ public class StudentCourseServlet extends HttpServlet {
 
 		JSONObject jsonResult = new JSONObject();
 		jsonResult.put("select", select);
-		// 设置响应内容类型
-		// 设置响应内容类型
-		response.setContentType("application/json;charset=utf-8");// 指定返回的格式为JSON格式
-		response.setCharacterEncoding("UTF-8");
-		PrintWriter out = response.getWriter();
-		out.println(jsonResult); // 利用json返回删除结果
-		out.flush();
+		responseJson(response, jsonResult.toJSONString());
+
 	}
+
 	/**
-	 * 修改学生选课信息
-	 * @param request
-	 * @param response
-	 * @throws IOException 
+	 * 删除学生选课信息
 	 */
-	public void updateStudentCourse(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		Map<String,String[]> parameterMap = request.getParameterMap();//获取参数的名称和值
-		StudentCourseService scs =new StudentCourseServiceImpl();
-		
-		for(Entry<String,String[]> entry : parameterMap.entrySet()){
-			if(!entry.getKey().equals("flag")) {
+	@Override
+	public void delete(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		String scNo = request.getParameter("scNo");
+		StudentCourseService scs = new StudentCourseServiceImpl();
+		JSONObject jsonResult = new JSONObject();
+		int delResult = 0;
+		if (scNo != null) {
+			delResult = scs.delStudentCourse(Long.parseLong(scNo),null);
+		}
+		jsonResult.put("delResult", delResult);
+
+		responseJson(response, jsonResult.toJSONString());
+
+	}
+
+	/**
+	 * 录入学生选课成绩
+	 */
+	@Override
+	public void update(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		Map<String, String[]> parameterMap = request.getParameterMap();// 获取参数的名称和值
+		for (Entry<String, String[]> entry : parameterMap.entrySet()) {
+			if (!entry.getKey().equals("f")) {
 				StudentCourse sc = new StudentCourse();
 				long scNo = Long.parseLong(entry.getKey());
 				sc.setScNo(scNo);
-				for(String str : entry.getValue()) {
+				for (String str : entry.getValue()) {
 					sc.getScore().setScore(Float.parseFloat(str));
 				}
 				scs.updateStudentCourse(sc);
 			}
 		}
 		Teacher teacher = (Teacher) request.getSession().getAttribute("teacher");
-		response.sendRedirect(request.getContextPath() + "/teacher_course?flag=query&role=teacher&teacherNo=" + teacher.getTeacherNo());
+		response.sendRedirect(request.getContextPath() + "/teacher_course?f=q&role=teacher&teacherNo="
+				+ teacher.getTeacherNo());
+
 	}
 
 	/**
 	 * 查询学生选课信息
-	 * 
-	 * @param request
-	 * @param response
-	 * @throws IOException
-	 * @throws ServletException
 	 */
-	public void queryStudentCourse(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		StudentCourseService scs = new StudentCourseServiceImpl();
+	@Override
+	public void query(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		String tcNo = request.getParameter("tcNo");
 		String stuNo = request.getParameter("stuNo");
 		String scNo = request.getParameter("scNo");
-		String flag1 = request.getParameter("flag1");
+		String flag1 = request.getParameter("f1");
 		String currenSemester = request.getParameter("semester");
 
 		List<StudentCourse> scList = new ArrayList<StudentCourse>();
@@ -147,7 +130,8 @@ public class StudentCourseServlet extends HttpServlet {
 			scList = scs.queryStudentCourse(sc, null);
 			request.setAttribute("scList", scList);
 		}
-		if ("sc".equals(flag1)) {
+		if (TEACHER_STUDENT_COURSE_LIST.equals(flag1)) {
+			// 教师查看选择该课程的学生
 			StudentService stuService = new StudentServiceImpl();
 			TeacherCourseService tcService = new CourseServiceImpl();
 			request.setAttribute("teacherCourse", tcService.queryTCByTCNo(Long.parseLong(tcNo)));
@@ -161,55 +145,19 @@ public class StudentCourseServlet extends HttpServlet {
 			}
 			request.getRequestDispatcher("/teacher/input-score.jsp").forward(request, response);// 跳转当前选择此课程的学生列表
 		} else {
-			
 			if (scNo != null) {
 				StudentCourse sc = scs.queryStudentCourse(Long.parseLong(scNo));
 				request.setAttribute("sc", sc);
 			}
-
-			if ("cl".equals(flag1)) {// cl表示学生选课列表
+			if (STUDENT_COURSE_LIST.equals(flag1)) {
+				// 学生选课列表
 				request.getRequestDispatcher("/student/student-course-list.jsp").forward(request, response);// 跳转到学生选课信息表
-			} else if ("sl".equals(flag1)) {// sl表示学生成绩列表
+			} else if (STUDENT_SCORE_LIST.equals(flag1)) {
+				// 学生成绩列表
 				request.getRequestDispatcher("/student/score-list.jsp").forward(request, response);// 跳转到学生成绩列表
 			}
 		}
 
-	}
-
-	/**
-	 * 删除学生选课信息
-	 * 
-	 * @param request
-	 * @param response
-	 * @throws IOException
-	 */
-	public void delStudentCourse(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		String scNo = request.getParameter("scNo");
-		StudentCourseService scs = new StudentCourseServiceImpl();
-		JSONObject jsonResult = new JSONObject();
-		int delResult = 0;
-		if (scNo != null) {
-			delResult = scs.delStudentCourse(Long.parseLong(scNo));
-		}
-		jsonResult.put("delResult", delResult);
-
-		// 设置响应内容类型
-		// 设置响应内容类型
-		response.setContentType("application/json;charset=utf-8");// 指定返回的格式为JSON格式
-		response.setCharacterEncoding("UTF-8");
-		PrintWriter out = response.getWriter();
-		out.println(jsonResult); // 利用json返回删除结果
-		out.flush();
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
 	}
 
 }

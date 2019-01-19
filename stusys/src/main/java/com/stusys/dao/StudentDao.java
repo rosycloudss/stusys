@@ -30,6 +30,7 @@ public class StudentDao {
 	 * @return
 	 */
 	public int add(Student stu) {
+		System.out.println(stu);
 		int affectColums = 0;
 		String sql = "INSERT INTO TB_STUDENT(" + baseColumnList + ") VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		try {
@@ -53,13 +54,13 @@ public class StudentDao {
 			prestat.setString(14, stu.getEnterTime());
 			prestat.setString(15, stu.getPhotoPath());
 			prestat.setLong(16, stu.getCreateTime());
-			System.out.println(stu);
 			affectColums = prestat.executeUpdate();
 		} catch (Exception e) {
 			System.out.println("添加学生" + stu.getStuNo() + "  " + stu.getName() + "失败" + e);
 		} finally {
 			DBUtil.close(rs, prestat, conn);
 		}
+		System.out.println("添加结果" + affectColums);
 		return affectColums;
 	}
 

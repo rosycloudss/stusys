@@ -117,53 +117,6 @@
 		</table>
 	</div>
 
-	<!-- 
-	<div id="tabPage2" class="ajax_container">
-		<form action="" method="post" class="form form-horizontal"
-			id="form-member-add">
-			<div class="row cl">
-				<label class="form-label col-xs-4 col-sm-3"><span
-					class="c-red">*</span>电子邮件：</label>
-				<div class="formControls col-xs-4 col-sm-4">
-					<input type="text" class="input-text"
-						value="${student.getEmail() }" placeholder="" id="username"
-						name="username">
-				</div>
-			</div>
-			<div class="row cl">
-				<label class="form-label col-xs-4 col-sm-3"><span
-					class="c-red">*</span>联系电话：</label>
-				<div class="formControls col-xs-4 col-sm-4">
-					<input type="text" class="input-text" value="" placeholder=""
-						id="phone" name="phone">
-				</div>
-			</div>
-			<div class="row cl">
-				<label class="form-label col-xs-4 col-sm-3"><span
-					class="c-red">*</span>联系地址：</label>
-				<div class="formControls col-xs-4 col-sm-4">
-					<input type="text" class="input-text" value="" placeholder=""
-						id="adddress" name="address">
-				</div>
-			</div>
-			<div class="row cl">
-				<label class="form-label col-xs-4 col-sm-3 row-xs-4 row-sm-4"><span
-					class="c-red">*</span>申请内容：</label>
-				<div class="col-xs-6 col-sm-6 row-xs-4 row-sm-4 ">
-					<textarea rows="4" cols="40" id="applyContext" name="applyContext"></textarea>
-				</div>
-			</div>
-			<div class="row cl">
-				<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
-					<input class="btn btn-primary radius" type="submit"
-						value="&nbsp;&nbsp;提交&nbsp;&nbsp;"> <input
-						class="btn btn-primary radius" type="reset"
-						value="&nbsp;&nbsp;重置&nbsp;&nbsp;">
-				</div>
-			</div>
-		</form>
-	</div>
-	 -->
 
 	<!--_footer 作为公共模版分离出去-->
 	<script type="text/javascript" src="../lib/jquery/1.9.1/jquery.min.js"></script>

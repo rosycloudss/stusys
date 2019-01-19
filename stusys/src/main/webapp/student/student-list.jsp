@@ -37,7 +37,7 @@
 		<div align="center">
 			<form action="<%=request.getContextPath()%>/student"
 				method="get">
-				<input type="hidden" name="flag" value="query">
+				<input type="hidden" name="f" value="q">
 				<span>学号：</span><input type="text" class="input-text"
 					style="width: 120px;" name="stuNo"> <span>姓名：</span><input
 					type="text" class="input-text" style="width: 120px;" name="stuName">
@@ -66,7 +66,7 @@
 						<c:forEach items="${stuList }" var="stu">
 							<tr class="text-c">
 								<td><a href="javascript:;"
-									onclick="student_edit('学生修改','http://localhost:8080/stusys/student?flag=query&flag1=update&stuNo=${stu.getStuNo()}','','510')">${stu.getStuNo() }</a></td>
+									onclick="student_edit('学生修改','http://localhost:8080/stusys/student?f=q&f1=one&stuNo=${stu.getStuNo()}','','510')">${stu.getStuNo() }</a></td>
 								<td>${stu.getName() }</td>
 								<td>${stu.getGender() }</td>
 								<td>${stu.getMajor().getMajorName() }</td>
@@ -75,7 +75,7 @@
 								<td>${stu.getStateStr() }</td>
 								<td>${stu.getEnterTime() }</td>
 								<td><a class="btn btn-success radius" href="javascript:;"
-									onclick="student_edit('学生修改','http://localhost:8080/stusys/student?flag=query&flag1=update&stuNo=${stu.getStuNo()}','','510')">查看</a>
+									onclick="student_edit('学生修改','http://localhost:8080/stusys/student?f=q&f1=one&stuNo=${stu.getStuNo()}','','510')">查看</a>
 									<c:if test="${teacher.getRole() == 2 }">
 										<a class="btn btn-success radius"
 											onclick="student_del(this,${stu.getStuNo() })"
@@ -152,7 +152,7 @@
 		layer.confirm('确认要删除吗？',function(index){
 			$.ajax({
 				type: 'POST',
-				url: 'http://localhost:8080/stusys/student?flag=delete&stuNo='+stuNo,
+				url: 'http://localhost:8080/stusys/student?f=d&stuNo='+stuNo,
 				dataType: 'json',
 				success: function(data){
 					if(data.delResult > 0){

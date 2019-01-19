@@ -77,7 +77,7 @@
 			layer.confirm('确认要选择吗？',function(index){
 				$.ajax({
 					type: 'POST',
-					url: 'http://localhost:8080/stusys/student/course?flag=select&stuNo='+stuNo+'&tcNo='+tcNo,
+					url: 'http://localhost:8080/stusys/student/course?f=a&stuNo='+stuNo+'&tcNo='+tcNo,
 					dataType: 'json',
 					success: function(data){
 						if(data.select > 0){

@@ -55,7 +55,7 @@
 								<td>${course.getClassHour() }</td>
 								<td>
 								<a class="btn btn-success radius"
-									href="#" onclick="teacher_select('老师选课','<%=request.getContextPath()%>/course?flag=query&flag1=select&courseNo=${course.getCourseNo() }','','')">选课</a>
+									href="#" onclick="teacher_select('老师选课','<%=request.getContextPath()%>/course?f=q&f1=s&courseNo=${course.getCourseNo() }','','')">选课</a>
 								<c:if test="${teacher.getRole() == 2 }">
 									<a class="btn btn-success radius" onclick="course_del(this,${course.getCourseNo() })" style="background: red;">删除</a>
 								</c:if>
@@ -75,7 +75,7 @@
 		layer.confirm('确认要删除吗？',function(index){
 			$.ajax({
 				type: 'POST',
-				url: 'http://localhost:8080/stusys/course?flag=delete&courseNo='+courseNo,
+				url: 'http://localhost:8080/stusys/course?f=d&courseNo='+courseNo,
 				dataType: 'json',
 				success: function(data){
 					if(data.delResult > 0){

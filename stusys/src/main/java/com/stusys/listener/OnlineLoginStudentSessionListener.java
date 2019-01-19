@@ -62,7 +62,7 @@ public class OnlineLoginStudentSessionListener implements HttpSessionListener, H
 		Student onlineStudent = (Student) session.getAttribute("student");
 		if (onlineStudentList != null && onlineStudent != null) {
 			onlineStudentList.remove(onlineStudent);
-			System.out.println("学生 " + onlineStudent.getStuNo() + "退出登录");
+			System.out.println("退出 登录");
 		}
 	}
 

@@ -133,7 +133,7 @@
 		function form_submit(){
 			$.ajax({
 				type: 'POST',
-				url: 'http://localhost:8080/stusys/teacher_course?flag=add',
+				url: 'http://localhost:8080/stusys/teacher_course?f=a',
 				dataType: 'json',
 				data:$("#form-teacher-select").serialize(),
 				success: function(result){

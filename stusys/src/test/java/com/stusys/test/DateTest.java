@@ -6,9 +6,11 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.alibaba.fastjson.JSONObject;
+
 public class DateTest {
 
-	@Test
+//	@Test
 	public void test() {
 		List<String> semesterList = new ArrayList<String>();
 		Date nowDate = new Date(System.currentTimeMillis());
@@ -30,5 +32,12 @@ public class DateTest {
 			year--;
 		}
 		System.out.println(semesterList);
+	}
+	@Test
+	public void test1() {
+		//将删除结果放在json中
+		JSONObject jsonnResult = new JSONObject();
+		jsonnResult.put("delResult", 1);
+		System.out.println(jsonnResult.toJSONString());
 	}
 }

@@ -68,13 +68,15 @@
 					<ul>
 						<li><a data-href="<%=request.getContextPath()%>/student/student-info.jsp" data-title="学籍信息"
 							href="javascript:void(0)">学籍信息</a></li>
-						<li><a data-href="<%=request.getContextPath()%>/student/course?flag=query&flag1=cl&stuNo=${student.getStuNo() }" data-title="我的课表"
+						<li><a data-href="<%=request.getContextPath()%>/student/course?f=q&f1=scl&stuNo=${student.getStuNo() }" data-title="我的课表"
 							href="javascript:void(0)">我的课表</a></li>
 						<li><a
-							data-href="<%=request.getContextPath()%>/teacher_course?flag=query&role=student"
+							data-href="<%=request.getContextPath()%>/teacher_course?f=q&role=student"
 							data-title="选课" href="javascript:void(0)">选课</a></li>
-						<li><a data-href="<%=request.getContextPath()%>/student/course?flag=query&flag1=sl&stuNo=${student.getStuNo() }" data-title="我的成绩"
+						<li><a data-href="<%=request.getContextPath()%>/student/course?f=q&f1=ssl&stuNo=${student.getStuNo() }" data-title="我的成绩"
 							href="javascript:void(0)">我的成绩</a></li>
+						<li><a data-href="<%=request.getContextPath()%>/student/change-password.jsp" data-title="修改密码"
+							href="javascript:void(0)">修改密码</a></li>
 					</ul>
 				</dd>
 			</dl>

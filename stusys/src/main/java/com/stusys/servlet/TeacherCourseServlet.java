@@ -14,46 +14,17 @@ import com.alibaba.fastjson.JSONObject;
 import com.stusys.bean.TeacherCourse;
 import com.stusys.service.TeacherCourseService;
 import com.stusys.service.impl.CourseServiceImpl;
+import com.stusys.servlet.base.BaseServlet;
 
-/**
- * Servlet implementation class StudentCourseServlet
- */
 @WebServlet("/teacher_course")
-public class TeacherCourseServlet extends HttpServlet {
+public class TeacherCourseServlet extends BaseServlet {
 	private static final long serialVersionUID = 1L;
+	private TeacherCourseService tcs = new CourseServiceImpl();
+	private TeacherCourseService courseService = new CourseServiceImpl();
 
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public TeacherCourseServlet() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-
-		String flag = request.getParameter("flag");
-		System.out.println(flag);
-		if ("query".equals(flag)) {
-			queryTeacherCourse(request, response);
-		}else if("add".equals(flag)) {
-			addTeacherCourse(request, response);
-		}
-
-	}
-	/**
-	 * 添加教师授课信息
-	 * @param request
-	 * @param response
-	 * @throws IOException
-	 */
-	public void addTeacherCourse(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		TeacherCourseService tcs = new CourseServiceImpl();
+	@Override
+	public void add(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		String courseNo = request.getParameter("courseNo");
 		String teacherNo = request.getParameter("teacherNo");
 		String semester = request.getParameter("semester");
@@ -77,24 +48,18 @@ public class TeacherCourseServlet extends HttpServlet {
 		
 		JSONObject jsonResult = new JSONObject();
 		jsonResult.put("addResult", addResult);
-		response.setContentType("application/json;charset=utf-8");// 指定返回的格式为JSON格式
-		response.setCharacterEncoding("UTF-8");
-		PrintWriter out = response.getWriter();
-		out.println(jsonResult); // 利用json返回删除结果
-		out.flush();
+		responseJson(response, jsonResult.toJSONString());
+		
 	}
 
-	/**
-	 * 查询教师授课信息
-	 * 
-	 * @param request
-	 * @param response
-	 * @throws IOException
-	 * @throws ServletException
-	 */
-	public void queryTeacherCourse(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		TeacherCourseService courseService = new CourseServiceImpl();
+	@Override
+	public void delete(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {}
+
+	@Override
+	public void update(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {}
+
+	@Override
+	public void query(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		String courseName = request.getParameter("courseName");
 		String teacherName = request.getParameter("teacherName");
 		String teacherNo = request.getParameter("teacherNo");
@@ -131,17 +96,7 @@ public class TeacherCourseServlet extends HttpServlet {
 		}else if("student".equals(role)) {
 			request.getRequestDispatcher("/student/course-list.jsp").forward(request, response);
 		}
-		
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
 
 }

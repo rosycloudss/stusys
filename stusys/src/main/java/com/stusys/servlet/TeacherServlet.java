@@ -17,6 +17,7 @@ import com.stusys.bean.Teacher;
 import com.stusys.page.Page;
 import com.stusys.service.TeacherService;
 import com.stusys.service.impl.TeacherServiceImpl;
+import com.stusys.servlet.base.BaseServlet;
 import com.stusys.util.MD5Util;
 import com.stusys.util.WebUtil;
 
@@ -24,45 +25,28 @@ import com.stusys.util.WebUtil;
  * Servlet implementation class TeacherServlet
  */
 @WebServlet("/teacher")
-public class TeacherServlet extends HttpServlet {
+public class TeacherServlet extends BaseServlet {
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public TeacherServlet() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-
-		String flag = request.getParameter("flag");
-
-		if ("add".endsWith(flag)) { // 添加教师信息
-			addTeacher(request, response);
-		} else if ("query".equals(flag)) {
-			queryTeacher(request, response);
-		} else if ("delete".equals(flag)) {
-			deleteTeacher(request, response);
-		}
-
-	}
+	private TeacherService teacherService = new TeacherServiceImpl();
+//	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+//			throws ServletException, IOException {
+//
+//
+//		if ("add".equals(flag)) { // 添加教师信息
+//			addTeacher(request, response);
+//		} else if ("query".equals(flag)) {
+//			queryTeacher(request, response);
+//		} else if ("delete".equals(flag)) {
+//			deleteTeacher(request, response);
+//		}
+//
+//	}
 
 	/**
 	 * 添加教师信息
-	 * 
-	 * @param request
-	 * @param response
-	 * @throws IOException
 	 */
-	private void addTeacher(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		TeacherService teacherService = new TeacherServiceImpl();
+	@Override
+	public void add(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		String teacherName = request.getParameter("teacherName");
 		String role = request.getParameter("role");
 		String dept = request.getParameter("dept");
@@ -84,32 +68,40 @@ public class TeacherServlet extends HttpServlet {
 			}
 		}
 
-		PrintWriter out = response.getWriter();
-		response.setContentType("text/html");
-		response.setCharacterEncoding("utf-8");
-		out.println("<html>");
-		out.println("<script>");
+		String msg = "";// 提示信息
+		String url = request.getContextPath() + "/teacher/add-teacher.jsp";// 跳转url
 		if (add > 0) {
-			out.println("alert('添加" + teacherNo + "成功!');");
+			msg = "添加" + teacherNo + "成功!";
 		} else {
-			out.println("alert('添加失败!');");
+			msg = "添加失败!";
 		}
-		out.println("window.location.href='" + request.getContextPath() + "/teacher/add-teacher.jsp'");
-		out.println("</script>");
-		out.println("</html>");
+		responseHtml(response, msg, url);
+
+	}
+
+	/**
+	 * 删除教师信息
+	 */
+	@Override
+	public void delete(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		String teacherNo = request.getParameter("teacherNo");
+		int delete = teacherService.deleteTeacher(teacherNo);
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("delResult", delete);
+		responseJson(response, jsonObject.toJSONString());
+
+	}
+
+	@Override
+	public void update(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+
 	}
 
 	/**
 	 * 查询教师信息
-	 * 
-	 * @param request
-	 * @param response
-	 * @throws ServletException
-	 * @throws IOException
 	 */
-	private void queryTeacher(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		TeacherService teacherService = new TeacherServiceImpl();
+	@Override
+	public void query(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		String teacherName = request.getParameter("teacherName");
 		String teacherNo = request.getParameter("teacherNo");
 		Teacher teacher = null;
@@ -118,56 +110,24 @@ public class TeacherServlet extends HttpServlet {
 			if (teacherName != null && !"".equals(teacherName)) {
 				teacher.setTeacherName(teacherName);
 			}
-			if(teacherNo != null&&!"".equals(teacherNo)) {
+			if (teacherNo != null && !"".equals(teacherNo)) {
 				teacher.setTeacherNo(teacherNo);
 			}
 		}
-		//设置当前页面信息
+		// 设置当前页面信息
 		String currentPageStr = request.getParameter("currentPage");
 		Page page = new Page(teacherService.countTeacher(teacher), 1, 10);
 		page.setPath(WebUtil.getPath(request));
-		if(currentPageStr != null && !"".equals(currentPageStr)) {
-			page.setPageCurrent(Integer.parseInt(currentPageStr));;
+		if (currentPageStr != null && !"".equals(currentPageStr)) {
+			page.setPageCurrent(Integer.parseInt(currentPageStr));
+			;
 		}
 		// 查询教师信息
 		List<Teacher> teacherList = teacherService.queryTeacher(teacher, page);
 		request.setAttribute("teacherList", teacherList);
 		request.setAttribute("page", page);
 		request.getRequestDispatcher("/teacher/teacher-list.jsp").forward(request, response);
-	}
 
-	/**
-	 * 删除教师信息
-	 * 
-	 * @param request
-	 * @param response
-	 * @throws IOException
-	 */
-	private void deleteTeacher(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		TeacherService teacherService = new TeacherServiceImpl();
-		String teacherNo = request.getParameter("teacherNo");
-		int delete = teacherService.deleteTeacher(teacherNo);
-
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("delResult", delete);
-
-		// 设置响应内容类型
-		// 设置响应内容类型
-		response.setContentType("application/json;charset=utf-8");// 指定返回的格式为JSON格式
-		response.setCharacterEncoding("UTF-8");
-		PrintWriter out = response.getWriter();
-		out.println(jsonObject); // 利用json返回删除结果
-		out.flush();
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
 	}
 
 }

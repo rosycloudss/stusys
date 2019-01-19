@@ -24,7 +24,7 @@
 </head>
 <body>
 	<div class="page-container">
-		<form action="<%=request.getContextPath() %>/course?flag=add" class="form form-horizontal" id="form-article-add" method="post">
+		<form action="<%=request.getContextPath() %>/course?f=u" class="form form-horizontal" id="form-article-add" method="post">
 			<div class="row cl">
 				<label class="form-label col-xs-2 col-sm-2">课程编号：</label>
 				<div class="formControls col-xs-4 col-sm-4">

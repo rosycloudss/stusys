@@ -21,7 +21,7 @@
 <title>添加教师信息</title>
 <body>
 	<article class="page-container">
-		<form action="<%=request.getContextPath()%>/teacher?flag=add" method="post" class="form form-horizontal"
+		<form action="<%=request.getContextPath()%>/teacher?f=a" method="post" class="form form-horizontal"
 			id="form-teacher-add">
 			<div class="row cl">
 				<label class="form-label col-xs-4 col-sm-3"><span
