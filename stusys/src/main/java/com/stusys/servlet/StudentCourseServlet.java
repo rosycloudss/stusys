@@ -26,9 +26,6 @@ import com.stusys.service.impl.StudentCourseServiceImpl;
 import com.stusys.service.impl.StudentServiceImpl;
 import com.stusys.servlet.base.BaseServlet;
 
-/**
- * Servlet implementation class StudentSelectCourseServlet
- */
 @WebServlet("/student/course")
 public class StudentCourseServlet extends BaseServlet {
 	private static final long serialVersionUID = 1L;

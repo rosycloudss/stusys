@@ -25,24 +25,14 @@ import com.stusys.service.impl.DepartmentAndMajorServiceImpl;
  */
 @WebFilter("/*")
 public class DepartmentFilter implements Filter {
-
-	/**
-	 * Default constructor.
-	 */
 	public DepartmentFilter() {
 		// TODO Auto-generated constructor stub
 	}
 
-	/**
-	 * @see Filter#destroy()
-	 */
 	public void destroy() {
 		// TODO Auto-generated method stub
 	}
 
-	/**
-	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
-	 */
 	@SuppressWarnings("unchecked")
 	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
 			throws IOException, ServletException {
@@ -57,11 +47,7 @@ public class DepartmentFilter implements Filter {
 		chain.doFilter(req, resp);
 	}
 
-	/**
-	 * @see Filter#init(FilterConfig)
-	 */
 	public void init(FilterConfig fConfig) throws ServletException {
-		// TODO Auto-generated method stub
 	}
 
 }

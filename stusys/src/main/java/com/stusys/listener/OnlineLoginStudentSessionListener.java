@@ -54,6 +54,7 @@ public class OnlineLoginStudentSessionListener implements HttpSessionListener, H
 	/**
 	 * 当会话结束后，将退出的student从servletContext中移除
 	 */
+	@SuppressWarnings("unchecked")
 	public void sessionDestroyed(HttpSessionEvent se) {
 		HttpSessionListener.super.sessionDestroyed(se);
 		HttpSession session = se.getSession();
